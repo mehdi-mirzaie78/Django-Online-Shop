@@ -20,6 +20,7 @@ class Product(models.Model):
     category = models.ManyToManyField(Category, related_name='products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
+    image = models.ImageField(upload_to='', null=True, blank=True)
     description = models.TextField()
     price = models.PositiveIntegerField()
     stock = models.PositiveIntegerField()
