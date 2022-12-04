@@ -1,6 +1,7 @@
 from django.db import models
 from product.models import Product
 from customers.models import Customer
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Order(models.Model):
@@ -24,7 +25,7 @@ class Order(models.Model):
         return total
 
 
-class OrderItem(models):
+class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
@@ -36,3 +37,14 @@ class OrderItem(models):
     def get_cost(self):
         return self.price * self.quantity
 
+
+class Coupon(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True, related_name='used_coupon')
+    code = models.CharField(max_length=30, unique=True)
+    valid_since = models.DateTimeField()
+    valid_until = models.DateTimeField()
+    discount = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(90)])
+    active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.code
