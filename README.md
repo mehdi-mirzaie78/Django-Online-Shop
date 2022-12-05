@@ -11,5 +11,5 @@ ERD: 🔗[Link](https://drawsql.app/teams/mehdi-9/diagrams/shop)
 
 ---
 <div align=center>
-  <img src="https://github.com/mehdi-mirzaie78/Django-Online-Shop/blob/develop/pictures/Home%20page2.jpg" alt="ERD" style="width: 1000px; height: 500px; object-fit: cover;">
+  <img src="https://github.com/mehdi-mirzaie78/Django-Online-Shop/blob/develop/pictures/Home%20page2.jpg" alt="ERD" style="width: 960px; height: 465px; object-fit: cover;">
 </div>
