@@ -32,6 +32,7 @@ THIRD_PARTY_APPS = [
     'customers.apps.CustomersConfig',
     'product.apps.ProductConfig',
     'orders.apps.OrdersConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 INSTALLED_APPS = [
@@ -127,4 +128,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = 'accounts.User'
