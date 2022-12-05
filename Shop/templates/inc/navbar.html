@@ -1,12 +1,13 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="{% url 'product:home' %}">TechnoMark</a>
+		<a class="navbar-brand" href="{% url 'product:home' %}"><i class="fa-solid fa-laptop"></i> <span>TechnoMark</span></a>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-				<a class="nav-link active" aria-current="page" href="{% url 'product:home' %}">Products</a>
-				<a class="nav-link" href="{% url 'core:register' %}">Register</a>
-				<a class="nav-link" href="#">Login</a>
-				<a class="nav-link" href="#">cart</a>
+				<a class="nav-link" aria-current="page" href="{% url 'product:home' %}"><i
+								class="fa-solid fa-house-user"></i> Home</a>
+				<a class="nav-link" href="{% url 'core:register' %}"><i class="fa-solid fa-user-plus"></i> Register</a>
+				<a class="nav-link" href="#"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+				<a class="nav-link" href="#"><i class="fa-solid fa-cart-plus"></i> Cart</a>
 			</div>
 		</div>
 	</div>
