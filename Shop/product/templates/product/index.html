@@ -5,11 +5,11 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-	<h2 class="mt-3 text-center">Welcome to your own website</h2>
+	<h2 class="text-center">Welcome to your own website</h2>
 	<div class="container-fluid text-center">
-		<div class="row mt-5 mx-3">
+		<div class="row mt-3 mx-3">
 			{% for product in products %}
-				<div class="col-md-3">
+				<div class="col-md-3 mb-2">
 					<div class="card py-3 h-100 text-center">
 						<img src="{{ product.image.url }}" alt="{{ product.name }}" class="mx-auto my-auto col-10">
 						<br>
@@ -18,7 +18,8 @@
 								<h3>{{ product.price }}$</h3>
 							</div>
 							<div class="col-6">
-								<a href="" class="btn btn-primary{% if not product.is_available %} disabled {% endif %}">Add to cart</a>
+								<a href="" class="btn btn-primary{% if not product.is_available %} disabled {% endif %}"><i
+												class="fa-solid fa-cart-plus"></i> Add</a>
 							</div>
 
 							<br><br><br>
