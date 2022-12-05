@@ -2,6 +2,7 @@ from django import forms
 from .models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+import re
 
 
 class UserCreationForm(forms.ModelForm):
@@ -38,7 +39,25 @@ class UserChangeForm(forms.ModelForm):
 class UserRegistrationForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
     full_name = forms.CharField(label='Full name', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    phone = forms.CharField(max_length=11, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    phone = forms.CharField(max_length=13, widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user = User.objects.filter(email=email)
+        if user.exists():
+            raise ValidationError('This email already exists')
+        return email
 
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if not re.match(r'^(\+989|09)+\d{9}$', phone):
+            raise ValidationError("Invalid Phone number. Phone number must be like: +989XXXXXXXXX or 09XXXXXXXXX")
+        user = User.objects.filter(phone_number=phone)
+        if user.exists():
+            raise ValidationError('This phone number already exists')
+        return phone
+
+
+class VerifyCodeForm(forms.Form):
+    code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
