@@ -1,5 +1,5 @@
 from django.db import models
-from core.models import User
+from accounts.models import User
 
 
 # Each user can be a customer too but not necessarily
