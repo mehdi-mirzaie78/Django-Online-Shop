@@ -1,4 +1,5 @@
 from django.db import models
+from customers.models import Customer
 
 
 class Category(models.Model):
@@ -20,7 +21,7 @@ class Product(models.Model):
     category = models.ManyToManyField(Category, related_name='products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(upload_to='', null=True, blank=True)
+    image = models.ImageField(upload_to='products/', null=True, blank=True)
     description = models.TextField()
     price = models.PositiveIntegerField()
     stock = models.PositiveIntegerField()
@@ -37,3 +38,12 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+
+class Comment(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='ccomments')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='pcomments')
+    title = models.CharField(max_length=120)
+    body = models.TextField()
+
+    def __str__(self):
+        return f'{self.customer} commented on {self.product}'
