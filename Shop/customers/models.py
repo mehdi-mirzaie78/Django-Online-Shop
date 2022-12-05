@@ -2,8 +2,10 @@ from django.db import models
 from core.models import User
 
 
+# Each user can be a customer too but not necessarily
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='customers/', null=True, blank=True)
 
     def __str__(self):
         return self.user.full_name if self.user.full_name else self.user.phone_number
