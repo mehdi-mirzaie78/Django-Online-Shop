@@ -3,12 +3,15 @@ from django.contrib.auth.models import AbstractBaseUser
 from .managers import UserManager
 from datetime import datetime, timedelta
 import pytz
+from django.core.validators import RegexValidator
 
 
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
-    username = models.CharField(max_length=50, unique=True)
-    phone_number = models.CharField(max_length=11, unique=True)
+    mobile_regex = RegexValidator(
+        regex=r'^(\+989|09)+\d{9}$',
+        message="Phone number can be one of these forms: +989XXXXXXXXX | 09XXXXXXXXX")
+    phone_number = models.CharField(max_length=13, unique=True, validators=[mobile_regex])
     full_name = models.CharField(max_length=50)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -48,4 +51,5 @@ class OtpCode(models.Model):
         print(f'{checked_on=}', f'{expired_on=}')
         if expired_on > checked_on:
             return True
+        self.delete()
         return False
