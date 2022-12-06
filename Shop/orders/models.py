@@ -7,6 +7,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Receipt(models.Model):
     order_details = models.TextField(default='No information')
 
+    def __str__(self):
+        return self.order_details[:120]
+
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
@@ -57,7 +60,7 @@ class OrderItem(models.Model):
         return self.price * self.quantity
 
     def get_item_details(self):
-        detail = f'{self.product}|{self.quantity}|{self.price}|{self.get_cost}'
+        detail = f'{self.product}|{self.quantity}|{self.price}|{self.get_cost()}'
         return detail
 
 
