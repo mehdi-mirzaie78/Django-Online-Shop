@@ -4,12 +4,17 @@ from customers.models import Customer
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
+class Receipt(models.Model):
+    order_details = models.TextField(default='No information')
+
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
     paid = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     discount = models.PositiveIntegerField(blank=True, null=True, default=None)
+    receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, related_name='rorder', null=True, blank=True)
 
     class Meta:
         ordering = ('paid', '-updated')
@@ -24,6 +29,20 @@ class Order(models.Model):
             return int(total - discount_price)
         return total
 
+    def get_details(self):
+        items = self.items.all()
+        result = ''
+        for item in items:
+            result += item.get_item_details() + '\n'
+        return result
+
+    def create_receipt(self):
+        if self.paid:
+            self.receipt = Receipt.objects.create(order_details=self.get_details())
+            print(self.receipt.order_details)
+            return self.receipt.id
+        return False
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
@@ -36,6 +55,10 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+    def get_item_details(self):
+        detail = f'{self.product}|{self.quantity}|{self.price}|{self.get_cost}'
+        return detail
 
 
 class Coupon(models.Model):
