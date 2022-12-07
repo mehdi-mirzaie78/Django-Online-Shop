@@ -9,13 +9,13 @@
 	<div class="container-fluid text-center">
 		<div class="row mt-3 mx-3">
 			{% for product in products %}
-				<div class="col-md-3 mb-2">
-					<div class="card py-3 h-100 text-center">
-						<img src="{{ product.image.url }}" alt="{{ product.name }}" class="mx-auto my-auto col-10">
+				<div class="col-md-3 mb-4">
+					<div class="card py-4 h-100 text-center">
+						<img src="{{ product.image.url }}" class="card-img-top mx-auto my-auto col-md-7" alt="{{ product.name }}">
 						<br>
 						<div class="row">
 							<div class="col-6">
-								<h3>{{ product.price }}$</h3>
+								<h3>${{ product.price }}</h3>
 							</div>
 							<div class="col-6">
 								<a href="" class="btn btn-primary{% if not product.is_available %} disabled {% endif %}"><i
@@ -34,6 +34,7 @@
 									<span class="text-success">Available</span>
 								{% endif %}
 							</p>
+							<a href="{% url 'product:product_details' product.slug %}" class="col-10 mx-auto btn btn-secondary">Details</a>
 						</div>
 					</div>
 				</div>
