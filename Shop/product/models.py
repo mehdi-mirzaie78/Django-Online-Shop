@@ -47,3 +47,19 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.customer} commented on {self.product}'
+
+
+class Property(models.Model):
+    product = models.ManyToManyField(Product, related_name='properties')
+    key = models.CharField(max_length=120)
+    value = models.CharField(max_length=255)
+    priority = models.IntegerField(default=1)
+
+    class Meta:
+        verbose_name = 'property'
+        verbose_name_plural = 'properties'
+        ordering = ('priority',)
+
+    def __str__(self):
+        return f'{self.key}:{self.value}'
+
