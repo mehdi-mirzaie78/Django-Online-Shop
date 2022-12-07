@@ -14,9 +14,10 @@ class TestCustomerModel(TestCase):
             email='jack@email.com',
             phone_number='09123456792')
 
+        self.customer = Customer.objects.create(user=self.user1)
+
     def test_customer_str(self):
-        customer = Customer.objects.create(user=self.user1)
-        self.assertEqual(str(customer), 'John Doe')
+        self.assertEqual(str(self.customer), 'John Doe')
 
     def test_customer_str_with_no_full_name(self):
         customer = Customer.objects.create(user=self.user2)
@@ -24,12 +25,9 @@ class TestCustomerModel(TestCase):
 
 class TestAddressModel(TestCase):
     def setUp(self):
-        self.user = User.objects.create(
-            email='mark@gmail.com',
-            phone_number='09123456794',
-            full_name='Mark Doe'
-        )
-        self.customer = Customer.objects.create(user=self.user)
+        customer_test_object = TestCustomerModel()
+        customer_test_object.setUp()
+        self.customer = customer_test_object.customer
 
     def test_address_str(self):
         address = Address.objects.create(
