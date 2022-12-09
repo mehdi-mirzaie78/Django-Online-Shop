@@ -1,9 +1,10 @@
 from django.db import models
 from accounts.models import User
+from core.models import BaseModel
 
 
 # Each user can be a customer too but not necessarily
-class Customer(models.Model):
+class Customer(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='customers/', null=True, blank=True)
 
@@ -11,7 +12,7 @@ class Customer(models.Model):
         return self.user.full_name if self.user.full_name else self.user.phone_number
 
 
-class Address(models.Model):
+class Address(BaseModel):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='addresses')
     city = models.CharField(max_length=20)
     body = models.CharField(max_length=120)
