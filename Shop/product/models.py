@@ -1,8 +1,9 @@
 from django.db import models
 from customers.models import Customer
+from core.models import BaseModel
 
 
-class Category(models.Model):
+class Category(BaseModel):
     sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='scategory', null=True, blank=True)
     is_sub = models.BooleanField(default=False)
     name = models.CharField(max_length=200)
@@ -17,7 +18,7 @@ class Category(models.Model):
         return self.name
 
 
-class Product(models.Model):
+class Product(BaseModel):
     category = models.ManyToManyField(Category, related_name='products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
@@ -25,8 +26,6 @@ class Product(models.Model):
     description = models.TextField()
     price = models.PositiveIntegerField()
     stock = models.PositiveIntegerField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
 
     @property
     def is_available(self):
@@ -39,7 +38,7 @@ class Product(models.Model):
         return self.name
 
 
-class Comment(models.Model):
+class Comment(BaseModel):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='ccomments')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='pcomments')
     title = models.CharField(max_length=120)
@@ -49,7 +48,7 @@ class Comment(models.Model):
         return f'{self.customer} commented on {self.product}'
 
 
-class Property(models.Model):
+class Property(BaseModel):
     product = models.ManyToManyField(Product, related_name='properties')
     key = models.CharField(max_length=120)
     value = models.CharField(max_length=255)
@@ -62,4 +61,3 @@ class Property(models.Model):
 
     def __str__(self):
         return f'{self.key}:{self.value}'
-
