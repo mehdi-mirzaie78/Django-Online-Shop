@@ -2,20 +2,19 @@ from django.db import models
 from product.models import Product
 from customers.models import Customer
 from django.core.validators import MaxValueValidator, MinValueValidator
+from core.models import BaseModel
 
 
-class Receipt(models.Model):
+class Receipt(BaseModel):
     order_details = models.TextField(default='No information')
 
     def __str__(self):
         return self.order_details[:120]
 
 
-class Order(models.Model):
+class Order(BaseModel):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
     paid = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
     discount = models.PositiveIntegerField(blank=True, null=True, default=None)
     receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, related_name='rorder', null=True, blank=True)
 
@@ -47,7 +46,7 @@ class Order(models.Model):
         return False
 
 
-class OrderItem(models.Model):
+class OrderItem(BaseModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
@@ -64,7 +63,7 @@ class OrderItem(models.Model):
         return detail
 
 
-class Coupon(models.Model):
+class Coupon(BaseModel):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True, related_name='used_coupon')
     code = models.CharField(max_length=30, unique=True)
     valid_since = models.DateTimeField()
