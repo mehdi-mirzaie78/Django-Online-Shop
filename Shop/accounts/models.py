@@ -36,7 +36,10 @@ class User(AbstractBaseUser):
 
 
 class OtpCode(models.Model):
-    phone_number = models.CharField(max_length=11, unique=True)
+    mobile_regex = RegexValidator(
+        regex=r'^(\+989|09)+\d{9}$',
+        message="Phone number can be one of these forms: +989XXXXXXXXX | 09XXXXXXXXX")
+    phone_number = models.CharField(max_length=13, unique=True, validators=[mobile_regex])
     code = models.PositiveSmallIntegerField()
     created = models.DateTimeField(auto_now=True)
 
