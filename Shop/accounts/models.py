@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from .managers import UserManager
 from datetime import datetime, timedelta
 import pytz
-from django.core.validators import RegexValidator, MaxValueValidator, ValidationError
+from django.core.validators import RegexValidator
 from core.models import BaseModel
 
 
