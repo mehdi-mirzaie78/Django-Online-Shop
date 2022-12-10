@@ -1,6 +1,6 @@
 from django.db import models
 from product.models import Product
-from customers.models import Customer
+from customers.models import Customer, Address
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from core.models import BaseModel
 from django.utils import timezone
@@ -27,8 +27,9 @@ class Order(BaseModel):
     coupon = models.OneToOneField(Coupon, on_delete=models.CASCADE, related_name='coupon_order', null=True, blank=True)
     is_paid = models.BooleanField(default=False)
     discount = models.PositiveIntegerField(blank=True, null=True, default=0, editable=False)
-    city = models.CharField(max_length=20, default='Not specified')
-    body = models.CharField(max_length=120, default='Not specified')
+    CITIES, BODIES = [], []
+    city = models.CharField(max_length=20, choices=CITIES, default='Not specified')
+    body = models.CharField(max_length=120, choices=BODIES, default='Not specified')
     postal_code = models.CharField(
         max_length=10,
         default='XXXXXXXXXX',
@@ -53,6 +54,20 @@ class Order(BaseModel):
             return int(total - discount_price)
         return total
 
+    def check_address(self):
+        return True if self.customer.addresses else False
+
+    @classmethod
+    def get_addresses(cls, customer):
+        addresses = Address.objects.filter(customer=customer)
+        CITIES = []
+        BODIES = []
+        for address in addresses:
+            CITIES.append((address.city, address.city))
+            BODIES.append((address.body, address.body))
+        cls.CITIES = CITIES
+        cls.BODIES = BODIES
+
 
 class OrderItem(BaseModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
@@ -70,5 +85,3 @@ class OrderItem(BaseModel):
 
     def check_status(self):
         return True if self.status == 'OK' else False
-
-
