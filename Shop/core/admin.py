@@ -8,10 +8,15 @@ class BaseAdmin(admin.ModelAdmin):
         queryset.update(is_deleted=True)
         queryset.update(is_active=False)
 
+    def logical_restore(self, request, queryset):
+        queryset.update(restored_at=timezone.now())
+        queryset.update(is_deleted=False)
+        queryset.update(is_active=True)
+
     def deactivate(self, request, queryset):
         queryset.update(is_active=False)
 
     def activate(self, request, queryset):
         queryset.update(is_active=True)
 
-    actions = ['logical_deleter', 'deactivate', 'activate']
+    actions = ['logical_deleter', 'logical_restore', 'deactivate', 'activate']
