@@ -10,8 +10,8 @@ class BaseModel(models.Model):
 
     objects = BaseManager()
 
-    created = models.DateTimeField(auto_now_add=True, editable=False)
-    updated = models.DateTimeField(auto_now=True, editable=False)
+    created = models.DateTimeField(auto_now_add=True, editable=False, verbose_name='Created at')
+    updated = models.DateTimeField(auto_now=True, editable=False, verbose_name='Updated at')
 
     deleted_at = models.DateTimeField(
         null=True,
