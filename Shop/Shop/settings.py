@@ -28,11 +28,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 THIRD_PARTY_APPS = [
-    'core.apps.CoreConfig',
-    'customers.apps.CustomersConfig',
-    'product.apps.ProductConfig',
-    'orders.apps.OrdersConfig',
-    'accounts.apps.AccountsConfig',
+    'django_nose',
 ]
 
 INSTALLED_APPS = [
@@ -42,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core.apps.CoreConfig',
+    'customers.apps.CustomersConfig',
+    'product.apps.ProductConfig',
+    'orders.apps.OrdersConfig',
+    'accounts.apps.AccountsConfig',
 ] + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -129,3 +130,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+#
+# # Use nose to run all tests
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+#
+# # Tell nose to measure coverage on the 'foo' and 'bar' apps
+# NOSE_ARGS = [
+#     '--with-coverage',
+#     '--cover-package=foo,bar',
+# ]
