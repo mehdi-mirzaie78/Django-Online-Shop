@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from .managers import UserManager
 from datetime import datetime, timedelta
 import pytz
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator, ValidationError
+from core.models import BaseModel
 
 
 class User(AbstractBaseUser):
@@ -39,9 +40,14 @@ class OtpCode(models.Model):
     mobile_regex = RegexValidator(
         regex=r'^(\+989|09)+\d{9}$',
         message="Phone number can be one of these forms: +989XXXXXXXXX | 09XXXXXXXXX")
-    phone_number = models.CharField(max_length=13, unique=True, validators=[mobile_regex])
+    phone_number = models.CharField(max_length=13, validators=[mobile_regex])
     code = models.PositiveSmallIntegerField()
     created = models.DateTimeField(auto_now=True)
+
+    @classmethod
+    def is_code_available(cls, phone_number):
+        counter = cls.objects.filter(phone_number=phone_number).count()
+        return False if counter > 5 else True
 
     def __str__(self):
         return f'{self.phone_number} - {self.code} - {self.created}'
@@ -51,7 +57,6 @@ class OtpCode(models.Model):
         expire = self.created + timedelta(minutes=32, hours=3)
         checked_on = datetime.now().replace(tzinfo=utc)
         expired_on = expire.replace(tzinfo=utc)
-        print(f'{checked_on=}', f'{expired_on=}')
         if expired_on > checked_on:
             return True
         self.delete()
