@@ -5,10 +5,11 @@ from datetime import timedelta
 
 class TestUser(TestCase):
     def setUp(self):
-        self.user = User.objects.create(
+        self.user = User.objects.create_user(
             email='sample@gmail.com',
             phone_number='09123456789',
             full_name='sample',
+            password='abc'
         )
 
     def test_user_creation(self):
