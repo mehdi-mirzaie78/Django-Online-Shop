@@ -34,6 +34,11 @@ class Product(BaseModel):
     class Meta:
         ordering = ('name',)
 
+    def save(self, *args, **kwargs):
+        self.is_available = True if self.stock > 0 else False
+        self.price = self.price_no_discount - self.discount * self.price_no_discount / 100
+        super(Product, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
