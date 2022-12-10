@@ -3,12 +3,6 @@ from django.db import models
 
 class BaseManager(models.Manager):
 
-    def get_queryset(self):
-        return super().get_queryset()
-
-    def get_archive(self):
-        return super().get_queryset().filter(is_deleted=False)
-
     def get_active_list(self):
         return super().get_queryset().filter(is_deleted=False, is_active=True)
 
