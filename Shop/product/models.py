@@ -2,6 +2,7 @@ from django.db import models
 from customers.models import Customer
 from core.models import BaseModel
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.html import mark_safe
 
 
 class Category(BaseModel):
@@ -19,8 +20,23 @@ class Category(BaseModel):
         return self.name
 
 
+class Property(BaseModel):
+    key = models.CharField(max_length=120)
+    value = models.CharField(max_length=255)
+    priority = models.IntegerField(default=1)
+
+    class Meta:
+        verbose_name = 'property'
+        verbose_name_plural = 'properties'
+        ordering = ('priority',)
+
+    def __str__(self):
+        return f'{self.key}:{self.value}'
+
+
 class Product(BaseModel):
     category = models.ManyToManyField(Category, related_name='products')
+    property = models.ManyToManyField(Property, related_name='products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='products/', default='default/product.png', null=True, blank=True)
@@ -42,6 +58,11 @@ class Product(BaseModel):
     def __str__(self):
         return self.name
 
+    def image_tag(self):
+        return mark_safe(f'<img src="{self.image.url}" width="250" height="250" />')
+
+    image_tag.short_description = 'Image'
+
 
 class Comment(BaseModel):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='ccomments')
@@ -51,18 +72,3 @@ class Comment(BaseModel):
 
     def __str__(self):
         return f'{self.customer} commented on {self.product}'
-
-
-class Property(BaseModel):
-    product = models.ManyToManyField(Product, related_name='properties')
-    key = models.CharField(max_length=120)
-    value = models.CharField(max_length=255)
-    priority = models.IntegerField(default=1)
-
-    class Meta:
-        verbose_name = 'property'
-        verbose_name_plural = 'properties'
-        ordering = ('priority',)
-
-    def __str__(self):
-        return f'{self.key}:{self.value}'
