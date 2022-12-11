@@ -36,7 +36,7 @@ class ProductAdmin(BaseAdmin):
     list_per_page = 10
     # list_editable = ('stock', 'price_no_discount', 'discount')
 
-    filter_horizontal = ('category', 'property',)
+    filter_horizontal = ('category', 'properties',)
 
 
 @admin.register(Comment)
