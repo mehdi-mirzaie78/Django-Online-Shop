@@ -25,6 +25,7 @@ class ProductAdmin(BaseAdmin):
     search_fields = ('name',)
     ordering = ('is_deleted', 'name')
     list_per_page = 10
+    readonly_fields = ('price', 'is_available')
 
 
 @admin.register(Comment)
