@@ -6,6 +6,7 @@ from core.admin import BaseAdmin
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     raw_id_fields = ('product',)
+    readonly_fields = ('price',)
 
 
 @admin.register(Coupon)
@@ -19,3 +20,4 @@ class OrderAdmin(BaseAdmin):
     list_filter = ('is_paid', 'customer')
     search_fields = ('customer',)
     inlines = (OrderItemInline,)
+    readonly_fields = ('city', 'body', 'postal_code')
