@@ -22,7 +22,7 @@ class Category(BaseModel):
 
 class Property(BaseModel):
     key = models.CharField(max_length=120)
-    value = models.CharField(max_length=255)
+    value = models.CharField(max_length=255, unique=True)
     priority = models.IntegerField(default=1)
 
     class Meta:
@@ -36,7 +36,7 @@ class Property(BaseModel):
 
 class Product(BaseModel):
     category = models.ManyToManyField(Category, related_name='products')
-    properties = models.ManyToManyField(Property, related_name='products')
+    properties = models.ManyToManyField(Property, related_name='p_products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='products/', default='default/product.png', null=True, blank=True)

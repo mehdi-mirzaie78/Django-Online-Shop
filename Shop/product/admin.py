@@ -18,7 +18,7 @@ class PropertyAdmin(BaseAdmin):
 @admin.register(Product)
 class ProductAdmin(BaseAdmin):
     list_display = (
-        'name', 'price_no_discount', 'discount', 'stock', 'is_available', 'created', 'updated', 'is_deleted',
+        'name', 'price_no_discount', 'discount', 'price', 'is_available', 'stock', 'created', 'updated', 'is_deleted',
         'is_active')
     list_filter = ('category', 'name', 'price', 'stock',)
     search_fields = ('name',)
@@ -26,7 +26,7 @@ class ProductAdmin(BaseAdmin):
     fieldsets = (
         ('Product Information',
          {'fields': (
-             'name', 'slug', 'category', 'property', 'image_tag', 'image', 'description', 'price_no_discount',
+             'name', 'slug', 'category', 'properties', 'image_tag', 'image', 'description', 'price_no_discount',
              'discount', 'price',
              'stock', 'is_available',)}
          ),
