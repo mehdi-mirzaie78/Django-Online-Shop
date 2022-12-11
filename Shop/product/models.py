@@ -25,10 +25,10 @@ class Product(BaseModel):
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='products/', default='default/product.png', null=True, blank=True)
     description = models.TextField()
-    price_no_discount = models.PositiveIntegerField(default=400)
+    price_no_discount = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(90)])
     price = models.PositiveIntegerField(default=400)
-    stock = models.PositiveIntegerField(default=1)
+    stock = models.PositiveIntegerField()
     is_available = models.BooleanField(null=True, blank=True)
 
     class Meta:
