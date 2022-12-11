@@ -11,21 +11,32 @@ class CategoryAdmin(BaseAdmin):
 
 @admin.register(Property)
 class PropertyAdmin(BaseAdmin):
-    raw_id_fields = ('product',)
     list_display = ('key', 'value', 'created', 'updated', 'is_deleted')
     list_filter = ('key', 'value')
 
 
 @admin.register(Product)
 class ProductAdmin(BaseAdmin):
-    prepopulated_fields = {'slug': ('name',)}
-    raw_id_fields = ('category',)
-    list_display = ('name', 'price', 'stock', 'is_available', 'created', 'updated', 'is_deleted', 'is_active')
+    list_display = (
+        'name', 'price_no_discount', 'discount', 'stock', 'is_available', 'created', 'updated', 'is_deleted',
+        'is_active')
     list_filter = ('category', 'name', 'price', 'stock',)
     search_fields = ('name',)
     ordering = ('is_deleted', 'name')
+    fieldsets = (
+        ('Product Information',
+         {'fields': (
+             'name', 'slug', 'category', 'property', 'image_tag', 'image', 'description', 'price_no_discount',
+             'discount', 'price',
+             'stock', 'is_available',)}
+         ),
+    )
+    prepopulated_fields = {'slug': ('name',)}
+    readonly_fields = ('image_tag', 'price', 'is_available',)
     list_per_page = 10
-    readonly_fields = ('price', 'is_available')
+    # list_editable = ('stock', 'price_no_discount', 'discount')
+
+    filter_horizontal = ('category', 'property',)
 
 
 @admin.register(Comment)
