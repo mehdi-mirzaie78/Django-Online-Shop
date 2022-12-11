@@ -1,6 +1,7 @@
 from django.db import models
 from customers.models import Customer
 from core.models import BaseModel
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Category(BaseModel):
@@ -22,17 +23,21 @@ class Product(BaseModel):
     category = models.ManyToManyField(Category, related_name='products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(upload_to='products/', null=True, blank=True)
+    image = models.ImageField(upload_to='products/', default='default/product.png', null=True, blank=True)
     description = models.TextField()
-    price = models.PositiveIntegerField()
+    price_no_discount = models.PositiveIntegerField()
+    discount = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(90)])
+    price = models.PositiveIntegerField(default=400)
     stock = models.PositiveIntegerField()
-
-    @property
-    def is_available(self):
-        return True if self.stock > 0 else False
+    is_available = models.BooleanField(null=True, blank=True)
 
     class Meta:
         ordering = ('name',)
+
+    def save(self, *args, **kwargs):
+        self.is_available = True if self.stock > 0 else False
+        self.price = self.price_no_discount - self.discount * self.price_no_discount / 100
+        super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name

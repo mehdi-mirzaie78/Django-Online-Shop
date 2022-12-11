@@ -1,28 +1,51 @@
 from django.db import models
 from product.models import Product
-from customers.models import Customer
-from django.core.validators import MaxValueValidator, MinValueValidator
+from customers.models import Customer, Address
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from core.models import BaseModel
+from django.utils import timezone
 
 
-class Receipt(BaseModel):
-    order_details = models.TextField(default='No information')
+class Coupon(BaseModel):
+    code = models.CharField(max_length=30, unique=True)
+    valid_since = models.DateTimeField()
+    valid_until = models.DateTimeField()
+    discount = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(90)])
 
     def __str__(self):
-        return self.order_details[:120]
+        return self.code
+
+    def is_coupon_valid(self):
+        now = timezone.now()
+        if self.valid_until < now or self.valid_since > now:
+            return False
+        return True
 
 
 class Order(BaseModel):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
-    paid = models.BooleanField(default=False)
-    discount = models.PositiveIntegerField(blank=True, null=True, default=None)
-    receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, related_name='rorder', null=True, blank=True)
+    coupon = models.OneToOneField(Coupon, on_delete=models.CASCADE, related_name='coupon_order', null=True, blank=True)
+    is_paid = models.BooleanField(default=False)
+    discount = models.PositiveIntegerField(blank=True, null=True, default=0, editable=False)
+
+    # city and body is for address fields
+    city = models.CharField(max_length=20)
+    body = models.CharField(max_length=120)
+    postal_code = models.CharField(
+        max_length=10,
+        validators=[RegexValidator(r'\d{10}', message='Invalid Postal code')])
+    STATUS = [('pending', 'PENDING'), ('checking', 'CHECKING'), ('sending', 'SENDING'), ('done', 'DONE')]
+    status = models.CharField(max_length=30, choices=STATUS, default='PENDING')
+    transaction_code = models.CharField(max_length=20, null=True, editable=False)
 
     class Meta:
-        ordering = ('paid', '-updated')
+        ordering = ('is_paid', '-updated')
 
     def __str__(self):
         return f'{self.customer} - {self.id}'
+
+    def apply_coupon(self):
+        self.discount = self.coupon.discount if self.coupon else 0
 
     def get_total_price(self):
         total = sum(item.get_cost() for item in self.items.all())
@@ -31,19 +54,8 @@ class Order(BaseModel):
             return int(total - discount_price)
         return total
 
-    def get_details(self):
-        items = self.items.all()
-        result = ''
-        for item in items:
-            result += item.get_item_details() + '\n'
-        return result
-
-    def create_receipt(self):
-        if self.paid:
-            self.receipt = Receipt.objects.create(order_details=self.get_details())
-            print(self.receipt.order_details)
-            return self.receipt.id
-        return False
+    def check_address(self):
+        return True if self.customer.addresses else False
 
 
 class OrderItem(BaseModel):
@@ -51,6 +63,8 @@ class OrderItem(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField(default=1)
+    STATUS = [('ok', 'OK'), ('no', 'NO'), ('supplying', 'SUPPLYING')]
+    status = models.CharField(max_length=30, choices=STATUS, default='OK')
 
     def __str__(self):
         return str(self.id)
@@ -58,18 +72,5 @@ class OrderItem(BaseModel):
     def get_cost(self):
         return self.price * self.quantity
 
-    def get_item_details(self):
-        detail = f'{self.product}|{self.quantity}|{self.price}|{self.get_cost()}'
-        return detail
-
-
-class Coupon(BaseModel):
-    order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True, related_name='used_coupon')
-    code = models.CharField(max_length=30, unique=True)
-    valid_since = models.DateTimeField()
-    valid_until = models.DateTimeField()
-    discount = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(90)])
-    active = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.code
+    def check_status(self):
+        return True if self.status == 'OK' else False
