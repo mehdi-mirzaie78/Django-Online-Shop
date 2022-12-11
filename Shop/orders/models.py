@@ -27,12 +27,12 @@ class Order(BaseModel):
     coupon = models.OneToOneField(Coupon, on_delete=models.CASCADE, related_name='coupon_order', null=True, blank=True)
     is_paid = models.BooleanField(default=False)
     discount = models.PositiveIntegerField(blank=True, null=True, default=0, editable=False)
-    CITIES, BODIES = [], []
-    city = models.CharField(max_length=20, choices=CITIES, default='Not specified')
-    body = models.CharField(max_length=120, choices=BODIES, default='Not specified')
+
+    # city and body is for address fields
+    city = models.CharField(max_length=20)
+    body = models.CharField(max_length=120)
     postal_code = models.CharField(
         max_length=10,
-        default='XXXXXXXXXX',
         validators=[RegexValidator(r'\d{10}', message='Invalid Postal code')])
     STATUS = [('pending', 'PENDING'), ('checking', 'CHECKING'), ('sending', 'SENDING'), ('done', 'DONE')]
     status = models.CharField(max_length=30, choices=STATUS, default='PENDING')
@@ -47,7 +47,7 @@ class Order(BaseModel):
     def apply_coupon(self):
         self.discount = self.coupon.discount if self.coupon else 0
 
-    def get_total_price(self, code):
+    def get_total_price(self):
         total = sum(item.get_cost() for item in self.items.all())
         if self.discount:
             discount_price = total * self.discount / 100
@@ -56,17 +56,6 @@ class Order(BaseModel):
 
     def check_address(self):
         return True if self.customer.addresses else False
-
-    @classmethod
-    def get_addresses(cls, customer):
-        addresses = Address.objects.filter(customer=customer)
-        CITIES = []
-        BODIES = []
-        for address in addresses:
-            CITIES.append((address.city, address.city))
-            BODIES.append((address.body, address.body))
-        cls.CITIES = CITIES
-        cls.BODIES = BODIES
 
 
 class OrderItem(BaseModel):
