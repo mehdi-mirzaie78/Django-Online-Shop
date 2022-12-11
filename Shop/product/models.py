@@ -36,7 +36,7 @@ class Property(BaseModel):
 
 class Product(BaseModel):
     category = models.ManyToManyField(Category, related_name='products')
-    property = models.ManyToManyField(Property, related_name='products')
+    properties = models.ManyToManyField(Property, related_name='products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='products/', default='default/product.png', null=True, blank=True)
