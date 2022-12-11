@@ -27,7 +27,7 @@ class Product(BaseModel):
     description = models.TextField()
     price_no_discount = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(90)])
-    price = models.PositiveIntegerField(default=400)
+    price = models.PositiveIntegerField()
     stock = models.PositiveIntegerField()
     is_available = models.BooleanField(null=True, blank=True)
 
