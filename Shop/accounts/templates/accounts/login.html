@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Login Page{% endblock %}
+
+{% block content %}
+	<form action="" method="post" class="card px-4 py-5 w-50 mx-auto" novalidate>
+		<h3 class="text-center mb-3"><i class="fa-solid fa-laptop"></i> TechnoMark</h3>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Login" class="btn btn-primary col-5 mx-auto mt-4">
+	</form>
+{% endblock %}
