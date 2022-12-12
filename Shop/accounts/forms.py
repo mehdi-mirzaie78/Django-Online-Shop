@@ -2,7 +2,8 @@ from django import forms
 from .models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-import re
+# import re
+from django.core.validators import RegexValidator
 
 
 class UserCreationForm(forms.ModelForm):
@@ -39,7 +40,13 @@ class UserChangeForm(forms.ModelForm):
 class UserRegistrationForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
     full_name = forms.CharField(label='Full name', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    phone = forms.CharField(max_length=13, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    phone = forms.CharField(
+        max_length=13,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        validators=[RegexValidator(
+            regex=r'^(\+989|09)+\d{9}$',
+            message="Invalid Phone number. Phone number must be like: +989XXXXXXXXX or 09XXXXXXXXX")]
+    )
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     def clean_email(self):
@@ -51,8 +58,7 @@ class UserRegistrationForm(forms.Form):
 
     def clean_phone(self):
         phone = self.cleaned_data['phone']
-        if not re.match(r'^(\+989|09)+\d{9}$', phone):
-            raise ValidationError("Invalid Phone number. Phone number must be like: +989XXXXXXXXX or 09XXXXXXXXX")
+        phone = '0' + phone[3:] if len(phone) == 13 else phone
         user = User.objects.filter(phone_number=phone)
         if user.exists():
             raise ValidationError('This phone number already exists')
@@ -61,3 +67,14 @@ class UserRegistrationForm(forms.Form):
 
 class VerifyCodeForm(forms.Form):
     code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+
+class UserLoginForm(forms.Form):
+    phone = forms.CharField(
+        max_length=13,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        validators=[RegexValidator(
+            regex=r'^(\+989|09)+\d{9}$',
+            message="Invalid Phone number. Phone number must be like: +989XXXXXXXXX or 09XXXXXXXXX")]
+    )
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
