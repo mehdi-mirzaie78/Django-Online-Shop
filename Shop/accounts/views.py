@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import UserRegistrationForm, VerifyCodeForm, UserLoginForm
+from .forms import UserRegistrationForm, VerifyCodeForm, UserLoginForm, UserProfileForm
 from core.utils import random_code, send_otp_code
 from .models import OtpCode, User
 from django.contrib import messages
@@ -102,3 +102,17 @@ class UserLogoutView(LoginRequiredMixin, View):
         messages.success(request, 'You logged out successfully', 'info')
         return redirect('product:home')
 
+
+class UserProfileView(LoginRequiredMixin, View):
+    form_class = UserProfileForm
+    template_name = 'accounts/profile.html'
+
+    def get(self, request, user_id):
+        user = User.objects.get(pk=user_id)
+        if user.id == request.user.id:
+            customer = Customer.objects.get(user=user)
+            image = customer.image if customer.image else None
+            form = self.form_class(
+                instance=customer,
+                initial={'full_name': user.full_name, 'email': user.email, 'phone_number': user.phone_number})
+            return render(request, self.template_name, {'form': form, 'image': image, 'customer': customer})
