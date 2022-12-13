@@ -6,40 +6,59 @@
 
 {% block content %}
 	<div class="row mx-2">
+
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header mt-2">
+					<h4 class="text-center">{{ customer }}</h4>
+				</div>
+				<div class="card-body text-center">
+					<img src="{{ image.url }}" class="img-fluid w-50 rounded-circle">
+					<hr>
+				</div>
+				<form action="" method="post" class="px-4 py-3" enctype='multipart/form-data' novalidate>
+					{% csrf_token %}
+					{{ form.as_p }}
+					<input type="submit" value="Update" class="btn btn-primary col-5 mt-4">
+				</form>
+			</div>
+		</div>
+
 		<div class="col-md-8">
 
-			<div class="card">
-				<div class="card-header">
+			<div class="card mb-4">
+				<div class="card-header mt-2">
 					<h4 class="text-center"><i class="fa-solid fa-laptop"></i> New Orders</h4>
 				</div>
 				<div class="card-body text-center">
+
 				</div>
 			</div>
 
-	<div class="card">
-				<div class="card-header">
+			<div class="card mb-4">
+				<div class="card-header mt-2">
 					<h4 class="text-center"><i class="fa-solid fa-laptop"></i> Old Orders</h4>
 				</div>
 				<div class="card-body text-center">
 				</div>
 			</div>
 
-		</div>
-		<div class="col-md-4">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="text-center">{{ customer }}</h4>
+			<div class="card mb-4">
+				<div class="card-header mt-2">
+					<h4 class="text-center"><i class="fa-solid fa-laptop"></i> Addresses</h4>
 				</div>
 				<div class="card-body text-center">
-					<img src="{{ image.url }}" class="img-fluid w-50">
-					<hr>
+					{% if addresses %}
+						{% for address in addresses %}
+							<p>{{ address }}</p>
+						{% endfor %}
+					{% endif %}
+					<a href="#" class="btn btn-primary col-2">Add</a>
+{#					<a href="#" class="btn btn-danger col-2">Remove</a>#}
 				</div>
-				<form action="" method="post" class="px-4 py-3" novalidate>
-					{% csrf_token %}
-					{{ form.as_p }}
-					<input type="submit" value="Update" class="btn btn-primary col-5 mx-auto mt-4">
-				</form>
 			</div>
+
 		</div>
+
 	</div>
 {% endblock %}
