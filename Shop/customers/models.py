@@ -43,7 +43,7 @@ class Customer(BaseModel):
 class Address(BaseModel):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='addresses')
     city = models.CharField(max_length=20)
-    body = models.CharField(max_length=120)
+    body = models.TextField(max_length=120)
     postal_code = models.CharField(max_length=10, unique=True)
 
     def __str__(self):
