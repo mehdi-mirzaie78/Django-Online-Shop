@@ -6,7 +6,7 @@ from django.utils.html import mark_safe
 
 # Each user can be a customer too, but not necessarily
 class Customer(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='customer')
     CHOICES = [('male', 'MALE'), ('female', 'FEMALE')]
     gender = models.CharField(max_length=20, choices=CHOICES, )
     image = models.ImageField(upload_to='customers/', null=True, blank=True)
