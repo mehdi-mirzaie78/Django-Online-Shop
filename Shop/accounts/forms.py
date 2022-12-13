@@ -2,8 +2,8 @@ from django import forms
 from .models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-# import re
 from django.core.validators import RegexValidator
+from customers.models import Customer, Address
 
 
 class UserCreationForm(forms.ModelForm):
@@ -78,3 +78,18 @@ class UserLoginForm(forms.Form):
             message="Invalid Phone number. Phone number must be like: +989XXXXXXXXX or 09XXXXXXXXX")]
     )
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+
+class UserProfileForm(forms.ModelForm):
+    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Customer
+        fields = ('image', 'gender', 'age')
+        widgets = {
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
+            'gender': forms.Select(attrs={'class': 'form-control'}),
+            'age': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
