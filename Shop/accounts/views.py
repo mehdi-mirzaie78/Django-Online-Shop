@@ -4,7 +4,7 @@ from .forms import UserRegistrationForm, VerifyCodeForm, UserLoginForm, UserProf
 from core.utils import random_code, send_otp_code
 from .models import OtpCode, User
 from django.contrib import messages
-from customers.models import Customer
+from customers.models import Customer, Address
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -79,6 +79,15 @@ class UserLoginView(View):
     form_class = UserLoginForm
     template_name = 'accounts/login.html'
 
+    def setup(self, request, *args, **kwargs):
+        self.next = request.GET.get('next')
+        return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home:home')
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request):
         form = self.form_class
         return render(request, self.template_name, {'form': form})
@@ -91,6 +100,8 @@ class UserLoginView(View):
             if user:
                 login(request, user)
                 messages.success(request, 'You logged in successfully', 'success')
+                if self.next:
+                    return redirect(self.next)
                 return redirect('product:home')
             messages.error(request, 'Phone number or Password is WRONG!', 'danger')
         return redirect(request, self.template_name, {'form': form})
@@ -107,12 +118,30 @@ class UserProfileView(LoginRequiredMixin, View):
     form_class = UserProfileForm
     template_name = 'accounts/profile.html'
 
-    def get(self, request, user_id):
-        user = User.objects.get(pk=user_id)
-        if user.id == request.user.id:
-            customer = Customer.objects.get(user=user)
-            image = customer.image if customer.image else None
-            form = self.form_class(
-                instance=customer,
-                initial={'full_name': user.full_name, 'email': user.email, 'phone_number': user.phone_number})
-            return render(request, self.template_name, {'form': form, 'image': image, 'customer': customer})
+    def setup(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            self.user = request.user
+            self.customer = request.user.customer
+            self.addresses = Address.objects.filter(customer=self.customer)
+        return super().setup(request, *args, **kwargs)
+
+    def get(self, request):
+        image = self.customer.image if self.customer.image else None
+        form = self.form_class(
+            instance=self.customer,
+            initial={'full_name': self.user.full_name, 'email': self.user.email,
+                     'phone_number': self.user.phone_number})
+        return render(request, self.template_name,
+                      {'form': form, 'image': image, 'customer': self.customer, 'addresses': self.addresses})
+
+    def post(self, request):
+        form = self.form_class(request.POST, files=request.FILES, instance=self.customer)
+        if form.is_valid():
+            cd = form.cleaned_data
+            form.save()
+            self.user.full_name = cd['full_name']
+            self.user.email = cd['email']
+            self.user.phone_number = cd['phone_number']
+            self.user.save()
+            messages.success(request, 'Your information has updated successfully', 'success')
+        return redirect('accounts:user_profile')
