@@ -1,7 +1,12 @@
 from django.shortcuts import render
 from django.views import View
 from .models import Product, Category
-from .forms import ProductSearchForm
+from .forms import ProductSearchForm, AddToCartForm
+
+
+class LandingPageView(View):
+    def get(self, request):
+        return render(request, 'product/landing.html')
 
 
 class HomeView(View):
@@ -22,6 +27,7 @@ class HomeView(View):
 
 class ProductDetailsView(View):
     def get(self, request, slug):
+        form = AddToCartForm
         product = Product.objects.get_active_list().get(slug=slug)
         properties = product.properties.all()
-        return render(request, 'product/details.html', {'product': product, 'properties': properties})
+        return render(request, 'product/details.html', {'product': product, 'properties': properties, 'form': form})
