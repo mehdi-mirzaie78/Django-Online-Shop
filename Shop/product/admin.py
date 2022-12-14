@@ -7,12 +7,14 @@ from core.admin import BaseAdmin
 class CategoryAdmin(BaseAdmin):
     list_display = ('name', 'sub_category', 'is_sub', 'created', 'updated', 'is_deleted')
     prepopulated_fields = {'slug': ('name',)}
+    raw_id_fields = ('sub_category',)
 
 
 @admin.register(Property)
 class PropertyAdmin(BaseAdmin):
     list_display = ('key', 'value', 'created', 'updated', 'is_deleted')
     list_filter = ('key', 'value')
+    list_per_page = 10
 
 
 @admin.register(Product)
