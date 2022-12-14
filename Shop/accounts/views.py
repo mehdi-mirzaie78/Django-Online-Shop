@@ -81,14 +81,14 @@ class UserLoginView(View):
     form_class = UserLoginForm
     template_name = 'accounts/login.html'
 
-    def setup(self, request, *args, **kwargs):
-        self.next = request.GET.get('next')
-        return super().setup(request, *args, **kwargs)
-
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect('product:home')
         return super().dispatch(request, *args, **kwargs)
+
+    def setup(self, request, *args, **kwargs):
+        self.next = request.GET.get('next')
+        return super().setup(request, *args, **kwargs)
 
     def get(self, request):
         form = self.form_class
@@ -106,7 +106,7 @@ class UserLoginView(View):
                     return redirect(self.next)
                 return redirect('product:home')
             messages.error(request, 'Phone number or Password is WRONG!', 'danger')
-        return redirect(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form})
 
 
 class UserLogoutView(LoginRequiredMixin, View):
