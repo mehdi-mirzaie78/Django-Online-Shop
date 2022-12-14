@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Landing Page{% endblock %}
+
+{% block extrastyle %}
+	body {
+	background-image: url('/media/static/landing_page.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	}
+
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<br><br><br><br><br>
+		<div class="col-md-6 mx-auto my-auto justify-content-space-between">
+			<div class="card bg-dark text-white text-center" style="opacity: 90%;">
+				<h1 class="card-header"><i class="fa-solid fa-laptop"></i> TechnoMark</h1>
+				
+				<div class="p-4 mb-2 bg-dark text-white">
+					<h2 class="text-center text-primary">Welcome to your website</h2>
+					<br>
+					<p style="font-size:20px;">The best laptops with the best prices. We hope to provide better service for you
+						dear customers.</p>
+					<br><br>
+					<div class="row my-auto px-4">
+						<p class="col-md-6 text-start fw-bold" style="font-size:22px">Hope you enjoy!</p>
+						<p class="col-md-6 text-end"><a class="btn btn-primary " href="{% url 'product:home' %}" role="button">Get
+							Started</a></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}
