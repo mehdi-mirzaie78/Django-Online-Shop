@@ -23,14 +23,19 @@
 
 	<title>{% block title %}{% endblock %}</title>
 	<style>
-    body {
-      background-color: #62cec0;
-    }
+	body {
+		background-color: #f5f5f5;
+		background-image: url('/media/static/58695.png');
+	}
+
+    {% block extrastyle %}
+    {% endblock %}
 	</style>
 
 </head>
 
 <body>
+
 {% include 'inc/navbar.html' %}
 {% include 'inc/messages.html' %}
 <div class="mt-4">
