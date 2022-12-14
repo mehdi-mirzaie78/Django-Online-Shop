@@ -29,7 +29,9 @@ ALLOWED_HOSTS = []
 # Application definition
 THIRD_PARTY_APPS = [
     'django_nose',
+    'crispy_forms'
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,11 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core.apps.CoreConfig',
-    'customers.apps.CustomersConfig',
-    'product.apps.ProductConfig',
-    'orders.apps.OrdersConfig',
-    'accounts.apps.AccountsConfig',
+    'core',
+    'customers',
+    'product',
+    'orders',
+    'accounts',
 ] + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -140,3 +142,15 @@ AUTH_USER_MODEL = 'accounts.User'
 #     '--with-coverage',
 #     '--cover-package=foo,bar',
 # ]
+
+
+# Google Account
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mehdimirzaie1378@gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = 'zwxmwgmyiohoambx'
+EMAIL_USE_TLS = True
+# Optional
+DEFAULT_FROM_EMAIL = 'TechnoMark Website'
