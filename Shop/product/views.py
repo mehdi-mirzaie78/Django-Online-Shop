@@ -1,12 +1,23 @@
 from django.shortcuts import render
 from django.views import View
-from .models import Product
+from .models import Product, Category
+from .forms import ProductSearchForm
 
 
 class HomeView(View):
-    def get(self, request):
+    form_class = ProductSearchForm
+
+    def get(self, request, category_slug=None):
         products = Product.objects.get_active_list().all()  # gets all objects that are active
-        return render(request, 'product/index.html', {'products': products})
+        if request.GET.get('search'):
+            products = products.filter(name__contains=request.GET['search'])
+
+        categories = Category.objects.filter(is_sub=False)
+        if category_slug:
+            category = Category.objects.get(slug=category_slug)
+            products = products.filter(category=category)
+        return render(request, 'product/index.html',
+                      {'products': products, 'categories': categories, 'form': self.form_class})
 
 
 class ProductDetailsView(View):
