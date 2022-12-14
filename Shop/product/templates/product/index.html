@@ -28,8 +28,6 @@
 
 				{% endfor %}
 
-				<hr>
-
 			</div>
 
 
@@ -45,24 +43,39 @@
 			{% for product in products %}
 				<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
 					<div class="card py-4 h-100 text-center">
-						<img src="{{ product.image.url }}" class="card-img-top mx-auto my-auto px-3" width="300px" height="400px"
-								 style="object-fit: scale-down"
-								 alt="{{ product.name }}">
+						<a href="{% url 'product:product_details' product.slug %}">
+							<img src="{{ product.image.url }}" class="card-img-top mx-auto my-auto px-3"
+									 width="300px" height="400px"
+									 style="object-fit: scale-down"
+									 alt="{{ product.name }}"></a>
 						<br>
-						<div class="row">
-							<div class="col-6">
+
+
+						<div class="row mx-2">
+							<div class="col-12">
+								<p class="fw-bold" style="font-size:28px">{{ product.name }}</p>
+							</div>
+
+							<div class="col-{% if not product.discount %}12{% else %}6{% endif %}">
 								<h3>${{ product.price }}</h3>
 							</div>
-							<div class="col-6">
-								<a href="" class="btn btn-primary{% if not product.is_available %} disabled {% endif %}"><i
-												class="fa-solid fa-cart-plus"></i> Add</a>
-							</div>
 
-							<br><br><br>
+							{% if product.discount %}
+								<div class="col-6">
+									{#								<a href="" class="btn btn-primary{% if not product.is_available %} disabled {% endif %}"><i#}
+									{#												class="fa-solid fa-cart-plus"></i> Add</a>#}
+									<h3 class="text-danger">
+										<del>${{ product.price_no_discount }}</del>
+									</h3>
+								</div>
 
-							<p class="col-12" style="font-size:28px">
-								{{ product.name }}
-							</p>
+							{% endif %}
+
+							<br><br>
+
+
+
+
 							<p class="col-12">
 								{% if not product.is_available %}
 									<span class="text-danger">Sold out</span>
