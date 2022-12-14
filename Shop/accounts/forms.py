@@ -3,7 +3,7 @@ from .models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.validators import RegexValidator
-from customers.models import Customer, Address
+from customers.models import Customer
 
 
 class UserCreationForm(forms.ModelForm):
