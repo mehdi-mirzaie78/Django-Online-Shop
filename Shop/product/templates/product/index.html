@@ -2,12 +2,46 @@
 
 {% load static %}
 
+
 {% block title %}Home{% endblock %}
 
 {% block content %}
-	<h2 class="text-center">Welcome to your own website</h2>
-	<div class="container-fluid text-center">
+	<div class="container-fluid">
 		<div class="row mt-3 mx-3">
+			<div class="col-5 justify-content-start">
+				{% for category in categories %}
+
+					<div class="btn-group">
+						<a href="{{ category.get_absolute_url }}" class="btn btn-primary">{{ category.name }}</a>
+						<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+										data-bs-toggle="dropdown"
+										aria-expanded="false">
+							<span class="visually-hidden">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu">
+							{% for sub in category.scategory.all %}
+								<li><a class="dropdown-item" href="{{ sub.get_absolute_url }}">{{ sub.name }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+
+
+				{% endfor %}
+
+				<hr>
+
+			</div>
+
+
+			<div class="col-7">
+				{# Search #}
+				<form action="" method="get" class="input-group mb-4">
+					{{ form }}
+					<input type="submit" value="Search" class="btn btn-primary">
+				</form>
+			</div>
+
+
 			{% for product in products %}
 				<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
 					<div class="card py-4 h-100 text-center">
@@ -43,4 +77,6 @@
 			{% endfor %}
 		</div>
 	</div>
+
+
 {% endblock %}
