@@ -3,6 +3,7 @@ from customers.models import Customer
 from core.models import BaseModel
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.html import mark_safe
+from django.urls import reverse
 
 
 class Category(BaseModel):
@@ -12,12 +13,15 @@ class Category(BaseModel):
     slug = models.SlugField(max_length=200, unique=True)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('is_sub', 'name',)
         verbose_name = 'category'
         verbose_name_plural = 'categories'
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('product:category_filter', args=(self.slug,))
 
 
 class Property(BaseModel):
