@@ -7,6 +7,8 @@ from django.contrib import messages
 from customers.models import Customer, Address
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
 
 
 class UserRegisterView(View):
@@ -85,7 +87,7 @@ class UserLoginView(View):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('home:home')
+            return redirect('product:home')
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
@@ -112,6 +114,27 @@ class UserLogoutView(LoginRequiredMixin, View):
         logout(request)
         messages.success(request, 'You logged out successfully', 'info')
         return redirect('product:home')
+
+
+# ---------------------- User Reset Password section ------------------------
+
+class UserPasswordResetView(auth_views.PasswordResetView):
+    template_name = 'accounts/password_reset_form.html'
+    success_url = reverse_lazy('accounts:password_reset_done')
+    email_template_name = 'accounts/password_reset_email.html'
+
+
+class UserPasswordResetDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'accounts/password_reset_done.html'
+
+
+class UserPasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = 'accounts/password_reset_confirm.html'
+    success_url = reverse_lazy('accounts:password_reset_complete')
+
+
+class UserPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = 'accounts/password_reset_complete.html'
 
 
 class UserProfileView(LoginRequiredMixin, View):
