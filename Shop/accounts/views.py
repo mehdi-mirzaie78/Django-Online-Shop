@@ -141,10 +141,9 @@ class UserProfileView(LoginRequiredMixin, View):
     template_name = 'accounts/profile.html'
 
     def setup(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            self.user = request.user
-            self.customer = request.user.customer
-            self.addresses = Address.objects.filter(customer=self.customer)
+        self.user = request.user
+        self.customer = request.user.customer
+        self.addresses = Address.objects.filter(customer=self.customer)
         return super().setup(request, *args, **kwargs)
 
     def get(self, request):
