@@ -37,7 +37,7 @@ class ProductAdmin(BaseAdmin):
     readonly_fields = ('image_tag', 'price', 'is_available',)
     list_per_page = 10
     # list_editable = ('stock', 'price_no_discount', 'discount')
-
+    # autocomplete_fields =
     filter_horizontal = ('category', 'properties',)
 
 
