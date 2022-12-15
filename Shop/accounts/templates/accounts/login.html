@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}Login Page{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
 	<form action="" method="post" class="card px-4 pt-3 pb-2 w-50 mx-auto" novalidate>
-		<h3 class="text-center mb-3"><i class="fa-solid fa-laptop"></i> TechnoMark</h3>
+		<h3 class="text-center my-3">
+			<img src="/media/default/laptop.png" width="55px" height="50px" alt="icon"> TechnoMark
+		</h3>
 		{% csrf_token %}
 		{{ form.as_p }}
 		<input type="submit" value="Login" class="btn btn-primary col-5 mx-auto mt-4">
-	<p class="text-center mt-5">Forgot password? <a href="{% url 'accounts:reset_password' %}">Reset password</a></p>
+		<p class="text-center mt-5">Don't have an account? <a href="{% url 'accounts:user_register' %}">Register</a></p>
+		<p class="text-center mb-4">Forgot password? <a href="{% url 'accounts:reset_password' %}">Reset password</a></p>
 	</form>
 {% endblock %}
