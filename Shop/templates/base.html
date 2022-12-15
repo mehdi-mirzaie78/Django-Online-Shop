@@ -21,15 +21,22 @@
 					integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 					crossorigin="anonymous"></script>
 
-	<title>{% block title %}{% endblock %}</title>
-	<style>
-	body {
-		background-color: #f5f5f5;
-		background-image: url('/media/static/58695.png');
-	}
+	<link rel="icon"
+				href='https://www.flaticon.com/download/icon/6611276?icon_id=6611276&author=684&team=684&keyword=Laptop&pack=packs%2Fentertainment-144&style=1259&format=png&color=%23000000&colored=2&size=512&selection=1&premium=0&type=standard&search=laptop'
+				type="image/icon type">
 
-    {% block extrastyle %}
-    {% endblock %}
+	<title>
+		{% block title %}
+		{% endblock %}
+	</title>
+	<style>
+    body {
+      background-color: #f5f5f5;
+      background-image: url('/media/static/58695.png');
+    }
+
+		{% block extrastyle %}
+		{% endblock %}
 	</style>
 
 </head>
