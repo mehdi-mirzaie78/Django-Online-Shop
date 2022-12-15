@@ -18,15 +18,17 @@
 				<div class="card p-5 h-100">
 					<h3>{{ product }}</h3>
 					<hr>
-					<h4>Price: <del class="text-danger "> ${{ product.price_no_discount }}</del>  ${{ product.price }}</h4>
+					<h4>Price:
+						<del class="text-danger "> ${{ product.price_no_discount }}</del>
+						${{ product.price }}</h4>
 					<hr>
 					<h4>Discount: %{{ product.discount }}</h4>
 					<hr>
 
 					<form action="" method="get" class="w-50 mx-auto input-group mb-4">
-					{{ form }}
-					<input type="submit" value="Add to cart" class="btn btn-primary">
-				</form>
+						{{ form }}
+						<button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i> Add</button>
+					</form>
 
 				</div>
 			</div>
@@ -34,7 +36,9 @@
 			<div class="col-md-12 mt-4">
 				<div class="card h-100">
 					<div class="card-header text-center">
-						<h3>Properties</h3>
+						<h3 class="text-center">
+							<img src="/media/default/laptop.png" width="45px" height="40px" alt="icon"> Properties
+						</h3>
 					</div>
 					<div class="card-body p-5">
 						<h3>{{ product }}</h3>
