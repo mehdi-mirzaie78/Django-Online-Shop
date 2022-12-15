@@ -58,13 +58,12 @@ class UserRegisterVerifyCodeView(View):
             if code == code_instance.code:
                 # This method validates the code by datetime to make sure it's not expired
                 if code_instance.is_valid():
-                    user = User.objects.create_user(
+                    User.objects.create_user(
                         phone_number=user_session['phone_number'],
                         email=user_session['email'],
                         full_name=user_session['full_name'],
                         password=user_session['password']
                     )
-                    Customer.objects.create(user=user)
                     codes.delete()
                     messages.success(request, 'Your information has registered successfully', 'success')
                     return redirect('product:home')
@@ -149,7 +148,7 @@ class UserProfileView(LoginRequiredMixin, View):
         return super().setup(request, *args, **kwargs)
 
     def get(self, request):
-        image = self.customer.image if self.customer.image else None
+        image = self.customer.image
         form = self.form_class(
             instance=self.customer,
             initial={'full_name': self.user.full_name, 'email': self.user.email,
@@ -167,4 +166,13 @@ class UserProfileView(LoginRequiredMixin, View):
             self.user.phone_number = cd['phone_number']
             self.user.save()
             messages.success(request, 'Your information has updated successfully', 'success')
+        return redirect('accounts:user_profile')
+
+
+class UserClearImageView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        customer = Customer.objects.get(user=user)
+        customer.image = None
+        customer.save()
         return redirect('accounts:user_profile')
