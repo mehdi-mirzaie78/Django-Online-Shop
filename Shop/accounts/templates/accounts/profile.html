@@ -31,7 +31,11 @@
 
 			<div class="card mb-4">
 				<div class="card-header mt-2">
-					<h4 class="text-center"><i class="fa-solid fa-laptop"></i> New Orders</h4>
+
+
+					<h4 class="text-center">
+						<img src="/media/default/laptop.png" width="45px" height="40px" alt="icon"> New Orders
+					</h4>
 				</div>
 				<div class="card-body text-center">
 
@@ -40,7 +44,9 @@
 
 			<div class="card mb-4">
 				<div class="card-header mt-2">
-					<h4 class="text-center"><i class="fa-solid fa-laptop"></i> Old Orders</h4>
+					<h4 class="text-center">
+						<img src="/media/default/laptop.png" width="45px" height="40px" alt="icon"> Old Orders
+					</h4>
 				</div>
 				<div class="card-body text-center">
 				</div>
@@ -48,12 +54,14 @@
 
 			<div class="card mb-4">
 				<div class="card-header mt-2">
-					<h4 class="text-center"><i class="fa-solid fa-laptop"></i> Addresses</h4>
+					<h4 class="text-center">
+						<img src="/media/default/laptop.png" width="45px" height="40px" alt="icon"> Addresses
+					</h4>
 				</div>
 				<div class="card-body text-center">
 					{% if addresses %}
 						{% for address in addresses %}
-							<p>{{ address }}</p>
+							<p>{{ address }} - {{ address.postal_code }}</p>
 						{% endfor %}
 					{% endif %}
 					<a href="#" class="btn btn-primary col-2">Add</a>
