@@ -35,7 +35,7 @@
 				{# Search #}
 				<form action="" method="get" class="input-group mb-4">
 					{{ form }}
-					<input type="submit" value="Search" class="btn btn-primary">
+					<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
 				</form>
 			</div>
 
@@ -83,7 +83,8 @@
 									<span class="text-success">Available</span>
 								{% endif %}
 							</p>
-							<a href="{% url 'product:product_details' product.slug %}" class="col-10 mx-auto btn btn-secondary">Details</a>
+							<a href="{% url 'product:product_details' product.slug %}"
+								 class="col-10 mx-auto btn btn-outline-primary">Details</a>
 						</div>
 					</div>
 				</div>
