@@ -32,4 +32,5 @@ class UserManager(BaseUserManager):
         valid_phone = re.compile(pattern)
         if not valid_phone.match(phone_number):
             raise ValidationError("Phone number can be one of these forms: +989XXXXXXXXX | 09XXXXXXXXX")
+        phone_number = '0' + phone_number[3:] if len(phone_number) == 13 else phone_number
         return phone_number
