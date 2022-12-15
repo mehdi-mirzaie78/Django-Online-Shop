@@ -16,6 +16,7 @@
 					<img src="{{ image.url }}" class="img-fluid w-50 rounded-circle">
 					<hr>
 				</div>
+					<a class="btn btn-outline-danger w-25 mx-auto" href="{% url 'accounts:user_profile_clear_image' %}">clear</a>
 				<form action="" method="post" class="px-4 py-3" enctype='multipart/form-data' novalidate>
 					{% csrf_token %}
 					{{ form.as_p }}
