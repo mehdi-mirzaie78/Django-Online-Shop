@@ -8,7 +8,7 @@ from django.utils.html import mark_safe
 class Customer(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='customer')
     CHOICES = [('male', 'MALE'), ('female', 'FEMALE')]
-    gender = models.CharField(max_length=20, choices=CHOICES, )
+    gender = models.CharField(max_length=20, choices=CHOICES, default='male')
     image = models.ImageField(upload_to='customers/', null=True, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
 
