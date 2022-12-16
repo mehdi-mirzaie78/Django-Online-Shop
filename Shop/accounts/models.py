@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import UserManager
 from datetime import datetime, timedelta
 import pytz
@@ -7,7 +7,7 @@ from django.core.validators import RegexValidator
 from core.models import BaseModel
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     mobile_regex = RegexValidator(
         regex=r'^(\+989|09)+\d{9}$',
@@ -15,7 +15,7 @@ class User(AbstractBaseUser):
     phone_number = models.CharField(max_length=13, unique=True, validators=[mobile_regex])
     full_name = models.CharField(max_length=50)
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False, verbose_name='Admin Status')
 
     objects = UserManager()
 
@@ -25,15 +25,14 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        return True
-
-    def has_module_perms(self, app_label):
-        return True
-
     @property
     def is_staff(self):
         return self.is_admin
+
+    def role(self):
+        return "Super User" if self.is_superuser else self.groups.get()
+
+    role.short_description = 'Role'
 
 
 class OtpCode(models.Model):
