@@ -14,7 +14,7 @@ class Customer(BaseModel):
     age = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(14), MaxValueValidator(100)])
 
     def __str__(self):
-        return self.user.full_name if self.user.full_name else self.user.phone_number
+        return self.user.full_name
 
     def save(self, *args, **kwargs):
         male = 'default/male.png'
