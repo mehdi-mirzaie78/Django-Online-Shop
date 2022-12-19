@@ -25,6 +25,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+    def save(self, *args, **kwargs):
+        self.phone_number = '0' + self.phone_number[3:] if len(self.phone_number) == 13 else self.phone_number
+        super(User, self).save(*args, **kwargs)
+
     @property
     def is_staff(self):
         return self.is_admin
