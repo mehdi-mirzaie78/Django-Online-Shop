@@ -147,13 +147,14 @@ class UserProfileView(LoginRequiredMixin, View):
         return super().setup(request, *args, **kwargs)
 
     def get(self, request):
-        image = self.customer.image
         form = self.form_class(
             instance=self.customer,
             initial={'full_name': self.user.full_name, 'email': self.user.email,
                      'phone_number': self.user.phone_number})
-        return render(request, self.template_name,
-                      {'form': form, 'image': image, 'customer': self.customer, 'addresses': self.addresses})
+        return render(
+            request, self.template_name,
+            {'form': form, 'image': self.customer.image, 'customer': self.customer, 'addresses': self.addresses}
+        )
 
     def post(self, request):
         form = self.form_class(request.POST, files=request.FILES, instance=self.customer)
@@ -165,7 +166,13 @@ class UserProfileView(LoginRequiredMixin, View):
             self.user.phone_number = cd['phone_number']
             self.user.save()
             messages.success(request, 'Your information has updated successfully', 'success')
-        return redirect('accounts:user_profile')
+            return redirect('accounts:user_profile')
+
+        messages.error(request, 'Something went wrong. Correct the mistakes and try again.', 'danger')
+        return render(
+            request, self.template_name,
+            {'form': form, 'image': self.customer.image, 'customer': self.customer, 'addresses': self.addresses}
+        )
 
 
 class UserClearImageView(LoginRequiredMixin, View):
