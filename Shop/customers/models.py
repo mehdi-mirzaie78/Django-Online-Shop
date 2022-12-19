@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import User
 from core.models import BaseModel
 from django.utils.html import mark_safe
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Each user can be a customer too, but not necessarily
@@ -10,7 +11,7 @@ class Customer(BaseModel):
     CHOICES = [('male', 'MALE'), ('female', 'FEMALE')]
     gender = models.CharField(max_length=20, choices=CHOICES, default='male')
     image = models.ImageField(upload_to='customers/', null=True, blank=True)
-    age = models.PositiveIntegerField(null=True, blank=True)
+    age = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(14), MaxValueValidator(100)])
 
     def __str__(self):
         return self.user.full_name if self.user.full_name else self.user.phone_number
