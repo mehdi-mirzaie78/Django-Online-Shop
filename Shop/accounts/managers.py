@@ -1,6 +1,7 @@
 from django.contrib.auth.models import BaseUserManager
 from django.core.validators import ValidationError
 import re
+from core.utils import phone_regex, full_name_regex
 
 
 class UserManager(BaseUserManager):
@@ -17,7 +18,7 @@ class UserManager(BaseUserManager):
 
         user = self.model(phone_number=self.normalize_phone_number(phone_number),
                           email=self.normalize_email(email),
-                          full_name=full_name)
+                          full_name=self.normalize_full_name(full_name))
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -29,9 +30,16 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def normalize_phone_number(self, phone_number, pattern=r'^(\+989|09)+\d{9}$'):
+    @staticmethod
+    def normalize_phone_number(phone_number, pattern=phone_regex):
         valid_phone = re.compile(pattern)
         if not valid_phone.match(phone_number):
             raise ValidationError("Phone number can be one of these forms: +989XXXXXXXXX | 09XXXXXXXXX")
-        phone_number = '0' + phone_number[3:] if len(phone_number) == 13 else phone_number
         return phone_number
+
+    @staticmethod
+    def normalize_full_name(full_name, pattern=full_name_regex):
+        valid_full_name = re.compile(pattern)
+        if not valid_full_name.match(full_name):
+            raise ValidationError("Invalid Full name. Full name must only contain alphabet letters and whitespace.")
+        return full_name
