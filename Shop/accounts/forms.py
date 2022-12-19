@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.validators import RegexValidator
 from customers.models import Customer
+from core.utils import phone_regex_validator, full_name_regex_validator
 
 
 class UserCreationForm(forms.ModelForm):
@@ -39,13 +40,12 @@ class UserChangeForm(forms.ModelForm):
 
 class UserRegistrationForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    full_name = forms.CharField(label='Full name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    full_name = forms.CharField(label='Full name', widget=forms.TextInput(attrs={'class': 'form-control'}),
+                                validators=[full_name_regex_validator])
     phone = forms.CharField(
         max_length=13,
         widget=forms.TextInput(attrs={'class': 'form-control'}),
-        validators=[RegexValidator(
-            regex=r'^(\+989|09)+\d{9}$',
-            message="Invalid Phone number. Phone number must be like: +989XXXXXXXXX or 09XXXXXXXXX")]
+        validators=[phone_regex_validator]
     )
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
@@ -80,9 +80,11 @@ class UserLoginForm(forms.Form):
 
 
 class UserProfileForm(forms.ModelForm):
-    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+                                validators=[full_name_regex_validator])
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    phone_number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+                                   validators=[phone_regex_validator])
 
     class Meta:
         model = Customer
