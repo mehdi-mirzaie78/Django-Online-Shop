@@ -16,6 +16,9 @@
 					<a class="nav-link active" href="{% url 'accounts:user_login' %}"><i class="fa-solid fa-right-to-bracket"></i>
 						Login</a>
 				{% endif %}
+				{% if request.user.is_admin %}
+					<a class="nav-link active" href="{% url 'product:bucket' %}">Bucket</a>
+				{% endif %}
 			</div>
 			<div class="navbar-nav col-3 justify-content-end">
 				<a class="nav-link active" href="#"><i class="fa-solid fa-cart-plus"></i> Cart <span
