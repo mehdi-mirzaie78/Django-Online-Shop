@@ -29,7 +29,9 @@ ALLOWED_HOSTS = []
 # Application definition
 THIRD_PARTY_APPS = [
     'django_nose',
-    'crispy_forms'
+    'crispy_forms',
+    'storages',
+
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -120,7 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 # Media files
 
 MEDIA_URL = '/media/'
@@ -132,7 +136,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
-
 
 # # Use nose to run all tests
 # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
@@ -154,3 +157,14 @@ EMAIL_HOST_PASSWORD = 'zwxmwgmyiohoambx'
 EMAIL_USE_TLS = True
 # Optional
 DEFAULT_FROM_EMAIL = 'TechnoMark Website'
+
+# ARVAN CLOUD
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = '9d41d077-ee4e-4a73-83d2-bf1150572188'
+AWS_SECRET_ACCESS_KEY = 'f48a5745f3351aceb5be4057b57d8438a987a765'
+AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.com'
+AWS_STORAGE_BUCKET_NAME = 'techno-mark'
+AWS_SERVICE_NAME = 's3'
+AWS_S3_FILE_OVERWRITE = False
+AWS_LOCAL_STORAGE = f'{BASE_DIR}/aws/'
+
