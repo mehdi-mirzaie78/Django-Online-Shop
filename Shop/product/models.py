@@ -43,7 +43,7 @@ class Product(BaseModel):
     properties = models.ManyToManyField(Property, related_name='p_products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(upload_to='products/', default='default/product.png', null=True, blank=True)
+    image = models.ImageField(default='product.png', null=True, blank=True)
     description = models.TextField()
     price_no_discount = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(90)])
