@@ -10,15 +10,15 @@ class Customer(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='customer')
     CHOICES = [('male', 'MALE'), ('female', 'FEMALE')]
     gender = models.CharField(max_length=20, choices=CHOICES, default='male')
-    image = models.ImageField(upload_to='customers/', null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(14), MaxValueValidator(100)])
 
     def __str__(self):
         return self.user.full_name
 
     def save(self, *args, **kwargs):
-        male = 'default/male.png'
-        female = 'default/female.png'
+        male = 'male.png'
+        female = 'female.png'
         if not self.image:
             self.image = male if self.gender == 'male' else female
         elif self.image and self.image in [male, female]:
