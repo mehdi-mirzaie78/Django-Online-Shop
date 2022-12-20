@@ -11,3 +11,7 @@ class ProductSearchForm(forms.Form):
 class AddToCartForm(forms.Form):
     number = forms.IntegerField(min_value=1, max_value=3, label='',
                                 widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+
+class UploadForm(forms.Form):
+    file = forms.FileField(label='', widget=forms.FileInput(attrs={'class': 'form-control'}))
