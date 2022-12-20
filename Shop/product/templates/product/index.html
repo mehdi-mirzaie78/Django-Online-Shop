@@ -8,7 +8,7 @@
 {% block content %}
 	<div class="container-fluid">
 		<div class="row mt-3 mx-3">
-			<div class="col-5 justify-content-start">
+			<div class="col-6 justify-content-start">
 				{% for category in categories %}
 
 					<div class="btn-group">
@@ -31,29 +31,29 @@
 			</div>
 
 
-			<div class="col-7">
+			<div class="col-6">
 				{# Search #}
 				<form action="" method="get" class="input-group mb-4">
 					{{ form }}
-					<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+					<button type="submit" class="btn btn-primary px-3"><i class="fa fa-search"></i></button>
 				</form>
 			</div>
 
 
 			{% for product in products %}
 				<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-					<div class="card py-4 h-100 text-center">
+					<div class="card pt-0 pb-4 h-100 text-center">
 						<a href="{% url 'product:product_details' product.slug %}">
-							<img src="{{ product.image.url }}" class="card-img-top mx-auto my-auto px-3"
+							<img src="{{ product.image.url }}" class="card-img-top mx-autox px-3"
 									 width="300px" height="400px"
 									 style="object-fit: scale-down"
 									 alt="{{ product.name }}"></a>
-						<br>
+
 
 
 						<div class="row mx-2">
 							<div class="col-12">
-								<p class="fw-bold" style="font-size:28px">{{ product.name }}</p>
+								<p class="fw-bold" style="font-size:26px">{{ product.name }}</p>
 							</div>
 
 							<div class="col-{% if not product.discount %}12{% else %}6{% endif %}">
