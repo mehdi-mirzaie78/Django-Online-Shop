@@ -152,9 +152,7 @@ class UserProfileView(LoginRequiredMixin, View):
             initial={'full_name': self.user.full_name, 'email': self.user.email,
                      'phone_number': self.user.phone_number})
         return render(
-            request, self.template_name,
-            {'form': form, 'image': self.customer.image, 'customer': self.customer, 'addresses': self.addresses}
-        )
+            request, self.template_name, {'form': form, 'customer': self.customer, 'addresses': self.addresses})
 
     def post(self, request):
         form = self.form_class(request.POST, files=request.FILES, instance=self.customer)

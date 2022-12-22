@@ -28,9 +28,8 @@ class ProductAdmin(BaseAdmin):
     fieldsets = (
         ('Product Information',
          {'fields': (
-             'name', 'slug', 'category', 'properties', 'image_tag', 'image', 'description', 'price_no_discount',
-             'discount', 'price',
-             'stock', 'is_available',)}
+             ('name', 'slug'), 'category', 'properties', ('image_tag', 'image'), 'description',
+             ('price_no_discount', 'discount', 'price', 'stock', 'is_available'),)}
          ),
     )
     prepopulated_fields = {'slug': ('name',)}

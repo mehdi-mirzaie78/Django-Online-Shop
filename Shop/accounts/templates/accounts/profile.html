@@ -13,7 +13,7 @@
 					<h4 class="text-center">{{ customer }}</h4>
 				</div>
 				<div class="card-body text-center">
-					<img src="{{ image.url }}" class="img-fluid w-50 rounded-circle">
+					<img src="{{ customer.image.url }}" class="img-fluid w-50 rounded-circle">
 					<hr>
 				</div>
 				<a class="btn btn-outline-danger w-25 mx-auto" href="{% url 'accounts:user_profile_clear_image' %}">clear</a>
