@@ -11,12 +11,12 @@ class AddressInline(admin.StackedInline):
 @admin.register(Customer)
 class CustomerAdmin(BaseAdmin):
     ordering = ('user',)
-    list_display = ('user', 'user_full_name', 'phone_number')
+    list_display = ('user', 'user_full_name', 'phone_number', 'image_tag_2')
     search_fields = ('user__full_name', 'user__phone_number')
 
     fieldsets = (
         ('Personal Information', {'fields': ('user', 'gender', 'age',)}),
-        ('Optional', {'fields': ('image_tag', 'image')}),
+        ('Optional', {'fields': (('image_tag', 'image'),)}),
     )
 
     readonly_fields = ('image_tag',)
