@@ -20,9 +20,9 @@ class HomeView(View):
         if request.GET.get('search'):
             products = products.filter(name__contains=request.GET['search'])
 
-        categories = Category.objects.filter(is_sub=False)
+        categories = Category.objects.get_active_list().filter(is_sub=False)
         if category_slug:
-            category = Category.objects.get(slug=category_slug)
+            category = Category.objects.get_active_list().get(slug=category_slug)
             products = products.filter(category=category)
         return render(request, 'product/index.html',
                       {'products': products, 'categories': categories, 'form': self.form_class})
