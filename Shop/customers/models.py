@@ -30,6 +30,11 @@ class Customer(BaseModel):
 
     image_tag.short_description = 'Image'
 
+    def image_tag_2(self):
+        return mark_safe(f'<img src="{self.image.url}" width="50" height="50" />')
+
+    image_tag_2.short_description = 'Image'
+
     def user_full_name(self):
         return self.user.full_name
 
