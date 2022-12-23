@@ -7,7 +7,8 @@ from django.urls import reverse
 
 
 class Category(BaseModel):
-    sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='scategory', null=True, blank=True)
+    sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='scategory', null=True, blank=True,
+                                     verbose_name='Upper Category')
     is_sub = models.BooleanField(default=False)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
