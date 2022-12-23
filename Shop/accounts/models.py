@@ -14,8 +14,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         message="Phone number can be one of these forms: +989XXXXXXXXX | 09XXXXXXXXX")
     phone_number = models.CharField(max_length=13, unique=True, validators=[mobile_regex])
     full_name = models.CharField(max_length=50)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, verbose_name='Activation Status')
     is_admin = models.BooleanField(default=False, verbose_name='Admin Status')
+    is_superuser = models.BooleanField(default=False, verbose_name='Superuser Status', help_text='')
 
     objects = UserManager()
 
