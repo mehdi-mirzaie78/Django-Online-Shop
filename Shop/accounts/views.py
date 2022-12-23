@@ -9,6 +9,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
+# import logging
+
+# logger = logging.getLogger('django')
 
 
 class UserRegisterView(View):
@@ -101,10 +104,12 @@ class UserLoginView(View):
             if user:
                 login(request, user)
                 messages.success(request, 'You logged in successfully', 'success')
+                # logger.warning(f'{user.full_name} logged in successfully')
                 if self.next:
                     return redirect(self.next)
                 return redirect('product:home')
             messages.error(request, 'Phone number or Password is WRONG!', 'danger')
+            # logger.error(f"User {cd['phone']} tried to login with wrong password")
         return render(request, self.template_name, {'form': form})
 
 
