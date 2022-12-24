@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Register{% endblock %}
+{% load i18n %}
+
+{% block title %}{% translate 'Register' %}{% endblock %}
 
 {% block content %}
 	<form action="" method="post" class="card px-4 py-5 w-50 mx-auto" novalidate>
 		<h3 class="text-center mb-3">
-			<img src="/static/img/laptop.png" width="55px" height="50px" alt="icon"> TechnoMark
+			<img src="/static/img/laptop.png" width="55px" height="50px" alt="icon"> {% translate 'TechnoMark' %}
 		</h3>
 
 		{% csrf_token %}

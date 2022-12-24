@@ -7,6 +7,7 @@ from .models import User, OtpCode
 @admin.register(OtpCode)
 class OtpCodeAdmin(admin.ModelAdmin):
     list_display = ('phone_number', 'code', 'created')
+    list_per_page = 10
 
 
 class UserAdmin(BaseUserAdmin):
@@ -19,7 +20,8 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         ('Main', {'fields': ('email', 'phone_number', 'full_name', 'password', 'last_login')}),
         ('Permissions',
-         {'fields': (('is_active', 'is_admin', 'is_superuser'), 'groups', 'user_permissions')}),
+         {'classes': ('collapse',),
+          'fields': (('is_active', 'is_admin', 'is_superuser'), 'groups', 'user_permissions')}),
     )
 
     add_fieldsets = (
@@ -29,6 +31,7 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email', 'full_name')
     ordering = ('full_name',)
     filter_horizontal = ('groups', 'user_permissions')
+    list_per_page = 10
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)

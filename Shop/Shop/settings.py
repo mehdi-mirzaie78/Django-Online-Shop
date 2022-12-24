@@ -36,6 +36,8 @@ THIRD_PARTY_APPS = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 INSTALLED_APPS = [
+                     'admin_interface',
+                     'colorfield',
                      'django.contrib.admin',
                      'django.contrib.auth',
                      'django.contrib.contenttypes',
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -109,6 +112,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('fa', 'Persian')
+]
+
+LOCALE_PATHS = [BASE_DIR / 'locale']
+
+USE_L10N = True
 
 LANGUAGE_CODE = 'en-us'
 

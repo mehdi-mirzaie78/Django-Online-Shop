@@ -5,20 +5,24 @@ from datetime import datetime, timedelta
 import pytz
 from django.core.validators import RegexValidator
 from core.models import BaseModel
+from django.utils.translation import gettext_lazy as _
+from core.utils import phone_regex_validator
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=255, unique=True)
-    mobile_regex = RegexValidator(
-        regex=r'^(\+989|09)+\d{9}$',
-        message="Phone number can be one of these forms: +989XXXXXXXXX | 09XXXXXXXXX")
-    phone_number = models.CharField(max_length=13, unique=True, validators=[mobile_regex])
-    full_name = models.CharField(max_length=50)
-    is_active = models.BooleanField(default=True, verbose_name='Activation Status')
-    is_admin = models.BooleanField(default=False, verbose_name='Admin Status')
-    is_superuser = models.BooleanField(default=False, verbose_name='Superuser Status', help_text='')
+    email = models.EmailField(max_length=255, unique=True, verbose_name=_('Email'))
+    phone_number = models.CharField(max_length=13, unique=True, validators=[phone_regex_validator],
+                                    verbose_name=_('Phone Number'))
+    full_name = models.CharField(max_length=50, verbose_name=_('Full Name'))
+    is_active = models.BooleanField(default=True, verbose_name=_('Activation Status'))
+    is_admin = models.BooleanField(default=False, verbose_name=_('Admin Status'))
+    is_superuser = models.BooleanField(default=False, verbose_name=_('Superuser Status'), help_text='')
 
     objects = UserManager()
+
+    class Meta:
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['email', 'full_name']
@@ -37,16 +41,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     def role(self):
         return "Super User" if self.is_superuser else self.groups.get()
 
-    role.short_description = 'Role'
+    role.short_description = _('Role')
 
 
 class OtpCode(models.Model):
-    mobile_regex = RegexValidator(
-        regex=r'^(\+989|09)+\d{9}$',
-        message="Phone number can be one of these forms: +989XXXXXXXXX | 09XXXXXXXXX")
-    phone_number = models.CharField(max_length=13, validators=[mobile_regex])
-    code = models.PositiveSmallIntegerField()
-    created = models.DateTimeField(auto_now=True)
+    phone_number = models.CharField(max_length=13, validators=[phone_regex_validator], verbose_name=_('Phone Number'))
+    code = models.PositiveSmallIntegerField(verbose_name=_('Code'))
+    created = models.DateTimeField(auto_now=True, verbose_name=_('Created'))
+
+    class Meta:
+        verbose_name = _('Otp Code')
+        verbose_name_plural = _('Otp Codes')
 
     @classmethod
     def is_code_available(cls, phone_number):

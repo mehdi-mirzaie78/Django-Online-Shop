@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% load static %}
 
-{% block title %}Profile Page{% endblock %}
+{% block title %}{% translate 'Profile Page' %}{% endblock %}
 
 {% block content %}
 	<div class="row mx-2">
@@ -16,12 +18,12 @@
 					<img src="{{ customer.image.url }}" class="img-fluid w-50 rounded-circle">
 					<hr>
 				</div>
-				<a class="btn btn-outline-danger w-25 mx-auto" href="{% url 'accounts:user_profile_clear_image' %}">clear</a>
+				<a class="btn btn-outline-danger w-25 mx-auto" href="{% url 'accounts:user_profile_clear_image' %}">{% translate 'Clear' %}</a>
 				<form action="" method="post" class="px-4 py-3" enctype='multipart/form-data' novalidate>
 					{% csrf_token %}
 					{{ form.as_p }}
 					<div class="text-center">
-						<input type="submit" value="Update" class="btn btn-primary col-5 mt-3">
+						<button type="submit" class="btn btn-primary col-5 mt-3">{% translate 'Update' %}</button>
 					</div>
 				</form>
 			</div>
@@ -34,7 +36,7 @@
 
 
 					<h4 class="text-center">
-						<img src="/static/img/laptop.png" width="45px" height="40px" alt="icon"> New Orders
+						<img src="/static/img/laptop.png" width="45px" height="40px" alt="icon"> {% translate 'New Orders' %}
 					</h4>
 				</div>
 				<div class="card-body text-center">
@@ -45,7 +47,7 @@
 			<div class="card mb-4">
 				<div class="card-header mt-2">
 					<h4 class="text-center">
-						<img src="/static/img/laptop.png" width="45px" height="40px" alt="icon"> Old Orders
+						<img src="/static/img/laptop.png" width="45px" height="40px" alt="icon"> {% translate 'Old Orders' %}
 					</h4>
 				</div>
 				<div class="card-body text-center">
@@ -55,7 +57,7 @@
 			<div class="card mb-4">
 				<div class="card-header mt-2">
 					<h4 class="text-center">
-						<img src="/static/img/laptop.png" width="45px" height="40px" alt="icon"> Addresses
+						<img src="/static/img/laptop.png" width="45px" height="40px" alt="icon"> {% translate 'Addresses' %}
 					</h4>
 				</div>
 				<div class="card-body text-center">
@@ -64,7 +66,7 @@
 							<p>{{ address }} - {{ address.postal_code }}</p>
 						{% endfor %}
 					{% endif %}
-					<a href="#" class="btn btn-primary col-2">Add</a>
+					<a href="#" class="btn btn-primary col-2">{% translate 'Add' %}</a>
 					{#					<a href="#" class="btn btn-danger col-2">Remove</a>#}
 				</div>
 			</div>

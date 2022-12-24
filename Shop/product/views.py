@@ -5,6 +5,7 @@ from .forms import ProductSearchForm, AddToCartForm, UploadForm
 from . import tasks
 from django.contrib import messages
 from utils import IsAdminUserMixin
+from django.utils.translation import gettext_lazy as _
 
 
 class LandingPageView(View):
@@ -51,9 +52,9 @@ class BucketView(IsAdminUserMixin, View):
         if form.is_valid():
             f = form.cleaned_data['file']
             tasks.upload_object_task.delay(key=form.cleaned_data['file'].name)
-            messages.success(request, 'Upload will be started soon', 'info')
+            messages.success(request, _('Upload will be started soon'), 'info')
             return redirect('product:bucket')
-        messages.error(request, 'Something went wrong. Please try again', 'danger')
+        messages.error(request, _('Something went wrong. Please try again'), 'danger')
         return render(request, self.template_name, {'objects': objects, 'form': form})
 
 
@@ -61,7 +62,7 @@ class DeleteBucketObject(IsAdminUserMixin, View):
 
     def get(self, request, key):
         tasks.delete_object_task.delay(key)
-        messages.success(request, 'your object will be deleted soon', 'info')
+        messages.success(request, _('your object will be deleted soon'), 'info')
         return redirect('product:bucket')
 
 
@@ -70,5 +71,5 @@ class DownloadBucketObject(IsAdminUserMixin, View):
     def get(self, request, key):
         print(key, type(key))
         tasks.download_object_task.delay(key)
-        messages.success(request, 'Download will be started soon', 'info')
+        messages.success(request, _('Download will be started soon'), 'info')
         return redirect('product:bucket')

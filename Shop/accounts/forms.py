@@ -5,11 +5,12 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.validators import RegexValidator
 from customers.models import Customer
 from core.utils import phone_regex_validator, full_name_regex_validator
+from django.utils.translation import gettext_lazy as _
 
 
 class UserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
+    password2 = forms.CharField(label=_('Confirm Password'), widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -36,18 +37,21 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['email', 'phone_number', 'full_name', 'password', 'last_login']
+        labels = {'email': _('email'), 'phone_number': _('phone_number'),
+                  'full_name': _('password'), 'last_login': _('last_login')}
 
 
 class UserRegistrationForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    full_name = forms.CharField(label='Full name', widget=forms.TextInput(attrs={'class': 'form-control'}),
+    email = forms.EmailField(label=_('Email'), widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    full_name = forms.CharField(label=_('Full name'), widget=forms.TextInput(attrs={'class': 'form-control'}),
                                 validators=[full_name_regex_validator])
     phone = forms.CharField(
+        label=_('Phone Number'),
         max_length=13,
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         validators=[phone_regex_validator]
     )
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(label=_('Password'), widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -65,25 +69,26 @@ class UserRegistrationForm(forms.Form):
 
 
 class VerifyCodeForm(forms.Form):
-    code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    code = forms.IntegerField(label=_('Code'), widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
 
 class UserLoginForm(forms.Form):
     phone = forms.CharField(
+        label=_('Phone'),
         max_length=13,
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         validators=[RegexValidator(
             regex=r'^(\+989|09)+\d{9}$',
             message="Invalid Phone number. Phone number must be like: +989XXXXXXXXX or 09XXXXXXXXX")]
     )
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(label=_('Password'), widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 
 class UserProfileForm(forms.ModelForm):
-    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+    full_name = forms.CharField(label=_('Full Name'), widget=forms.TextInput(attrs={'class': 'form-control'}),
                                 validators=[full_name_regex_validator])
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    phone_number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+    email = forms.EmailField(label=_('Email'), widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    phone_number = forms.CharField(label=_('Phone Number'), widget=forms.TextInput(attrs={'class': 'form-control'}),
                                    validators=[phone_regex_validator])
 
     class Meta:
@@ -94,3 +99,6 @@ class UserProfileForm(forms.ModelForm):
             'gender': forms.Select(attrs={'class': 'form-control'}),
             'age': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+        labels = {
+            'image': _('image'), 'gender': _('gender'), 'age': _('age')
+                  }

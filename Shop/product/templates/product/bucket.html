@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}Bucket{% endblock %}
+{% load i18n %}
+
+{% block title %}{% translate 'Bucket' %}{% endblock %}
 
 {% block content %}
 
@@ -9,10 +11,10 @@
 		<thead>
 		<tr>
 			<th scope="col">#</th>
-			<th scope="col">Name</th>
-			<th scope="col">Size</th>
-			<th scope="col">Download</th>
-			<th scope="col">Delete</th>
+			<th scope="col">{% translate 'Name' %}</th>
+			<th scope="col">{% translate 'Size' %}</th>
+			<th scope="col">{% translate 'Download' %}</th>
+			<th scope="col">{% translate 'Delete' %}</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -21,8 +23,8 @@
 				<th scope="row">{{ forloop.counter }}</th>
 				<td>{{ obj.Key }}</td>
 				<td>{{ obj.Size|filesizeformat }}</td>
-				<td><a href="{% url 'product:download_obj_bucket' obj.Key %}">download</a></td>
-				<td><a href="{% url 'product:delete_obj_bucket' obj.Key %}">delete</a></td>
+				<td><a href="{% url 'product:download_obj_bucket' obj.Key %}">{% translate 'download' %}</a></td>
+				<td><a href="{% url 'product:delete_obj_bucket' obj.Key %}">{% translate 'delete' %}</a></td>
 			</tr>
 		{% endfor %}
 		</tbody>
@@ -32,7 +34,7 @@
 	<form action="" method="post" class="input-group my-2" enctype=multipart/form-data>
 		{% csrf_token %}
 		{{ form }}
-		<button type="submit" class="btn btn-primary px-3">Upload</button>
+		<button type="submit" class="btn btn-primary px-3">{% translate 'Upload' %}</button>
 	</form>
 
 {% endblock %}

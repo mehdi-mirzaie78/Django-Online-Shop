@@ -4,14 +4,15 @@ from core.models import BaseModel
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.html import mark_safe
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 
 class Category(BaseModel):
     sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='scategory', null=True, blank=True,
-                                     verbose_name='Upper Category')
-    is_sub = models.BooleanField(default=False)
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+                                     verbose_name=_('Upper Category'))
+    is_sub = models.BooleanField(default=False, verbose_name=_('Sub Category Status'))
+    name = models.CharField(max_length=200, verbose_name=_('Category Name'))
+    slug = models.SlugField(max_length=200, unique=True, verbose_name=_('Slug'))
 
     class Meta:
         ordering = ('is_sub', 'name',)
@@ -26,13 +27,13 @@ class Category(BaseModel):
 
 
 class Property(BaseModel):
-    key = models.CharField(max_length=120)
-    value = models.CharField(max_length=255, unique=True)
-    priority = models.IntegerField(default=1)
+    key = models.CharField(max_length=120, verbose_name=_('Property Key'))
+    value = models.CharField(max_length=255, unique=True, verbose_name=_('Property Value'))
+    priority = models.IntegerField(default=1, verbose_name=_('Priority'))
 
     class Meta:
-        verbose_name = 'property'
-        verbose_name_plural = 'properties'
+        verbose_name = _('property')
+        verbose_name_plural = _('properties')
         ordering = ('priority',)
 
     def __str__(self):
@@ -40,20 +41,22 @@ class Property(BaseModel):
 
 
 class Product(BaseModel):
-    category = models.ManyToManyField(Category, related_name='products')
-    properties = models.ManyToManyField(Property, related_name='p_products')
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(default='product.png', null=True, blank=True)
-    description = models.TextField()
-    price_no_discount = models.PositiveIntegerField()
-    discount = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(90)])
-    price = models.PositiveIntegerField()
-    stock = models.PositiveIntegerField()
-    is_available = models.BooleanField(null=True, blank=True)
+    category = models.ManyToManyField(Category, related_name='products', verbose_name=_('Category'))
+    properties = models.ManyToManyField(Property, related_name='p_products', verbose_name=_('Properties'))
+    name = models.CharField(max_length=200, verbose_name=_('Product Name'))
+    slug = models.SlugField(max_length=200, unique=True, verbose_name=_('Slug'))
+    image = models.ImageField(default='product.png', null=True, blank=True, verbose_name=_('Image'))
+    description = models.TextField(verbose_name=_('Description'))
+    price_no_discount = models.PositiveIntegerField(verbose_name=_('Price without discount'))
+    discount = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(90)], verbose_name=_('Discount'))
+    price = models.PositiveIntegerField(verbose_name=_('Price'))
+    stock = models.PositiveIntegerField(verbose_name=_('Stock'))
+    is_available = models.BooleanField(null=True, blank=True, verbose_name=_('Availability Status'))
 
     class Meta:
         ordering = ('name',)
+        verbose_name = _('product')
+        verbose_name_plural = _('products')
 
     def save(self, *args, **kwargs):
         self.is_available = True if self.stock > 0 else False
@@ -70,10 +73,10 @@ class Product(BaseModel):
 
 
 class Comment(BaseModel):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='ccomments')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='pcomments')
-    title = models.CharField(max_length=120)
-    body = models.TextField()
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='ccomments', verbose_name=_('Customer'))
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='pcomments', verbose_name=_('Product'))
+    title = models.CharField(max_length=120, verbose_name=_('Title'))
+    body = models.TextField(verbose_name=_('Body'))
 
     def __str__(self):
         return f'{self.customer} commented on {self.product}'

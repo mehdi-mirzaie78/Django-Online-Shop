@@ -9,6 +9,10 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import activate
+
+
 # import logging
 
 # logger = logging.getLogger('django')
@@ -28,6 +32,7 @@ class UserRegisterView(View):
             cd = form.cleaned_data
             if OtpCode.is_code_available(phone_number=cd['phone']):
                 rand_code = random_code()
+                print(rand_code)
                 send_otp_code(cd['phone'], rand_code)
                 OtpCode.objects.create(phone_number=cd['phone'], code=rand_code)
                 request.session['user_registration_info'] = {
@@ -36,10 +41,10 @@ class UserRegisterView(View):
                     'full_name': cd['full_name'],
                     'password': cd['password'],
                 }
-                messages.success(request, 'We sent you a code.', 'success')
+                messages.success(request, _('We sent you a code.'), 'success')
                 return redirect('accounts:verify_code')
             else:
-                messages.error(request, 'Too many attempts. Please Try again 20 minutes later.', 'danger')
+                messages.error(request, _('Too many attempts. Please Try again 20 minutes later.'), 'danger')
                 return redirect('product:home')
         return render(request, self.template_name, {'form': form})
 
@@ -61,20 +66,21 @@ class UserRegisterVerifyCodeView(View):
             if code == code_instance.code:
                 # This method validates the code by datetime to make sure it's not expired
                 if code_instance.is_valid():
-                    User.objects.create_user(
+                    user = User.objects.create_user(
                         phone_number=user_session['phone_number'],
                         email=user_session['email'],
                         full_name=user_session['full_name'],
                         password=user_session['password']
                     )
                     codes.delete()
-                    messages.success(request, 'Your information has registered successfully', 'success')
+                    messages.success(request, _('Your information has registered successfully'), 'success')
+                    login(request, user)
                     return redirect('product:home')
                 else:
-                    messages.error(request, 'The code has expired. Please try again.', 'danger')
+                    messages.error(request, _('The code has expired. Please try again.'), 'danger')
                     return redirect('accounts:user_register')
             else:
-                messages.error(request, 'This code is WRONG!', 'danger')
+                messages.error(request, _('This code is WRONG!'), 'danger')
                 return redirect('accounts:verify_code')
         return redirect('product:home')
 
@@ -103,12 +109,12 @@ class UserLoginView(View):
             user = authenticate(request, phone_number=cd['phone'], password=cd['password'])
             if user:
                 login(request, user)
-                messages.success(request, 'You logged in successfully', 'success')
+                messages.success(request, _('You logged in successfully'), 'success')
                 # logger.warning(f'{user.full_name} logged in successfully')
                 if self.next:
                     return redirect(self.next)
                 return redirect('product:home')
-            messages.error(request, 'Phone number or Password is WRONG!', 'danger')
+            messages.error(request, _('Phone number or Password is WRONG!'), 'danger')
             # logger.error(f"User {cd['phone']} tried to login with wrong password")
         return render(request, self.template_name, {'form': form})
 
@@ -116,7 +122,7 @@ class UserLoginView(View):
 class UserLogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
-        messages.success(request, 'You logged out successfully', 'info')
+        messages.success(request, _('You logged out successfully'), 'info')
         return redirect('product:home')
 
 
@@ -168,10 +174,10 @@ class UserProfileView(LoginRequiredMixin, View):
             self.user.email = cd['email']
             self.user.phone_number = cd['phone_number']
             self.user.save()
-            messages.success(request, 'Your information has updated successfully', 'success')
+            messages.success(request, _('Your information has updated successfully'), 'success')
             return redirect('accounts:user_profile')
 
-        messages.error(request, 'Something went wrong. Correct the mistakes and try again.', 'danger')
+        messages.error(request, _('Something went wrong. Correct the mistakes and try again.'), 'danger')
         return render(
             request, self.template_name,
             {'form': form, 'image': self.customer.image, 'customer': self.customer, 'addresses': self.addresses}

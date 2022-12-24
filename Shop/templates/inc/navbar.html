@@ -1,27 +1,38 @@
+{% load i18n %}
+
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
 	<div class="ms-2 container-fluid">
 		<a class="navbar-brand" href="{% url 'product:landing' %}"><img src="/static/img/laptop.png" width="34 px"
 																																		height="30 px;" alt="icon">
-			<span>TechnoMark</span></a>
+			<span>{% translate 'TechnoMark' %}</span></a>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 
 			<div class="navbar-nav col-9">
-				<a class="nav-link active" href="{% url 'product:home' %}"><i	class="fa-solid fa-house-user"></i> Home</a>
+				<a class="nav-link active" href="{% url 'product:home' %}"><i
+								class="fa-solid fa-house-user"></i> {% translate 'Home' %}</a>
 				{% if request.user.is_authenticated %}
 					<a class="nav-link active" href="{% url 'accounts:user_logout' %}"><i
-									class="fa-solid fa-right-from-bracket"></i> Logout</a>
+									class="fa-solid fa-right-from-bracket"></i> {% translate 'Logout' %}</a>
 				{% else %}
 					<a class="nav-link active" href="{% url 'accounts:user_register' %}"><i class="fa-solid fa-user-plus"></i>
-						Register</a>
+						{% translate 'Register' %}</a>
 					<a class="nav-link active" href="{% url 'accounts:user_login' %}"><i class="fa-solid fa-right-to-bracket"></i>
-						Login</a>
+						{% translate 'Login' %}</a>
 				{% endif %}
 				{% if request.user.is_admin %}
-					<a class="nav-link active" href="{% url 'product:bucket' %}">Bucket</a>
+					<a class="nav-link active" href="{% url 'product:bucket' %}">{% translate 'Bucket' %}</a>
 				{% endif %}
+				&nbsp;
+
+
+				<a class="nav-link active btn btn-primary-outline" href="{% url 'change_language' %}?lang=en&next=/en/{{ request.path|slice:'4:' }}">{% translate 'EN' %}</a>
+				&nbsp;
+
+
+				<a class="nav-link active btn btn-primary-outline" href="{% url 'change_language' %}?lang=fa&next=/fa/{{ request.path|slice:'4:' }}">{% translate 'FA' %}</a>
 			</div>
 			<div class="navbar-nav col-3 justify-content-end">
-				<a class="nav-link active" href="#"><i class="fa-solid fa-cart-plus"></i> Cart <span
+				<a class="nav-link active" href="#"><i class="fa-solid fa-cart-plus"></i> {% translate 'Cart' %} <span
 								class="btn btn-danger px-2 py-0 rounded-circle"></span> </a>
 				{% if request.user.is_authenticated %}
 					<a class="nav-link active" href="{% url 'accounts:user_profile' %}"><i class="fa-solid fa-user"></i>

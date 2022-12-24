@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% load static %}
 
 
-{% block title %}Home{% endblock %}
+{% block title %}{% translate 'Home' %}{% endblock %}
 
 {% block content %}
 	<div class="container-fluid">
@@ -12,7 +14,7 @@
 				{% for category in categories %}
 
 					<div class="btn-group">
-						<a href="{{ category.get_absolute_url }}" class="btn btn-primary">{{ category.name }}</a>
+						<a href="{{ category.get_absolute_url }}" class="btn btn-primary">{% trans category.name %}</a>
 						<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
 										data-bs-toggle="dropdown"
 										aria-expanded="false">
@@ -20,7 +22,7 @@
 						</button>
 						<ul class="dropdown-menu">
 							{% for sub in category.scategory.all %}
-								<li><a class="dropdown-item" href="{{ sub.get_absolute_url }}">{{ sub.name }}</a></li>
+								<li><a class="dropdown-item" href="{{ sub.get_absolute_url }}"> {% trans sub.name %}</a></li>
 							{% endfor %}
 						</ul>
 					</div>
@@ -78,13 +80,13 @@
 
 							<p class="col-12">
 								{% if not product.is_available %}
-									<span class="text-danger">Sold out</span>
+									<span class="text-danger">{% translate 'Sold Out' %}</span>
 								{% else %}
-									<span class="text-success">Available</span>
+									<span class="text-success">{% translate 'Available' %}</span>
 								{% endif %}
 							</p>
 							<a href="{% url 'product:product_details' product.slug %}"
-								 class="col-10 mx-auto btn btn-outline-primary">Details</a>
+								 class="col-10 mx-auto btn btn-outline-primary">{% translate 'Details' %}</a>
 						</div>
 					</div>
 				</div>

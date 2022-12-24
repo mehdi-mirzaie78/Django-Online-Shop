@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Verify Page{% endblock %}
+{% load i18n %}
+
+{% block title %}{% translate 'Verify Page' %}{% endblock %}
 
 {% block content %}
 	<form action="" method="post" class="card px-4 py-5 w-50 mx-auto" novalidate>
-		<h3 class="text-center mb-3">Verification Form</h3>
+		<h3 class="text-center mb-3">{% translate 'Verification Form' %}</h3>
 		{% csrf_token %}
 		{{ form.as_p }}
 		<input type="submit" value="Verify" class="btn btn-primary col-5 mx-auto mt-4">
