@@ -19,6 +19,29 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 
+
+
+# Extra Words
+msgid "Laptop"
+msgstr "لپ‌تاپ"
+
+msgid "Mobile"
+msgstr "موبایل"
+
+msgid "Lenovo"
+msgstr "لنوو"
+
+msgid "Apple"
+msgstr "اپل"
+
+msgid "MSI"
+msgstr "ام‌اس‌آی"
+
+
+
+
+
+
 #: .\accounts\apps.py:8
 msgid "Accounts"
 msgstr "حساب ها"
@@ -2100,24 +2123,3 @@ msgstr ""
 msgid "Connected to qpid with SASL mechanism %s"
 msgstr ""
 
-#: .\venv\Lib\site-packages\kombu\transport\qpid.py:1332
-#, python-format
-msgid "Unable to connect to qpid with SASL mechanism %s"
-msgstr ""
-
-# #############################
-# Extra Words
-#~ msgid "Laptop"
-#~ msgstr "لپ‌تاپ"
-
-#~ msgid "Mobile"
-#~ msgstr "موبایل"
-
-#~ msgid "Lenovo"
-#~ msgstr "لنوو"
-
-#~ msgid "Apple"
-#~ msgstr "اپل"
-
-#~ msgid "MSI"
-#~ msgstr "ام‌اس‌آی"
