@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-25 01:52+0330\n"
+"POT-Creation-Date: 2022-12-25 03:25+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,25 +19,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 
-# Extra Words
-
-msgid "Laptop"
-msgstr "لپ‌تاپ"
-
-msgid "Mobile"
-msgstr "موبایل"
-
-msgid "Lenovo"
-msgstr "لنوو"
-
-msgid "Apple"
-msgstr "اپل"
-
-msgid "MSI"
-msgstr "ام‌اس‌آی"
-
-##############################
-
+#: .\accounts\apps.py:8
+msgid "Accounts"
+msgstr "حساب ها"
 
 #: .\accounts\forms.py:12 .\accounts\forms.py:54 .\accounts\forms.py:84
 msgid "Password"
@@ -262,11 +246,16 @@ msgstr "اطلاعات شما با موفقیت به روز شد"
 msgid "Something went wrong. Correct the mistakes and try again."
 msgstr "یک چیزی اشتباه شده. لطفا اشتباهات را برطرف کنید و دوباره تلاش کنید."
 
+#: .\customers\apps.py:8 .\customers\models.py:20
+msgid "Customers"
+msgstr "مشتریان"
+
 #: .\customers\models.py:13
 msgid "Gender"
 msgstr "جنسیت"
 
 #: .\customers\models.py:14 .\customers\models.py:37 .\product\models.py:48
+#: .\product\models.py:72
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:392
 msgid "Image"
 msgstr "تصویر"
@@ -279,10 +268,6 @@ msgstr "سن"
 #: .\product\models.py:76
 msgid "Customer"
 msgstr "مشتری"
-
-#: .\customers\models.py:20
-msgid "Customers"
-msgstr "مشتریان"
 
 #: .\customers\models.py:58 .\orders\models.py:39
 msgid "City"
@@ -300,9 +285,11 @@ msgstr "کد پستی"
 msgid "Address"
 msgstr "نشانی"
 
+#: .\orders\apps.py:8 .\orders\models.py:52
+msgid "Orders"
+msgstr "سفارشات"
+
 #: .\orders\models.py:11
-#, fuzzy
-#| msgid "Otp Code"
 msgid "Coupon Code"
 msgstr "کد یکبار مصرف"
 
@@ -319,27 +306,35 @@ msgstr "معتبر تا"
 msgid "Discount"
 msgstr "تخفیف"
 
-#: .\orders\models.py:18
-msgid "coupon"
-msgstr "کد تخفیف"
-
-#: .\orders\models.py:19
-msgid "coupons"
-msgstr "کدهای تخفیف"
-
-#: .\orders\models.py:34
+#: .\orders\models.py:18 .\orders\models.py:34
 msgid "Coupon"
 msgstr "کد تخفیف"
 
+#: .\orders\models.py:19
+msgid "Coupons"
+msgstr "کد تخفیف"
+
 #: .\orders\models.py:35
-#, fuzzy
-#| msgid "Admin Status"
 msgid "Payment Status"
 msgstr "وضعیت مدیریت"
 
+#: .\orders\models.py:45
+msgid "PENDING"
+msgstr ""
+
+#: .\orders\models.py:45
+msgid "CHECKING"
+msgstr ""
+
+#: .\orders\models.py:45
+msgid "SENDING"
+msgstr ""
+
+#: .\orders\models.py:45
+msgid "DONE"
+msgstr ""
+
 #: .\orders\models.py:46 .\orders\models.py:77
-#, fuzzy
-#| msgid "Admin Status"
 msgid "Status"
 msgstr "وضعیت مدیریت"
 
@@ -347,26 +342,15 @@ msgstr "وضعیت مدیریت"
 msgid "Transaction Code"
 msgstr "کد تراکنش"
 
-#: .\orders\models.py:51
-msgid "order"
-msgstr "سفارش"
-
-#: .\orders\models.py:52
-#, fuzzy
-#| msgid "New Orders"
-msgid "orders"
-msgstr "سفارشات جدید"
-
-#: .\orders\models.py:72 .\venv\Lib\site-packages\django\forms\formsets.py:483
+#: .\orders\models.py:51 .\orders\models.py:72
+#: .\venv\Lib\site-packages\django\forms\formsets.py:483
 #: .\venv\Lib\site-packages\django\forms\formsets.py:490
 msgid "Order"
 msgstr "سفارش"
 
 #: .\orders\models.py:73 .\product\models.py:77
-#, fuzzy
-#| msgid "Product Details"
 msgid "Product"
-msgstr "جزئیات محصول"
+msgstr "محصول"
 
 #: .\orders\models.py:74 .\product\models.py:52
 #: .\product\templates\product\details.html:23
@@ -377,6 +361,18 @@ msgstr "قیمت"
 msgid "Quantity"
 msgstr "تعداد"
 
+#: .\orders\models.py:76
+msgid "OK"
+msgstr "بدون مشکل"
+
+#: .\orders\models.py:76
+msgid "NO"
+msgstr "مشکلی وجود دارد"
+
+#: .\orders\models.py:76
+msgid "SUPPLYING"
+msgstr "در حال تامین"
+
 #: .\orders\models.py:80
 msgid "order item"
 msgstr "محصول سفارش"
@@ -384,6 +380,12 @@ msgstr "محصول سفارش"
 #: .\orders\models.py:81
 msgid "order items"
 msgstr "محصولات سفارش"
+
+#: .\product\apps.py:8
+
+#| msgid "Product"
+msgid "Products"
+msgstr "محصولات"
 
 #: .\product\forms.py:9
 msgid "Search"
@@ -394,8 +396,6 @@ msgid "Upper Category"
 msgstr "دسته بندی بالا"
 
 #: .\product\models.py:13
-#, fuzzy
-#| msgid "Superuser Status"
 msgid "Sub Category Status"
 msgstr "وضعیت ادمین"
 
@@ -407,15 +407,19 @@ msgstr "نام دسته بندی"
 msgid "Slug"
 msgstr "اسلاگ"
 
+#: .\product\models.py:19
+msgid "category"
+msgstr "دسته بندی"
+
+#: .\product\models.py:20
+msgid "categories"
+msgstr "دسته بندی ها"
+
 #: .\product\models.py:30
-#, fuzzy
-#| msgid "Properties"
 msgid "Property Key"
 msgstr "مشخصات"
 
 #: .\product\models.py:31
-#, fuzzy
-#| msgid "Properties"
 msgid "Property Value"
 msgstr "مشخصات"
 
@@ -424,14 +428,10 @@ msgid "Priority"
 msgstr "اولویت"
 
 #: .\product\models.py:35
-#, fuzzy
-#| msgid "Properties"
 msgid "property"
 msgstr "مشخصات"
 
 #: .\product\models.py:36
-#, fuzzy
-#| msgid "Properties"
 msgid "properties"
 msgstr "مشخصات"
 
@@ -444,10 +444,8 @@ msgid "Properties"
 msgstr "مشخصات"
 
 #: .\product\models.py:46
-#, fuzzy
-#| msgid "Product Details"
 msgid "Product Name"
-msgstr "جزئیات محصول"
+msgstr "نام محصول"
 
 #: .\product\models.py:49
 msgid "Description"
@@ -462,8 +460,6 @@ msgid "Stock"
 msgstr "تعداد موجود"
 
 #: .\product\models.py:54
-#, fuzzy
-#| msgid "Activation Status"
 msgid "Availability Status"
 msgstr "وضعیت فعال سازی"
 
@@ -472,14 +468,20 @@ msgid "product"
 msgstr "محصول"
 
 #: .\product\models.py:59
-#, fuzzy
-#| msgid "Product Details"
 msgid "products"
 msgstr "محصولات"
 
 #: .\product\models.py:78
 msgid "Title"
 msgstr "عنوان"
+
+#: .\product\models.py:82
+msgid "comment"
+msgstr "نظر"
+
+#: .\product\models.py:83
+msgid "comments"
+msgstr "نظرات"
 
 #: .\product\templates\product\bucket.html:5 .\templates\inc\navbar.html:23
 msgid "Bucket"
@@ -548,8 +550,8 @@ msgid ""
 "The best laptops with the best prices. We hope to provide better service for "
 "you\tdear customers."
 msgstr ""
-" بهترین لپ تاپ ها با بهترین قیمت ها.ما امیدواریم برای شما مشتریان عزیز خدمات بهتری ارائه "
-"کنیم."
+" بهترین لپ تاپ ها با بهترین قیمت ها.ما امیدواریم برای شما مشتریان عزیز خدمات "
+"بهتری ارائه کنیم."
 
 #: .\product\templates\product\landing.html:30
 msgid "Hope you enjoy!"
@@ -559,21 +561,19 @@ msgstr "امیدواریم لذت ببرید!"
 msgid "Get Started"
 msgstr "شروع کنید"
 
-#: .\product\views.py:54
+#: .\product\views.py:55
 msgid "Upload will be started soon"
 msgstr "آپلود بزودی شروع خواهد شد"
 
-#: .\product\views.py:56
-#, fuzzy
-#| msgid "Something went wrong. Correct the mistakes and try again."
+#: .\product\views.py:57
 msgid "Something went wrong. Please try again"
 msgstr "یک چیزی اشتباه شده. لطفا اشتباهات را برطرف کنید و دوباره تلاش کنید."
 
-#: .\product\views.py:64
+#: .\product\views.py:65
 msgid "your object will be deleted soon"
 msgstr "فایل شما بزودی حذف خواهد شد"
 
-#: .\product\views.py:73
+#: .\product\views.py:74
 msgid "Download will be started soon"
 msgstr "دانلود بزودی شروع خواهد شد"
 
@@ -886,7 +886,7 @@ msgstr ""
 #: .\venv\Lib\site-packages\crispy_forms\tests\test_form_helper.py:140
 #: .\venv\Lib\site-packages\django\forms\fields.py:91
 msgid "This field is required."
-msgstr ""
+msgstr "این فیلد اجباری است."
 
 #: .\venv\Lib\site-packages\crispy_forms\tests\test_layout.py:392
 msgid "i18n text"
@@ -899,11 +899,11 @@ msgstr ""
 #: .\venv\Lib\site-packages\crispy_forms\tests\test_layout_objects.py:143
 #: .\venv\Lib\site-packages\django\core\validators.py:22
 msgid "Enter a valid value."
-msgstr ""
+msgstr "یک مقدار معتبر وارد کنید."
 
 #: .\venv\Lib\site-packages\django\contrib\messages\apps.py:15
 msgid "Messages"
-msgstr ""
+msgstr "پیام ها"
 
 #: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
 msgid "Site Maps"
@@ -911,7 +911,7 @@ msgstr ""
 
 #: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
 msgid "Static Files"
-msgstr ""
+msgstr "فایل های استاتیک"
 
 #: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
 msgid "Syndication"
@@ -925,80 +925,83 @@ msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\paginator.py:50
 msgid "That page number is not an integer"
-msgstr ""
+msgstr "آن شماره صفحه یک عدد صحیح نیست"
 
 #: .\venv\Lib\site-packages\django\core\paginator.py:52
 msgid "That page number is less than 1"
-msgstr ""
+msgstr "آن شماره صفحه کمتر از 1 است"
 
 #: .\venv\Lib\site-packages\django\core\paginator.py:57
 msgid "That page contains no results"
-msgstr ""
+msgstr "آن صفحه نتیجه ای ندارد"
 
 #: .\venv\Lib\site-packages\django\core\validators.py:104
 #: .\venv\Lib\site-packages\django\forms\fields.py:751
 msgid "Enter a valid URL."
-msgstr ""
+msgstr "یک URL معتبر وارد کنید."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:164
 msgid "Enter a valid integer."
-msgstr ""
+msgstr "یک عدد صحیح معتبر وارد کنید."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:175
 msgid "Enter a valid email address."
-msgstr ""
+msgstr "یک آدرس ایمیل معتبر وارد کنید."
 
 #. Translators: "letters" means latin letters: a-z and A-Z.
 #: .\venv\Lib\site-packages\django\core\validators.py:256
 msgid ""
 "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
 msgstr ""
+"یک \"slug\" معتبر وارد کنید که شامل حروف، اعداد، زیرخط یا خط تیره باشد."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:264
 msgid ""
 "Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
 "hyphens."
 msgstr ""
+"یک \"slug\" معتبر وارد کنید که شامل حروف یونیکد، اعداد، زیرخط یا خط تیره "
+"باشد."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:276
 #: .\venv\Lib\site-packages\django\core\validators.py:284
 #: .\venv\Lib\site-packages\django\core\validators.py:313
 msgid "Enter a valid IPv4 address."
-msgstr ""
+msgstr "یک آدرس IPv4 معتبر وارد کنید."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:293
 #: .\venv\Lib\site-packages\django\core\validators.py:314
 msgid "Enter a valid IPv6 address."
-msgstr ""
+msgstr "یک آدرس IPv6 معتبر وارد کنید."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:305
 #: .\venv\Lib\site-packages\django\core\validators.py:312
 msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
+msgstr "یک آدرس IPv4 یا IPv6 معتبر وارد کنید."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:348
 msgid "Enter only digits separated by commas."
-msgstr ""
+msgstr "یک عدد وارد کنید که با کاما از هم جدا شده باشد."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:354
 #, python-format
 msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
+msgstr "مطمئن شوید که این مقدار %(limit_value)s است (اون %(show_value)s است)."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:389
 #, python-format
 msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
+msgstr "اطمینان حاصل کنید که این مقدار کمتر یا مساوی %(limit_value)s است."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:398
 #, python-format
 msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
+msgstr "اطمینان حاصل کنید که این مقدار بزرگتر یا مساوی %(limit_value)s است."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:407
 #, python-format
 msgid "Ensure this value is a multiple of step size %(limit_value)s."
-msgstr ""
+msgstr "اطمینان حاصل کنید که این مقدار یک مضرب از %(limit_value)s است."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:417
 #, python-format
@@ -1026,21 +1029,21 @@ msgstr[1] ""
 #: .\venv\Lib\site-packages\django\forms\fields.py:347
 #: .\venv\Lib\site-packages\django\forms\fields.py:386
 msgid "Enter a number."
-msgstr ""
+msgstr "یک عدد وارد کنید."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:460
 #, python-format
 msgid "Ensure that there are no more than %(max)s digit in total."
 msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "اطمینان حاصل کنید که کلیه اعداد بیشتر از %(max)s عدد نباشند."
+msgstr[1] "اطمینان حاصل کنید که کلیه اعداد بیشتر از %(max)s عدد نباشند."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:465
 #, python-format
 msgid "Ensure that there are no more than %(max)s decimal place."
 msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "اطمینان حاصل کنید که کلیه اعداد بیشتر از %(max)s عدد اعشار نباشند."
+msgstr[1] "اطمینان حاصل کنید که کلیه اعداد بیشتر از %(max)s عدد اعشار نباشند."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:470
 #, python-format
@@ -1049,7 +1052,11 @@ msgid ""
 msgid_plural ""
 "Ensure that there are no more than %(max)s digits before the decimal point."
 msgstr[0] ""
+"اطمینان حاصل کنید که کلیه اعداد بیشتر از %(max)s عدد قبل از نقطه اعشار "
+"نباشند."
 msgstr[1] ""
+"اطمینان حاصل کنید که کلیه اعداد بیشتر از %(max)s عدد قبل از نقطه اعشار "
+"نباشند."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:539
 #, python-format
@@ -1057,43 +1064,45 @@ msgid ""
 "File extension “%(extension)s” is not allowed. Allowed extensions are: "
 "%(allowed_extensions)s."
 msgstr ""
+"اکستنشن فایل “%(extension)s” مجاز نیست. اکستنشن های مجاز: "
+"%(allowed_extensions)s."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:600
 msgid "Null characters are not allowed."
-msgstr ""
+msgstr "کاراکتر های خالی مجاز نیستند."
 
 #: .\venv\Lib\site-packages\django\db\models\base.py:1401
 #: .\venv\Lib\site-packages\django\forms\models.py:899
 msgid "and"
-msgstr ""
+msgstr "و"
 
 #: .\venv\Lib\site-packages\django\db\models\base.py:1403
 #, python-format
 msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
+msgstr "مدل %(model_name)s با این %(field_labels)s قبلاً وجود داشته است."
 
 #: .\venv\Lib\site-packages\django\db\models\constraints.py:17
 #, python-format
 msgid "Constraint “%(name)s” is violated."
-msgstr ""
+msgstr "محدودیت “%(name)s” نقض شده است."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:129
 #, python-format
 msgid "Value %(value)r is not a valid choice."
-msgstr ""
+msgstr "مقدار %(value)r یک انتخاب معتبر نیست."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:130
 msgid "This field cannot be null."
-msgstr ""
+msgstr "این فیلد نمی تواند خالی باشد."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:131
 msgid "This field cannot be blank."
-msgstr ""
+msgstr "این فیلد نمی تواند خالی باشد."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:132
 #, python-format
 msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
+msgstr "مدل %(model_name)s با این %(field_label)s قبلاً وجود داشته است."
 
 #. Translators: The 'lookup_type' is one of 'date', 'year' or
 #. 'month'. Eg: "Title must be unique for pub_date year"
@@ -1102,25 +1111,27 @@ msgstr ""
 msgid ""
 "%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
 msgstr ""
+"برچسب %(field_label)s باید برای %(date_field_label)s %(lookup_type)s منحصر "
+"به فرد باشد."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:174
 #, python-format
 msgid "Field of type: %(field_type)s"
-msgstr ""
+msgstr "نوع فیلد: %(field_type)s"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1065
 #, python-format
 msgid "“%(value)s” value must be either True or False."
-msgstr ""
+msgstr "مقدار “%(value)s” باید یا True یا False باشد."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1066
 #, python-format
 msgid "“%(value)s” value must be either True, False, or None."
-msgstr ""
+msgstr "مقدار “%(value)s” باید یا True یا False یا None باشد."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1068
 msgid "Boolean (Either True or False)"
-msgstr ""
+msgstr "بولین (یا True یا False)"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1118
 #, python-format
@@ -2093,3 +2104,20 @@ msgstr ""
 #, python-format
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr ""
+
+# #############################
+# Extra Words
+#~ msgid "Laptop"
+#~ msgstr "لپ‌تاپ"
+
+#~ msgid "Mobile"
+#~ msgstr "موبایل"
+
+#~ msgid "Lenovo"
+#~ msgstr "لنوو"
+
+#~ msgid "Apple"
+#~ msgstr "اپل"
+
+#~ msgid "MSI"
+#~ msgstr "ام‌اس‌آی"

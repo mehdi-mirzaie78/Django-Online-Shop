@@ -15,8 +15,8 @@ class Coupon(BaseModel):
                                            verbose_name=_("Discount"))
 
     class Meta:
-        verbose_name = _('coupon')
-        verbose_name_plural = _('coupons')
+        verbose_name = _('Coupon')
+        verbose_name_plural = _('Coupons')
 
     def __str__(self):
         return self.code
@@ -42,14 +42,14 @@ class Order(BaseModel):
         max_length=10,
         validators=[RegexValidator(r'\d{10}', message='Invalid Postal code')],
         verbose_name=_("Postal Code"))
-    STATUS = [('pending', 'PENDING'), ('checking', 'CHECKING'), ('sending', 'SENDING'), ('done', 'DONE')]
+    STATUS = [('pending', _('PENDING')), ('checking', _('CHECKING')), ('sending', _('SENDING')), ('done', _('DONE'))]
     status = models.CharField(max_length=30, choices=STATUS, default='PENDING', verbose_name=_("Status"))
     transaction_code = models.CharField(max_length=20, null=True, editable=False, verbose_name=_("Transaction Code"))
 
     class Meta:
         ordering = ('is_paid', '-updated')
-        verbose_name = _('order')
-        verbose_name_plural = _('orders')
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
 
     def __str__(self):
         return f'{self.customer} - {self.id}'
@@ -73,7 +73,7 @@ class OrderItem(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_("Product"))
     price = models.PositiveIntegerField(verbose_name=_("Price"))
     quantity = models.PositiveIntegerField(default=1, verbose_name=_("Quantity"))
-    STATUS = [('ok', 'OK'), ('no', 'NO'), ('supplying', 'SUPPLYING')]
+    STATUS = [('ok', _('OK')), ('no', _('NO')), ('supplying', _('SUPPLYING'))]
     status = models.CharField(max_length=30, choices=STATUS, default='OK', verbose_name=_("Status"))
 
     class Meta:

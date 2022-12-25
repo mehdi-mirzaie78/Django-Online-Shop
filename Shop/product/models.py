@@ -16,8 +16,8 @@ class Category(BaseModel):
 
     class Meta:
         ordering = ('is_sub', 'name',)
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
+        verbose_name = _('category')
+        verbose_name_plural = _('categories')
 
     def __str__(self):
         return self.name
@@ -69,7 +69,7 @@ class Product(BaseModel):
     def image_tag(self):
         return mark_safe(f'<img src="{self.image.url}" width="250" height="250" />')
 
-    image_tag.short_description = 'Image'
+    image_tag.short_description = _('Image')
 
 
 class Comment(BaseModel):
@@ -77,6 +77,10 @@ class Comment(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='pcomments', verbose_name=_('Product'))
     title = models.CharField(max_length=120, verbose_name=_('Title'))
     body = models.TextField(verbose_name=_('Body'))
+
+    class Meta:
+        verbose_name = _('comment')
+        verbose_name_plural = _('comments')
 
     def __str__(self):
         return f'{self.customer} commented on {self.product}'
