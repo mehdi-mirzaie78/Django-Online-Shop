@@ -15,7 +15,7 @@
 
 {% block content %}
 	<div class="container">
-		<br><br><br><br><br>
+		<br><br><br>
 		<div class="col-md-6 mx-auto my-auto justify-content-space-between">
 			<div class="card bg-dark text-white text-center" style="opacity: 90%;">
 				<h1 class="card-header"><img src="/static/img/laptop.png" width="55 px" height="50 px" alt="icon">
@@ -24,10 +24,10 @@
 				<div class="p-4 mb-2 bg-dark text-white">
 					<h2 class="text-center text-primary">{% translate 'Welcome to your website' %}</h2>
 					<br>
-					<p style="font-size:20px;">{% translate 'The best laptops with the best prices. We hope to provide better service for you	dear customers.' %}</p>
+					<p style="font-size:20px;" dir="auto">{% translate 'The best laptops with the best prices. We hope to provide better services for you	dear customers.' %}</p>
 					<br><br>
 					<div class="row my-auto px-4">
-						<p class="col-md-6 text-start fw-bold" style="font-size:22px">{% translate 'Hope you enjoy!' %}</p>
+						<p class="col-md-6 text-start fw-bold" style="font-size:22px" dir="auto">{% translate 'Hope you enjoy!' %}</p>
 						<p class="col-md-6 text-end"><a class="btn btn-primary " href="{% url 'product:home' %}" role="button">
 							{% translate 'Get Started' %}</a></p>
 					</div>
