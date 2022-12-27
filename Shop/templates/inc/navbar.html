@@ -7,7 +7,7 @@
 			<span>{% translate 'TechnoMark' %}</span></a>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 
-			<div class="navbar-nav col-9">
+			<div class="navbar-nav col-8">
 				<a class="nav-link active" href="{% url 'product:home' %}"><i
 								class="fa-solid fa-house-user"></i> {% translate 'Home' %}</a>
 				{% if request.user.is_authenticated %}
@@ -31,7 +31,7 @@
 
 				<a class="nav-link active btn btn-primary-outline" href="{% url 'change_language' %}?lang=fa&next=/fa/{{ request.path|slice:'4:' }}">{% translate 'FA' %}</a>
 			</div>
-			<div class="navbar-nav col-3 justify-content-end">
+			<div class="navbar-nav col-4 justify-content-end">
 				<a class="nav-link active" href="#"><i class="fa-solid fa-cart-plus"></i> {% translate 'Cart' %} <span
 								class="btn btn-danger px-2 py-0 rounded-circle"></span> </a>
 				{% if request.user.is_authenticated %}
