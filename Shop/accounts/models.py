@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import UserManager
 from datetime import datetime, timedelta
 import pytz
-from django.core.validators import RegexValidator
 from core.models import BaseModel
 from django.utils.translation import gettext_lazy as _
 from core.utils import phone_regex_validator
@@ -52,6 +51,10 @@ class OtpCode(models.Model):
     class Meta:
         verbose_name = _('Otp Code')
         verbose_name_plural = _('Otp Codes')
+
+    def save(self, *args, **kwargs):
+        self.phone_number = '0' + self.phone_number[3:] if len(self.phone_number) == 13 else self.phone_number
+        super(OtpCode, self).save(*args, **kwargs)
 
     @classmethod
     def is_code_available(cls, phone_number):
