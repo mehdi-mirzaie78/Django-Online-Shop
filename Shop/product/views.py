@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import Product, Category
-from .forms import ProductSearchForm, AddToCartForm, UploadForm
+from .forms import ProductSearchForm, UploadForm
+from orders.forms import AddToCartForm
 from . import tasks
 from django.contrib import messages
 from utils import IsAdminUserMixin
