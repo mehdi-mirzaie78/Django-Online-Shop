@@ -47,3 +47,7 @@ class Cart:
 
     def get_total_price(self):
         return sum(item['total_price'] for item in self)
+
+    def clear(self):
+        del self.session[CART_SESSION_ID]
+        self.save()
