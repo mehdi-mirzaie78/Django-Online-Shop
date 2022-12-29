@@ -16,6 +16,8 @@ urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('', include('product.urls', namespace='product')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
+    path('orders/', include('orders.urls', namespace='orders')),
+    path('customers/', include('customers.urls', namespace='customers')),
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
