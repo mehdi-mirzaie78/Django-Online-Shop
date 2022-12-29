@@ -36,10 +36,10 @@ class Order(BaseModel):
     discount = models.PositiveIntegerField(blank=True, null=True, default=0, editable=False, verbose_name=_("Discount"))
 
     # city and body is for address fields
-    city = models.CharField(max_length=20, verbose_name=_("City"))
-    body = models.CharField(max_length=120, verbose_name=_("Address"))
+    city = models.CharField(max_length=20, null=True, blank=True, verbose_name=_("City"))
+    body = models.CharField(max_length=120, null=True, blank=True, verbose_name=_("Address"))
     postal_code = models.CharField(
-        max_length=10,
+        max_length=10, null=True, blank=True,
         validators=[RegexValidator(r'\d{10}', message='Invalid Postal code')],
         verbose_name=_("Postal Code"))
     STATUS = [('pending', _('PENDING')), ('checking', _('CHECKING')), ('sending', _('SENDING')), ('done', _('DONE'))]
