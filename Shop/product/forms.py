@@ -9,10 +9,5 @@ class ProductSearchForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control col-12 py-1', 'placeholder': _('Search')}))
 
 
-class AddToCartForm(forms.Form):
-    number = forms.IntegerField(min_value=1, max_value=3, label='',
-                                widget=forms.NumberInput(attrs={'class': 'form-control'}))
-
-
 class UploadForm(forms.Form):
     file = forms.FileField(label='', widget=forms.FileInput(attrs={'class': 'form-control'}))
