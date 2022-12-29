@@ -7,71 +7,86 @@
 {% block title %}{% translate 'Profile Page' %}{% endblock %}
 
 {% block content %}
-	<div class="row mx-2">
+    <div class="row mx-2">
 
-		<div class="col-md-4">
-			<div class="card">
-				<div class="card-header mt-2">
-					<h4 class="text-center">{{ customer }}</h4>
-				</div>
-				<div class="card-body text-center">
-					<img src="{{ customer.image.url }}" class="img-fluid w-50 rounded-circle">
-					<hr>
-				</div>
-				<a class="btn btn-outline-danger w-25 mx-auto" href="{% url 'accounts:user_profile_clear_image' %}">{% translate 'Clear' %}</a>
-				<form action="" method="post" class="px-4 py-3" enctype='multipart/form-data' novalidate>
-					{% csrf_token %}
-					{{ form.as_p }}
-					<div class="text-center">
-						<button type="submit" class="btn btn-primary col-5 mt-3">{% translate 'Update' %}</button>
-					</div>
-				</form>
-			</div>
-		</div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header mt-2">
+                    <h4 class="text-center">{{ customer }}</h4>
+                </div>
+                <div class="card-body text-center">
+                    <img src="{{ customer.image.url }}" class="img-fluid w-50 rounded-circle">
+                    <hr>
+                </div>
+                <a class="btn btn-outline-danger w-25 mx-auto"
+                   href="{% url 'accounts:user_profile_clear_image' %}">{% translate 'Clear' %}</a>
+                <form action="" method="post" class="px-4 py-3" enctype='multipart/form-data' novalidate>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary col-5 mt-3">{% translate 'Update' %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-		<div class="col-md-8">
+        <div class="col-md-8">
 
-			<div class="card mb-4">
-				<div class="card-header mt-2">
+            <div class="card mb-4">
+                <div class="card-header mt-2">
 
 
-					<h4 class="text-center">
-						<img src="/static/img/laptop.png" width="45px" height="40px" alt="icon"> {% translate 'New Orders' %}
-					</h4>
-				</div>
-				<div class="card-body text-center">
+                    <h4 class="text-center">
+                        <img src="/static/img/laptop.png" width="45px" height="40px"
+                             alt="icon"> {% translate 'New Orders' %}
+                    </h4>
+                </div>
+                <div class="card-body text-center">
 
-				</div>
-			</div>
+                </div>
+            </div>
 
-			<div class="card mb-4">
-				<div class="card-header mt-2">
-					<h4 class="text-center">
-						<img src="/static/img/laptop.png" width="45px" height="40px" alt="icon"> {% translate 'Old Orders' %}
-					</h4>
-				</div>
-				<div class="card-body text-center">
-				</div>
-			</div>
+            <div class="card mb-4">
+                <div class="card-header mt-2">
+                    <h4 class="text-center">
+                        <img src="/static/img/laptop.png" width="45px" height="40px"
+                             alt="icon"> {% translate 'Old Orders' %}
+                    </h4>
+                </div>
+                <div class="card-body text-center">
+                </div>
+            </div>
 
-			<div class="card mb-4">
-				<div class="card-header mt-2">
-					<h4 class="text-center">
-						<img src="/static/img/laptop.png" width="45px" height="40px" alt="icon"> {% translate 'Addresses' %}
-					</h4>
-				</div>
-				<div class="card-body text-center">
-					{% if addresses %}
-						{% for address in addresses %}
-							<p>{{ address }} - {{ address.postal_code }}</p>
-						{% endfor %}
-					{% endif %}
-					<a href="#" class="btn btn-primary col-2">{% translate 'Add' %}</a>
-					{#					<a href="#" class="btn btn-danger col-2">Remove</a>#}
-				</div>
-			</div>
+            <div class="card mb-4">
+                <div class="card-header mt-2">
+                    <h4 class="text-center">
+                        <img src="/static/img/laptop.png" width="45px" height="40px"
+                             alt="icon"> {% translate 'Addresses' %}
+                    </h4>
+                </div>
+                <div class="card-body text-center">
+                    {% if addresses %}
+                        {% for address in addresses %}
+                            <div class="row mb-2">
+                                <p class="col-6">{{ address }} - {{ address.postal_code }}</p>
+                                <div class="col-6 text-end">
+                                    <a href="{% url 'customers:address_delete' address.id %}"
+                                       class="py-1 mx-1 btn btn-outline-danger">{% translate 'Delete' %}</a>
 
-		</div>
 
-	</div>
+                                    <a href="{% url 'customers:address_update' address.id %}"
+                                       class="py-1 mx-1 btn btn-outline-info">{% translate 'Update' %}</a>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    {% endif %}
+                    <a href="{% url 'customers:address_create' %}"
+                       class="btn btn-primary col-2">{% translate 'Add' %}</a>
+                    {#					<a href="#" class="btn btn-danger col-2">Remove</a>#}
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
