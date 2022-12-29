@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block title %}{% translate 'Cart' %}{% endblock %}
+
+
+{% block content %}
+
+    <table class="table table-info">
+        <thead>
+        <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col">{% translate 'Image' %}</th>
+            <th scope="col">{% translate 'Name' %}</th>
+            <th scope="col">{% translate 'Quntity' %}</th>
+            <th scope="col">{% translate 'Unit Price' %}</th>
+            <th scope="col">{% translate 'Total Price' %}</th>
+            <th scope="col">{% translate 'Discount' %}</th>
+            <th scope="col">{% translate 'Remove' %}</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+
+        {% for item in cart %}
+
+            <tr class="text-center">
+                <th scope="row" class="align-middle">{{ forloop.counter }}</th>
+                <td><img src="{{ item.image.url }}" alt="{{ item.product }}" width="150" height="150"
+                         style="object-fit: scale-down"></td>
+
+                <td class="align-middle">{{ item.product }}</td>
+                <td class="align-middle">{{ item.quantity }}</td>
+                <td class="align-middle">$ {{ item.price }}</td>
+                <td class="align-middle">$ {{ item.total_price }}</td>
+                <td class="align-middle">$ {{ item.discount_price }}</td>
+                <td class="align-middle"><a href="{% url 'orders:cart_remove' item.product.id %}"><img src="{% static 'img/delete.png' %}" alt="delete" width="30px" height="30px"></a></td>
+
+            </tr>
+
+
+        {% endfor %}
+
+        <tr class="fw-bold text-center">
+			<td></td>
+            <td>Total</td>
+			<td colspan="3"></td>
+			<td>{{ cart.get_total_price }}</td>
+			<td colspan="2"></td>
+		</tr>
+
+        </tbody>
+    </table>
+
+    <a href="{% url 'orders:order_create' %}" class="btn btn-primary">{% translate 'Checkout' %}</a>
+
+{% endblock %}
