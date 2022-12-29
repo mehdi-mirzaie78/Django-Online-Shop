@@ -31,6 +31,7 @@ THIRD_PARTY_APPS = [
     'django_nose',
     'crispy_forms',
     'storages',
+    'django_celery_beat',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
