@@ -38,11 +38,25 @@
 
                     <h4 class="text-center">
                         <img src="/static/img/laptop.png" width="45px" height="40px"
-                             alt="icon"> {% translate 'New Orders' %}
+                             alt="icon"> {% translate 'Unpaid Orders' %}
                     </h4>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body">
+                    {% for order in unpaid_orders %}
+                        <div class="row my-2">
+                            <div class="col-md-9">
+                                <p class="my-2">{{ order }}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{% url 'orders:order_delete' order.id %}"
+                                   class="btn btn-outline-danger">{% translate 'Delete' %}</a>
 
+                                <a href="{% url 'orders:order_details' order.id %}"
+                                   class="mx-1 btn btn-outline-secondary">{% translate 'Details' %}</a>
+                            </div>
+                        </div>
+
+                    {% endfor %}
                 </div>
             </div>
 
@@ -50,10 +64,26 @@
                 <div class="card-header mt-2">
                     <h4 class="text-center">
                         <img src="/static/img/laptop.png" width="45px" height="40px"
-                             alt="icon"> {% translate 'Old Orders' %}
+                             alt="icon"> {% translate 'Paid Orders' %}
                     </h4>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body">
+
+                    {% for order in paid_orders %}
+                        <div class="row my-2">
+                            <div class="col-md-10">
+                                <p class="my-2">{{ order }}</p>
+                            </div>
+                            <div class="col-md-2 text-end">
+
+                                <a href="{% url 'orders:order_details' order.id %}"
+                                   class="mx-1 btn btn-outline-secondary">{% translate 'Details' %}</a>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+
                 </div>
             </div>
 
@@ -64,11 +94,11 @@
                              alt="icon"> {% translate 'Addresses' %}
                     </h4>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body">
                     {% if addresses %}
                         {% for address in addresses %}
                             <div class="row mb-2">
-                                <p class="col-6">{{ address }} - {{ address.postal_code }}</p>
+                                <p class="col-6">{{ address }}</p>
                                 <div class="col-6 text-end">
                                     <a href="{% url 'customers:address_delete' address.id %}"
                                        class="py-1 mx-1 btn btn-outline-danger">{% translate 'Delete' %}</a>
@@ -81,9 +111,11 @@
 
                         {% endfor %}
                     {% endif %}
-                    <a href="{% url 'customers:address_create' %}"
-                       class="btn btn-primary col-2">{% translate 'Add' %}</a>
-                    {#					<a href="#" class="btn btn-danger col-2">Remove</a>#}
+
+                    <div class="text-center">
+                        <a href="{% url 'customers:address_create' %}"
+                           class="btn btn-primary col-2">{% translate 'Add' %}</a>
+                    </div>
                 </div>
             </div>
         </div>
