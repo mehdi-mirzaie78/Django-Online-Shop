@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator, RegexVa
 from core.models import BaseModel
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from core.utils import phone_regex_validator
 
 
 class Coupon(BaseModel):
@@ -42,6 +43,7 @@ class Order(BaseModel):
         max_length=10, null=True, blank=True,
         validators=[RegexValidator(r'\d{10}', message='Invalid Postal code')],
         verbose_name=_("Postal Code"))
+    phone_number = models.CharField(max_length=13, null=True, blank=True, validators=[phone_regex_validator])
     STATUS = [('pending', _('PENDING')), ('checking', _('CHECKING')), ('sending', _('SENDING')), ('done', _('DONE'))]
     status = models.CharField(max_length=30, choices=STATUS, default='PENDING', verbose_name=_("Status"))
     transaction_code = models.CharField(max_length=20, null=True, editable=False, verbose_name=_("Transaction Code"))
@@ -52,7 +54,7 @@ class Order(BaseModel):
         verbose_name_plural = _('Orders')
 
     def __str__(self):
-        return f'{self.customer} - {self.id}'
+        return f'Order: {self.id} - {self.updated.date()} - {self.status}'
 
     def apply_coupon(self):
         self.discount = self.coupon.discount if self.coupon else 0
