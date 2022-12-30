@@ -56,6 +56,6 @@
         </tbody>
     </table>
 
-    <a href="{% url 'orders:order_create' %}" class="btn btn-primary">{% translate 'Checkout' %}</a>
+    <a href="{% url 'orders:order_create' %}" class="btn btn-primary {% if cart|length == 0 %} disabled {% endif %} ">{% translate 'Checkout' %}</a>
 
 {% endblock %}
