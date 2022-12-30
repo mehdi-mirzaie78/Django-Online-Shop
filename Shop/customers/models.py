@@ -64,4 +64,4 @@ class Address(BaseModel):
         verbose_name_plural = _('Addresses')
 
     def __str__(self):
-        return f'{self.city} - {self.body}'
+        return f'{self.city} - {self.body} - {self.postal_code}'
