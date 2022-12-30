@@ -155,6 +155,8 @@ class UserProfileView(LoginRequiredMixin, View):
         self.user = request.user
         self.customer = request.user.customer
         self.addresses = Address.objects.filter(customer=self.customer)
+        self.unpaid_orders = self.customer.orders.filter(is_paid=False)
+        self.paid_orders = self.customer.orders.filter(is_paid=True)
         return super().setup(request, *args, **kwargs)
 
     def get(self, request):
@@ -163,7 +165,8 @@ class UserProfileView(LoginRequiredMixin, View):
             initial={'full_name': self.user.full_name, 'email': self.user.email,
                      'phone_number': self.user.phone_number})
         return render(
-            request, self.template_name, {'form': form, 'customer': self.customer, 'addresses': self.addresses})
+            request, self.template_name, {'form': form, 'customer': self.customer, 'addresses': self.addresses,
+                                          'unpaid_orders': self.unpaid_orders, 'paid_orders': self.paid_orders})
 
     def post(self, request):
         form = self.form_class(request.POST, files=request.FILES, instance=self.customer)
