@@ -6,14 +6,17 @@ from product.models import Product
 from .forms import AddToCartForm, ChooseAddressForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Order, OrderItem
-from customers.models import Customer, Address
+from customers.models import Customer
 from django.utils.translation import gettext_lazy as _
+from product.models import Product
 
 
 class CartView(View):
     def get(self, request):
+        customer = request.user.customer
+        unpaid_orders = customer.orders.filter(is_paid=False)
         cart = Cart(request)
-        return render(request, 'orders/cart.html', {'cart': cart})
+        return render(request, 'orders/cart.html', {'cart': cart, 'unpaid_orders': unpaid_orders})
 
 
 class CartAddView(View):
@@ -50,6 +53,42 @@ class OrderCreateView(LoginRequiredMixin, View):
         return redirect('orders:order_details', order.id)
 
 
+class OrderUpdateView(LoginRequiredMixin, View):
+    def get(self, request, order_id):
+        customer = get_object_or_404(Customer, user=request.user)
+        order = Order.objects.filter(customer=customer, id=order_id)
+
+        order = order.get()
+        cart = Cart(request)
+
+        order_items = OrderItem.objects.filter(order=order)
+
+        for item in cart:
+            # if item is not in order_items create an order_item for it
+            if not order_items.filter(product=item['product']).exists():
+                OrderItem.objects.create(
+                    order=order,
+                    product=item['product'],
+                    price=item['price'],
+                    quantity=item['quantity'],
+                )
+
+            # if item of cart in order_items: Update the quantity of the order_item
+            elif order_items.filter(product=item['product']).exists():
+                order_item = order_items.get(product=item['product'])
+                order_item.quantity = item['quantity']
+                order_item.save()
+
+        # if there is an order_item which is not in cart items remove order_item
+        for orderitem in order_items:
+            product = orderitem.product
+            if str(product.id) not in cart.cart:
+                orderitem.delete()
+
+        cart.clear()
+        return redirect('orders:order_details', order.id)
+
+
 class OrderDetailView(LoginRequiredMixin, View):
     form_class = ChooseAddressForm
     template_name = 'orders/order_details.html'
@@ -71,13 +110,10 @@ class OrderDetailView(LoginRequiredMixin, View):
         if form.is_valid():
             address = form.cleaned_data['address']
             phone_number = form.cleaned_data['phone_number']
-
-            order.city = address.city
-            order.body = address.body
-            order.postal_code = address.postal_code
-            order.phone_number = phone_number
-            order.save()
+            order.save_address(address, phone_number)
+            messages.success(request, _('Address saved successfully'))
             return redirect('orders:order_details', order.id)
+        messages.error(request, _('Please correct the error below.', 'danger'))
         return render(request, self.template_name, {'order': order, 'form': form})
 
 
@@ -86,12 +122,20 @@ class OrderDeleteView(LoginRequiredMixin, View):
         order = get_object_or_404(Order, id=order_id)
         order.delete()
         messages.success(request, _('Order deleted successfully'), 'info')
-        return redirect('accounts:user_profile')
+        return redirect('orders:cart')
 
 
 class PaymentView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, id=order_id)
+        # TODO: Implement payment
         order.is_paid = True
         order.save()
+
+        items = order.items.all()
+        for item in items:
+            product = Product.objects.get(id=item.product.id)
+            product.stock -= item.quantity
+            product.save()
+
         return redirect('accounts:user_profile')
