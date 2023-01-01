@@ -42,7 +42,7 @@
                             <div class="col-md-6">
                                 {% if product.stock <= 5 %}
                                     <p class="alert alert-danger" style="padding: 8px 25px">
-                                        {% translate 'Only 5 items in the stock is remaining' %}
+                                        {% translate 'Only ' %}{{ product.stock }}{% translate ' items in the stock is remaining' %}
                                     </p>
                                 {% endif %}
                             </div>
