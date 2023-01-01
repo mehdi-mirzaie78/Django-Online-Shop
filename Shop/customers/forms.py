@@ -24,8 +24,3 @@ class AddressUpdateForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['customer']
 
-    def clean_postal_code(self):
-        postal_code = self.cleaned_data['postal_code']
-        if Address.objects.filter(postal_code=postal_code).exists():
-            raise forms.ValidationError(_('Postal code already exists.'))
-        return postal_code
