@@ -44,7 +44,8 @@ class Order(BaseModel):
         validators=[RegexValidator(r'\d{10}', message='Invalid Postal code')],
         verbose_name=_("Postal Code"))
     phone_number = models.CharField(max_length=13, null=True, blank=True, validators=[phone_regex_validator])
-    STATUS = [('pending', _('PENDING')), ('checking', _('CHECKING')), ('sending', _('SENDING')), ('done', _('DONE'))]
+    STATUS = [(_('PENDING'), _('PENDING')), (_('CHECKING'), _('CHECKING')), (_('SENDING'), _('SENDING')),
+              (_('DONE'), _('DONE'))]
     status = models.CharField(max_length=30, choices=STATUS, default='PENDING', verbose_name=_("Status"))
     transaction_code = models.CharField(max_length=20, null=True, editable=False, verbose_name=_("Transaction Code"))
 
@@ -68,6 +69,11 @@ class Order(BaseModel):
 
     def check_address(self):
         return True if self.customer.addresses else False
+
+    def save_address(self, address, phone_number):
+        self.city, self.body, self.postal_code = address.city, address.body, address.postal_code
+        self.phone_number = phone_number
+        self.save()
 
 
 class OrderItem(BaseModel):
