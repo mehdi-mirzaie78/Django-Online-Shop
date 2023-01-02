@@ -32,7 +32,10 @@ THIRD_PARTY_APPS = [
     'crispy_forms',
     'storages',
     'django_celery_beat',
-
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'drf_yasg',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -50,6 +53,8 @@ INSTALLED_APPS = [
                      'product',
                      'orders',
                      'accounts',
+                     'API',
+
                  ] + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -215,4 +220,13 @@ LOGGING = {
             'propagate': True,
         },
     },
+}
+
+# REST FRAMEWORK
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ]
 }
