@@ -2,11 +2,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from product import tasks
 from bucket import bucket
-from product.models import Product
+from product.models import Product, Category
 from .serializers import ProfileSerializer, ProfileUpdateSerializer, AddressSerializer, ProductSerializer, \
-    ProductDetailSerializer
+    ProductDetailSerializer, CategorySerializer
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
+from rest_framework import generics, status
 
 
 # --------------------- accounts app ---------------------
@@ -57,6 +57,11 @@ class AddressCreateAPIView(APIView):
 
 
 # --------------------- product app ---------------------
+class CategoryListAPIView(generics.ListAPIView):
+    queryset = Category.objects.filter(is_sub=False)
+    serializer_class = CategorySerializer
+
+
 class ProductListAPIView(APIView):
 
     def get(self, request):
