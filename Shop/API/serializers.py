@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from customers.models import Customer, Address
+from product.models import Product
 
 
 # --------------------- accounts app ---------------------
@@ -33,3 +34,22 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ('id', 'customer', 'city', 'body', 'postal_code')
+
+
+# --------------------- product app ---------------------
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = (
+            'id', 'name', 'slug', 'image', 'description', 'price_no_discount', 'discount', 'price', 'is_available')
+
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField(read_only=True, many=True)
+    properties = serializers.StringRelatedField(read_only=True, many=True)
+
+    class Meta:
+        model = Product
+        fields = (
+            'id', 'name', 'category', 'properties', 'slug', 'image', 'description',
+            'price_no_discount', 'discount', 'price', 'is_available')
