@@ -1,6 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import ProfileSerializer, ProfileUpdateSerializer, AddressSerializer
+from product import tasks
+from bucket import bucket
+from product.models import Product
+from .serializers import ProfileSerializer, ProfileUpdateSerializer, AddressSerializer, ProductSerializer, \
+    ProductDetailSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
@@ -50,3 +54,46 @@ class AddressCreateAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(customer=customer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# --------------------- product app ---------------------
+class ProductListAPIView(APIView):
+
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(instance=products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ProductDetailAPIView(APIView):
+
+    def get(self, request, slug):
+        product = Product.objects.get(slug=slug)
+        serializer = ProductDetailSerializer(instance=product)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# --------------------- bucket ---------------------
+class BucketListAPIView(APIView):
+
+    def get(self, request):
+        bucket_data = bucket.get_objects()
+        return Response(bucket_data, status=status.HTTP_200_OK)
+
+
+class BucketDeleteAPIView(APIView):
+    def delete(self, request, key):
+        tasks.delete_object_task.delay(key)
+        return Response(status=status.HTTP_200_OK, data={'message': 'object deleted'})
+
+
+class BucketDownloadAPIView(APIView):
+    def get(self, request, key):
+        tasks.download_object_task.delay(key)
+        return Response(status=status.HTTP_200_OK, data={'message': 'object downloaded'})
+
+
+class BucketUploadAPIView(APIView):
+    def get(self, request, key):
+        tasks.upload_object_task.delay(key)
+        return Response(status=status.HTTP_200_OK, data={'message': 'object uploaded'})
