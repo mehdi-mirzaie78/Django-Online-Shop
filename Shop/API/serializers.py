@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from customers.models import Customer, Address
-from product.models import Product
+from product.models import Product, Category
 
 
 # --------------------- accounts app ---------------------
@@ -37,6 +37,16 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 # --------------------- product app ---------------------
+
+class CategorySerializer(serializers.ModelSerializer):
+    sub_categories = serializers.SerializerMethodField()
+    class Meta:
+        model = Category
+        fields = ('id', 'name', 'slug', 'is_sub', 'sub_categories')
+
+    def get_sub_categories(self, obj):
+        return CategorySerializer(obj.scategory.all(), many=True).data
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
