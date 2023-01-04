@@ -17,7 +17,6 @@ class Cart:
         cart = self.cart.copy()
         for product in products:
             cart[str(product.id)]['product'] = product
-            cart[str(product.id)]['price_no_discount'] = product.price_no_discount
             cart[str(product.id)]['image'] = product.image
 
         for item in cart.values():
@@ -30,17 +29,25 @@ class Cart:
         return len([item for item in self])
 
     def add(self, product, quantity):
-        product_id = str(product.id)
-        if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
-        self.cart[product_id]['quantity'] = quantity
-        self.save()
+        if product.is_available:
+            product_id = str(product.id)
+            if product_id not in self.cart:
+                self.cart[product_id] = {}
+            self.cart[product_id]['product'] = product.name
+            self.cart[product_id]['price_no_discount'] = product.price_no_discount
+            self.cart[product_id]['price'] = str(product.price)
+            self.cart[product_id]['quantity'] = quantity
+            self.save()
+            return True
+        return False
 
     def remove(self, product):
         product_id = str(product.id)
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
+            return True
+        return False
 
     def save(self):
         self.session.modified = True
