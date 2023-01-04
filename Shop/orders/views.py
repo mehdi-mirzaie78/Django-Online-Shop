@@ -3,9 +3,9 @@ from django.views import View
 from django.contrib import messages
 from .cart import Cart
 from product.models import Product
-from .forms import AddToCartForm, ChooseAddressForm
+from .forms import AddToCartForm, ChooseAddressApplyCouponForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Coupon
 from customers.models import Customer
 from django.utils.translation import gettext_lazy as _
 from product.models import Product
@@ -90,7 +90,7 @@ class OrderUpdateView(LoginRequiredMixin, View):
 
 
 class OrderDetailView(LoginRequiredMixin, View):
-    form_class = ChooseAddressForm
+    form_class = ChooseAddressApplyCouponForm
     template_name = 'orders/order_details.html'
 
     def setup(self, request, *args, **kwargs):
@@ -111,7 +111,24 @@ class OrderDetailView(LoginRequiredMixin, View):
             address = form.cleaned_data['address']
             phone_number = form.cleaned_data['phone_number']
             order.save_address(address, phone_number)
-            messages.success(request, _('Address saved successfully'))
+            if form.cleaned_data['coupon']:
+                coupon = Coupon.objects.get_active_list().filter(code=form.cleaned_data['coupon'])
+                if coupon.exists():
+                    coupon = coupon.get()
+                    if coupon.is_coupon_valid():
+                        order.coupon = coupon
+                        order.apply_coupon()
+                        order.save()
+                        messages.success(request, _('Coupon applied successfully'), 'info')
+                    else:
+                        messages.error(request, _('Coupon is not valid'), 'danger')
+                else:
+                    messages.error(request, _('Coupon not found'), 'danger')
+            else:
+                order.coupon = None
+                order.discount = 0
+                order.save()
+            messages.info(request, _('Order Information saved successfully'), 'info')
             return redirect('orders:order_details', order.id)
         messages.error(request, _('Please correct the error below.', 'danger'))
         return render(request, self.template_name, {'order': order, 'form': form})
@@ -128,8 +145,11 @@ class OrderDeleteView(LoginRequiredMixin, View):
 class PaymentView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, id=order_id)
+
         # TODO: Implement payment
         order.is_paid = True
+        if order.coupon:
+            order.coupon.deactivate()
         order.save()
 
         items = order.items.all()
