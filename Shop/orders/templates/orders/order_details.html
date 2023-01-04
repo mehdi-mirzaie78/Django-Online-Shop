@@ -2,20 +2,22 @@
 
 {% load i18n %}
 
-{% load crispy_forms_filters %}
-
 {% load static %}
 
 {% block title %} {% translate 'Order Details' %} {% endblock %}
 
 {% block content %}
-    <div class="container col-12 card py-4 px-1">
+    <div class="container col-12 card py-4 px-1" style="background-color:rgba(123,247,255,0.6)">
 
 
         <table class="table table-info w-75 mx-auto">
             <thead>
             <tr>
-                <th colspan="4"><h3 class="text-center">{% translate 'Checkout' %}</h3></th>
+                {% if order.is_paid %}
+                    <th colspan="4"><h3 class="text-center">{% translate 'Receipt' %}</h3></th>
+                {% else %}
+                    <th colspan="4"><h3 class="text-center">{% translate 'Checkout' %}</h3></th>
+                {% endif %}
             </tr>
 
 
@@ -49,7 +51,11 @@
 
             {% endfor %}
 
-            <td colspan="4" class="text-center fw-bold py-4">Total: {{ order.get_total_price }}</td>
+            <td colspan="2" class="text-center fw-bold py-4">Total: {{ order.get_total_price }}</td>
+            <td colspan="2" class="text-center fw-bold py-4">
+                {% if order.coupon %} Discount:
+                    <span class="text-danger" style="font-size:20px">{{ order.discount }}%</span> {% endif %}
+            </td>
 
             </tbody>
         </table>
@@ -57,18 +63,41 @@
 
 
         {% if not order.is_paid %}
-            <h3 class="text-center mb-4">{% translate 'Shipping Address' %}</h3>
-            <div>
-                <form action="" method="post" class="w-75 mx-auto">
-                    {% csrf_token %}
-                    {{ form|crispy }}
 
-                    <button type="submit" class="btn btn-outline-success">Save</button>
-                    <a href="{% url 'customers:address_create' %}" class="btn btn-outline-primary px-2">Add New Address</a>
+            <div>
+                <form action="" method="post" class="w-75 card bg-white px-4 py-2 mx-auto my-2" novalidate>
+                    <h3 class="text-center my-3">{% translate 'Shipping Info' %}</h3>
+                    {% csrf_token %}
+                    {{ form.address.label }}* &nbsp; <small>{{ form.address.help_text }}</small>
+                    <br>
+                    <div class="input-group">
+                        {{ form.address }}
+                        <a href="{% url 'customers:address_create' %}" class="btn btn-outline-primary px-2">Add New
+                            Address</a>
+                    </div>
+                    {{ form.address.errors }}
+                    <br>
+                    {{ form.phone_number.label }}* &nbsp; <small>{{ form.phone_number.help_text }}</small>
+                    <br>
+                    {{ form.phone_number }}
+                    {{ form.phone_number.errors }}
+                    <br>
+                    <h3 class="text-center my-1">{% translate 'Coupon Info' %}</h3>
+                    {{ form.coupon.label }} &nbsp; <small>{{ form.coupon.help_text }}</small>
+                    <br>
+                    {{ form.coupon }}
+                    {{ form.coupon.errors }}
+                    <br>
+                    <div class="text-center">
+                        <button type="submit" class="w-25 btn btn-outline-info">Save</button>
+                        <br><br>
+                        <a href="{% url 'orders:payment' order.id %}" class="btn btn-success col-2 my-2 mb-4">Pay</a>
+
+                    </div>
                 </form>
 
             </div>
-            <a href="{% url 'orders:payment' order.id %}" class="btn btn-success col-1 my-2 mx-auto">Pay</a>
+
         {% else %}
 
 
