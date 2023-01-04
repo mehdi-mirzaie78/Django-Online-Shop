@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from customers.models import Customer, Address
+from orders.models import Order
 from product.models import Product, Category
 
 
@@ -37,15 +38,16 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 # --------------------- product app ---------------------
-
 class CategorySerializer(serializers.ModelSerializer):
     sub_categories = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
         fields = ('id', 'name', 'slug', 'is_sub', 'sub_categories')
 
     def get_sub_categories(self, obj):
         return CategorySerializer(obj.scategory.all(), many=True).data
+
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -63,3 +65,40 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'name', 'category', 'properties', 'slug', 'image', 'description',
             'price_no_discount', 'discount', 'price', 'is_available')
+
+
+# --------------------- orders app ---------------------
+class OrderSerializer(serializers.ModelSerializer):
+    customer = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = (
+            "id", "customer", "is_paid", "discount", "city", "body", "postal_code", "phone_number", "status", "coupon",
+            "transaction_code",
+        )
+
+
+class QuantitySerializer(serializers.Serializer):
+    quantity = serializers.IntegerField()
+
+    def validate_quantity(self, value):
+        if value < 1 or value > 2:
+            raise serializers.ValidationError("Quantity must be greater than 0 and lower than 3")
+        return value
+
+
+class CustomerUnpaidOrdersSerializer(serializers.ModelSerializer):
+    unpaid_orders = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Customer
+        fields = ('id', 'unpaid_orders')
+
+    def get_unpaid_orders(self, obj):
+        if obj:
+            unpaid_orders = obj.orders.filter(is_paid=False)
+            result = OrderSerializer(unpaid_orders, many=True).data
+        else:
+            result = {'unpaid_orders': None}
+        return result
