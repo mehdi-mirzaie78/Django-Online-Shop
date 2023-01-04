@@ -23,4 +23,4 @@ class OrderAdmin(BaseAdmin):
     list_filter = ('is_paid', 'customer')
     search_fields = ('customer',)
     inlines = (OrderItemInline,)
-    readonly_fields = ('city', 'body', 'postal_code')
+    readonly_fields = ('city', 'body', 'postal_code', 'discount')
