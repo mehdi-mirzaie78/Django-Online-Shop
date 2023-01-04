@@ -25,8 +25,8 @@ class Coupon(BaseModel):
     def is_coupon_valid(self):
         now = timezone.now().replace(tzinfo=timezone.utc)
         if self.valid_since < now < self.valid_until:
-            return False
-        return True
+            return True
+        return False
 
 
 class Order(BaseModel):
