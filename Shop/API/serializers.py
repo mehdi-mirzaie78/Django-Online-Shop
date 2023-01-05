@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from customers.models import Customer, Address
-from orders.models import Order
+from orders.models import Order, OrderItem, Coupon
 from product.models import Product, Category, Comment
 
 
@@ -81,15 +81,32 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 # --------------------- orders app ---------------------
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = OrderItem
+        fields = ('product', 'price', 'quantity')
+
+
 class OrderSerializer(serializers.ModelSerializer):
     customer = serializers.StringRelatedField(read_only=True)
+    items = serializers.SerializerMethodField()
+    # coupon = serializers.SerializerMethodField()
+    code = serializers.CharField(required=False)
 
     class Meta:
         model = Order
         fields = (
             "id", "customer", "is_paid", "discount", "city", "body", "postal_code", "phone_number", "status", "coupon",
-            "transaction_code",
+            "code", "transaction_code", "items",
         )
+
+    def get_items(self, obj):
+        items = obj.items.all()
+        return OrderItemSerializer(instance=items, many=True).data
 
 
 class QuantitySerializer(serializers.Serializer):
@@ -106,7 +123,7 @@ class CustomerUnpaidOrdersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ('id', 'unpaid_orders')
+        fields = ('unpaid_orders',)
 
     def get_unpaid_orders(self, obj):
         if obj:
