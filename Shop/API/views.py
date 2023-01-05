@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 
 from customers.models import Address
 from orders.cart import Cart
+from orders.models import Order, OrderItem, Coupon
 from product import tasks
 from bucket import bucket
 from product.models import Product, Category
@@ -179,4 +180,70 @@ class CartAPIView(APIView):
             return Response(data={'message': 'product removed from cart'}, status=status.HTTP_200_OK)
         return Response(data={'message': 'product is not in your cart'}, status=status.HTTP_400_BAD_REQUEST)
 
-# ---------------------------- orders -----------------------------
+
+# ---------------------------- orders app -----------------------------
+
+class OrderCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        cart = Cart(request)
+        customer = request.user.customer
+        order = Order.objects.create(customer=customer)
+        for item in cart:
+            OrderItem.objects.create(
+                order=order,
+                product=item['product'],
+                price=item['price'],
+                quantity=item['quantity']
+            )
+        cart.clear()
+        serializer = OrderSerializer(instance=order)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class OrderCheckoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id)
+        serializer = OrderSerializer(instance=order)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class OrderSaveInfoAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id)
+        print(request.data)
+        serializer = OrderSerializer(instance=order, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        valid_data = serializer.validated_data
+        print(valid_data)
+        if valid_data.get('code'):
+            coupon = Coupon.objects.get_active_list().filter(code=valid_data['code'])
+            if coupon.exists():
+                coupon = coupon.get()
+                serializer.save(coupon=coupon)
+            else:
+
+                return Response({"message": "Error! This Code is used or expired or does not exist."},
+                                status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer.save(coupon=None)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class OrderPayAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id)
+        if order.is_paid:
+            return Response({"message": "Error! This order is paid."}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = OrderSerializer(instance=order, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(is_paid=True)
+        order.coupon.deactivate()
+        return Response(serializer.data, status=status.HTTP_200_OK)
