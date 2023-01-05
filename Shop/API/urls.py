@@ -24,5 +24,10 @@ urlpatterns = [
     # --------------------- orders app ------------------------
     path('cart/', views.CartAPIView.as_view(), name='api_cart'),
     path('cart/add/<int:product_id>/', views.CartAPIView.as_view(), name='api_cart_add'),
-    path('cart/remove/<int:product_id>/', views.CartAPIView.as_view(), name='api_cart_remove')
+    path('cart/remove/<int:product_id>/', views.CartAPIView.as_view(), name='api_cart_remove'),
+    path('order/create/', views.OrderCreateAPIView.as_view(), name='api_order_create'),
+    path('order/checkout/<int:order_id>/', views.OrderCheckoutAPIView.as_view(), name='api_order_checkout'),
+    path('order/save/<int:order_id>/', views.OrderSaveInfoAPIView.as_view(), name='api_order_save_info'),
+    path('order/pay/<int:order_id>/', views.OrderPayAPIView.as_view(), name='api_order_pay'),
+
 ]
