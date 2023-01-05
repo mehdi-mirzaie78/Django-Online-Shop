@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from customers.models import Customer, Address
 from orders.models import Order
-from product.models import Product, Category
+from product.models import Product, Category, Comment
 
 
 # --------------------- accounts app ---------------------
@@ -59,12 +59,25 @@ class ProductSerializer(serializers.ModelSerializer):
 class ProductDetailSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(read_only=True, many=True)
     properties = serializers.StringRelatedField(read_only=True, many=True)
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = (
             'id', 'name', 'category', 'properties', 'slug', 'image', 'description',
-            'price_no_discount', 'discount', 'price', 'is_available')
+            'price_no_discount', 'discount', 'price', 'is_available', 'comments')
+
+    def get_comments(self, obj):
+        return CommentSerializer(obj.pcomments.all(), many=True).data
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    customer = serializers.StringRelatedField(read_only=True)
+    product = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'product', 'customer', 'title', 'body', 'created')
 
 
 # --------------------- orders app ---------------------
