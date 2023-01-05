@@ -57,6 +57,14 @@ class Order(BaseModel):
     def __str__(self):
         return f'Order: {self.id} - {self.updated.date()} - {self.status}'
 
+    def save(self, *args, **kwargs):
+        if self.coupon and self.coupon.is_coupon_valid():
+            self.apply_coupon()
+        else:
+            self.coupon = None
+            self.discount = 0
+        super().save(*args, **kwargs)
+
     def apply_coupon(self):
         self.discount = self.coupon.discount if self.coupon else 0
 
