@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+
+from customers.models import Address
 from orders.cart import Cart
 from product import tasks
 from bucket import bucket
@@ -8,7 +10,7 @@ from product.models import Product, Category
 from .serializers import ProfileSerializer, ProfileUpdateSerializer, AddressSerializer, ProductSerializer, \
     ProductDetailSerializer, CategorySerializer, OrderSerializer, \
     CustomerUnpaidOrdersSerializer, QuantitySerializer, CommentSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import generics, status
 
 
@@ -59,6 +61,26 @@ class AddressCreateAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+class AddressUpdateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, address_id):
+        address = get_object_or_404(Address, customer=request.user.customer, id=address_id)
+        serializer = AddressSerializer(instance=address, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AddressDeleteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, address_id):
+        address = get_object_or_404(Address, customer=request.user.customer, id=address_id)
+        address.delete()
+        return Response({'message': 'Address deleted successfully. No content to show'}, status=status.HTTP_200_OK)
+
+
 # --------------------- product app ---------------------
 class CategoryListAPIView(generics.ListAPIView):
     queryset = Category.objects.filter(is_sub=False)
@@ -97,6 +119,7 @@ class CommentCreateAPIView(APIView):
 
 # --------------------- bucket ---------------------
 class BucketListAPIView(APIView):
+    permission_classes = [IsAdminUser]
 
     def get(self, request):
         bucket_data = bucket.get_objects()
@@ -104,18 +127,24 @@ class BucketListAPIView(APIView):
 
 
 class BucketDeleteAPIView(APIView):
+    permission_classes = [IsAdminUser]
+
     def delete(self, request, key):
         tasks.delete_object_task.delay(key)
         return Response(status=status.HTTP_200_OK, data={'message': 'object deleted'})
 
 
 class BucketDownloadAPIView(APIView):
+    permission_classes = [IsAdminUser]
+
     def get(self, request, key):
         tasks.download_object_task.delay(key)
         return Response(status=status.HTTP_200_OK, data={'message': 'object downloaded'})
 
 
 class BucketUploadAPIView(APIView):
+    permission_classes = [IsAdminUser]
+
     def get(self, request, key):
         tasks.upload_object_task.delay(key)
         return Response(status=status.HTTP_200_OK, data={'message': 'object uploaded'})
