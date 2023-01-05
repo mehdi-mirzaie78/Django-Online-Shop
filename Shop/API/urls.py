@@ -9,6 +9,8 @@ urlpatterns = [
     # --------------------- customers app --------------------
     path('addresses/', views.AddressListAPIView.as_view(), name='api_addresses_list'),
     path('address/create/', views.AddressCreateAPIView.as_view(), name='api_address_create'),
+    path('address/update/<int:address_id>/', views.AddressUpdateAPIView.as_view(), name='api_address_update'),
+    path('address/delete/<int:address_id>/', views.AddressDeleteAPIView.as_view(), name='api_address_delete'),
     # --------------------- product app ----------------------
     path('categories/', views.CategoryListAPIView.as_view(), name='api_categories_list'),
     path('products/', views.ProductListAPIView.as_view(), name='api_products_list'),
