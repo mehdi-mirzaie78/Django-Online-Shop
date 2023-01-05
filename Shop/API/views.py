@@ -7,7 +7,7 @@ from bucket import bucket
 from product.models import Product, Category
 from .serializers import ProfileSerializer, ProfileUpdateSerializer, AddressSerializer, ProductSerializer, \
     ProductDetailSerializer, CategorySerializer, OrderSerializer, \
-    CustomerUnpaidOrdersSerializer, QuantitySerializer
+    CustomerUnpaidOrdersSerializer, QuantitySerializer, CommentSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics, status
 
@@ -81,6 +81,20 @@ class ProductDetailAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class CommentCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, slug):
+        product = get_object_or_404(Product, slug=slug)
+        customer = request.user.customer
+        serializer = CommentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(customer=customer, product=product)
+        result = serializer.data.copy()
+        result.update({'message': 'Your comment has been sent successfully.'})
+        return Response(result, status=status.HTTP_201_CREATED)
+
+
 # --------------------- bucket ---------------------
 class BucketListAPIView(APIView):
 
@@ -135,3 +149,5 @@ class CartAPIView(APIView):
         if cart.remove(product=product):
             return Response(data={'message': 'product removed from cart'}, status=status.HTTP_200_OK)
         return Response(data={'message': 'product is not in your cart'}, status=status.HTTP_400_BAD_REQUEST)
+
+# ---------------------------- orders -----------------------------
