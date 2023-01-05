@@ -2,6 +2,8 @@
 
 {% load i18n %}
 
+{% load crispy_forms_filters %}
+
 {% load static %}
 
 {% block title %}{% translate 'Product Details' %}{% endblock %}
@@ -61,7 +63,7 @@
                                  alt="icon"> {% translate 'Properties' %}
                         </h3>
                     </div>
-                    <div class="card-body p-5">
+                    <div class="card-body px-5 pt-5">
                         <h3>{{ product }}</h3>
                         <p>{{ product.description }}</p>
                         {% for property in properties %}
@@ -71,8 +73,53 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row mx-3">
+
+            <div class="p-2">
+                <br>
+                <div class="card">
+
+                    <div class="card-header text-center">
+                        <h3 class="text-center">
+                            <img src="/static/img/laptop.png" width="45px" height="40px"
+                                 alt="icon"> {% translate 'Comments' %}
+                        </h3>
+                    </div>
+                    <div class="card-body py-2 px-4">
+
+                        <div class="m-2">
+                            {% for comment in comments %}
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <h6 class="col-6">{{ comment.customer }}</h6>
+                                            <small class="col-6 text-end">{{ comment.created }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 class="d-flex">{{ comment.title }}</h6>
+
+                                        <small>{{ comment.body }}</small>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <hr>
+                        <form action="" method="post" class="px-1 mb-2" novalidate>
+                            {% csrf_token %}
+                            {{ form_comment|crispy }}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary w-25">{% translate 'Send' %}</button>
+                            </div>
+                        </form>
+
+                    </div>
 
 
+                </div>
+            </div>
         </div>
     </div>
 
