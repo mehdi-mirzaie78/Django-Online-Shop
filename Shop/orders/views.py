@@ -130,7 +130,7 @@ class OrderDetailView(LoginRequiredMixin, View):
                 order.save()
             messages.info(request, _('Order Information saved successfully'), 'info')
             return redirect('orders:order_details', order.id)
-        messages.error(request, _('Please correct the error below.', 'danger'))
+        messages.error(request, _('Please correct the error below.'), 'danger')
         return render(request, self.template_name, {'order': order, 'form': form})
 
 
