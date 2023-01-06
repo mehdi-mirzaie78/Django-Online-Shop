@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-27 15:23+0330\n"
+"POT-Creation-Date: 2023-01-06 11:36+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr "رمز عبور"
 msgid "last_login"
 msgstr "آخرین ورود"
 
-#: accounts/forms.py:45 accounts/forms.py:90 accounts/models.py:13
+#: accounts/forms.py:45 accounts/forms.py:90 accounts/models.py:12
 msgid "Email"
 msgstr "ایمیل"
 
@@ -53,12 +53,13 @@ msgstr "ایمیل"
 msgid "Full name"
 msgstr "نام و نام خانوادگی"
 
-#: accounts/forms.py:49 accounts/forms.py:91 accounts/models.py:15
-#: accounts/models.py:48 customers/models.py:52
+#: accounts/forms.py:49 accounts/forms.py:91 accounts/models.py:14
+#: accounts/models.py:47 customers/models.py:52
+#: orders/templates/orders/order_details.html:113
 msgid "Phone Number"
 msgstr "شماره تلفن"
 
-#: accounts/forms.py:72 accounts/models.py:49
+#: accounts/forms.py:72 accounts/models.py:48
 msgid "Code"
 msgstr "کد"
 
@@ -66,7 +67,7 @@ msgstr "کد"
 msgid "Phone"
 msgstr "تلفن"
 
-#: accounts/forms.py:88 accounts/models.py:16 customers/models.py:47
+#: accounts/forms.py:88 accounts/models.py:15 customers/models.py:47
 msgid "Full Name"
 msgstr "نام و نام خانوادگی"
 
@@ -82,39 +83,39 @@ msgstr "جنسیت"
 msgid "age"
 msgstr "سن"
 
-#: accounts/models.py:17
+#: accounts/models.py:16
 msgid "Activation Status"
 msgstr "وضعیت فعال سازی"
 
-#: accounts/models.py:18
+#: accounts/models.py:17
 msgid "Admin Status"
 msgstr "وضعیت مدیریت"
 
-#: accounts/models.py:19
+#: accounts/models.py:18
 msgid "Superuser Status"
 msgstr "وضعیت ادمین"
 
-#: accounts/models.py:24 customers/models.py:11
+#: accounts/models.py:23 customers/models.py:11
 msgid "User"
 msgstr "کاربر"
 
-#: accounts/models.py:25
+#: accounts/models.py:24
 msgid "Users"
 msgstr "کاربران"
 
-#: accounts/models.py:44
+#: accounts/models.py:43
 msgid "Role"
 msgstr "نقش"
 
-#: accounts/models.py:50
+#: accounts/models.py:49
 msgid "Created"
 msgstr "ساخته شده"
 
-#: accounts/models.py:53
+#: accounts/models.py:52
 msgid "Otp Code"
 msgstr "کد یکبار مصرف"
 
-#: accounts/models.py:54
+#: accounts/models.py:53
 msgid "Otp Codes"
 msgstr "کدهای یکبار مصرف"
 
@@ -170,29 +171,50 @@ msgstr "برای شما ایمیل ارسال شد. لطفا دستورالعم�
 msgid "Profile Page"
 msgstr "پروفایل"
 
-#: accounts/templates/accounts/profile.html:21
+#: accounts/templates/accounts/profile.html:22
 #: venv/lib/python3.10/site-packages/django/forms/widgets.py:439
 msgid "Clear"
 msgstr "پاک کردن"
 
-#: accounts/templates/accounts/profile.html:26
+#: accounts/templates/accounts/profile.html:27
+#: accounts/templates/accounts/profile.html:108
+#: customers/templates/customers/address_update.html:15
+#: orders/templates/orders/cart.html:109
 msgid "Update"
 msgstr "بروزرسانی"
 
-#: accounts/templates/accounts/profile.html:39
-msgid "New Orders"
-msgstr "سفارشات جدید"
+#: accounts/templates/accounts/profile.html:41
+#: orders/templates/orders/cart.html:83
 
-#: accounts/templates/accounts/profile.html:50
-msgid "Old Orders"
-msgstr "سفارشات پیشین"
+#| msgid "Old Orders"
+msgid "Unpaid Orders"
+msgstr "سفارشات پرداخت نشده"
 
-#: accounts/templates/accounts/profile.html:60 customers/models.py:64
+#: accounts/templates/accounts/profile.html:52
+#: accounts/templates/accounts/profile.html:104
+#: orders/templates/orders/cart.html:87 orders/templates/orders/cart.html:103
+#: product/templates/product/bucket.html:17
+#: venv/lib/python3.10/site-packages/django/forms/formsets.py:496
+msgid "Delete"
+msgstr "حذف"
+
+#: accounts/templates/accounts/profile.html:55
+#: accounts/templates/accounts/profile.html:80
+#: orders/templates/orders/cart.html:88 orders/templates/orders/cart.html:106
+#: product/templates/product/index.html:89
+msgid "Details"
+msgstr "جزئیات"
+
+#: accounts/templates/accounts/profile.html:67
+msgid "Paid Orders"
+msgstr "سفارشات پرداخت شده"
+
+#: accounts/templates/accounts/profile.html:94 customers/models.py:64
 msgid "Addresses"
 msgstr "نشانی ها"
 
-#: accounts/templates/accounts/profile.html:69
-#: product/templates/product/details.html:32
+#: accounts/templates/accounts/profile.html:117
+#: product/templates/product/details.html:41
 msgid "Add"
 msgstr "اضافه کردن"
 
@@ -236,23 +258,48 @@ msgstr "شماره تلفن یا رمز عبور اشتباه است!"
 msgid "You logged out successfully"
 msgstr "خارج شدید"
 
-#: accounts/views.py:177
+#: accounts/views.py:180
 msgid "Your information has updated successfully"
 msgstr "اطلاعات شما با موفقیت به روز شد"
 
-#: accounts/views.py:180
+#: accounts/views.py:183
 msgid "Something went wrong. Correct the mistakes and try again."
-msgstr "یک چیزی اشتباه شده. لطفا اشتباهات را برطرف کنید و دوباره تلاش کنید."
+msgstr "یک چیزی اشتباه شده. لطفا خطاها را برطرف کنید و دوباره تلاش کنید."
 
 #: customers/apps.py:8 customers/models.py:20
 msgid "Customers"
 msgstr "مشتریان"
 
+#: customers/forms.py:8 customers/models.py:58 orders/models.py:40
+#: orders/templates/orders/order_details.html:110
+msgid "City"
+msgstr "شهر"
+
+#: customers/forms.py:9 customers/models.py:63 orders/forms.py:34
+#: orders/models.py:41 orders/templates/orders/order_details.html:111
+msgid "Address"
+msgstr "نشانی"
+
+#: customers/forms.py:11
+msgid "Postal code must be a 10 digit number."
+msgstr ""
+
+#: customers/forms.py:12 customers/models.py:60 orders/models.py:45
+#: orders/templates/orders/order_details.html:112
+msgid "Postal Code"
+msgstr "کد پستی"
+
+#: customers/forms.py:17
+msgid "Postal code already exists."
+msgstr "کد پستی در سایت موجود است"
+
 #: customers/models.py:13
 msgid "Gender"
 msgstr "جنسیت"
 
-#: customers/models.py:14 customers/models.py:37 product/models.py:48
+#: customers/models.py:14 customers/models.py:37
+#: orders/templates/orders/cart.html:19
+#: orders/templates/orders/order_details.html:26 product/models.py:48
 #: product/models.py:72
 #: venv/lib/python3.10/site-packages/django/db/models/fields/files.py:392
 msgid "Image"
@@ -262,130 +309,276 @@ msgstr "تصویر"
 msgid "Age"
 msgstr "سن"
 
-#: customers/models.py:19 customers/models.py:57 orders/models.py:32
+#: customers/models.py:19 customers/models.py:57 orders/models.py:33
 #: product/models.py:76
 msgid "Customer"
 msgstr "مشتری"
-
-#: customers/models.py:58 orders/models.py:39
-msgid "City"
-msgstr "شهر"
 
 #: customers/models.py:59 product/models.py:79
 msgid "Body"
 msgstr "متن"
 
-#: customers/models.py:60 orders/models.py:44
-msgid "Postal Code"
-msgstr "کد پستی"
+#: customers/templates/customers/address_create.html:7
+#: customers/templates/customers/address_create.html:11
 
-#: customers/models.py:63 orders/models.py:40
-msgid "Address"
+msgid "Create Address"
+msgstr "ثبت آدرس"
+
+#: customers/templates/customers/address_create.html:16
+msgid "Save"
+msgstr "ذخیره"
+
+#: customers/templates/customers/address_update.html:7
+#: customers/templates/customers/address_update.html:11
+#| msgid "Address"
+msgid "Update Address"
 msgstr "نشانی"
 
-#: orders/apps.py:8 orders/models.py:52
+#: customers/views.py:30
+msgid "New address added to your address list."
+msgstr "آدرس جدید به لیست آدرس های شما اضافه شد"
+
+#: customers/views.py:32
+#| msgid "Something went wrong. Please try again"
+msgid "Something went wrong please try again."
+msgstr "یک چیزی اشتباه شده. لطفا اشتباهات را برطرف کنید و دوباره تلاش کنید."
+
+#: customers/views.py:52
+msgid "Address updated successfully"
+msgstr "اطلاعات شما با موفقیت به روز شد"
+
+#: customers/views.py:55
+msgid "Something went wrong. Please try again."
+msgstr "یک چیزی اشتباه شده. لطفا اشتباهات را برطرف کنید و دوباره تلاش کنید."
+
+#: customers/views.py:63
+msgid "Address deleted successfully"
+msgstr "آدرس با موفقیت حذف شد"
+
+#: orders/apps.py:8 orders/models.py:55
 msgid "Orders"
 msgstr "سفارشات"
 
-#: orders/models.py:11
-msgid "Coupon Code"
-msgstr "کد یکبار مصرف"
+#: orders/forms.py:36
+msgid ""
+"If you have an address choose it from the list. Otherwise, add a new one"
+msgstr "اگر آدرسی از قبل دارید از لیست انتخاب کنید. در غیر اینصورت یک آدرس جدید اضافه کنید"
 
-#: orders/models.py:12
-msgid "Valid Since"
-msgstr "معتبر از"
+#: orders/forms.py:39
+msgid "Phone number"
+msgstr "شماره تلفن"
 
-#: orders/models.py:13
-msgid "Valid Until"
-msgstr "معتبر تا"
+#: orders/forms.py:40
+msgid "Enter your phone number. Example: +989123456789"
+msgstr "شماره تلفن خود را وارد کنید. مثال: 989123456789+"
 
-#: orders/models.py:15 orders/models.py:36 product/models.py:51
-#: product/templates/product/details.html:27
-msgid "Discount"
-msgstr "تخفیف"
-
-#: orders/models.py:18 orders/models.py:34
+#: orders/forms.py:43 orders/models.py:19 orders/models.py:35
 msgid "Coupon"
 msgstr "کد تخفیف"
 
-#: orders/models.py:19
+#: orders/forms.py:44
+msgid "If you have coupon, You can enter it here"
+msgstr "اگر کد تخفیف دارید میتوانید آن را در این قسمت اضافه کنید"
+
+#: orders/models.py:12
+msgid "Coupon Code"
+msgstr "کد یکبار مصرف"
+
+#: orders/models.py:13
+msgid "Valid Since"
+msgstr "معتبر از"
+
+#: orders/models.py:14
+msgid "Valid Until"
+msgstr "معتبر تا"
+
+#: orders/models.py:16 orders/models.py:37 orders/templates/orders/cart.html:24
+#: product/models.py:51 product/templates/product/details.html:29
+msgid "Discount"
+msgstr "تخفیف"
+
+#: orders/models.py:20
 msgid "Coupons"
 msgstr "کد تخفیف"
 
-#: orders/models.py:35
+#: orders/models.py:36
 msgid "Payment Status"
-msgstr "وضعیت مدیریت"
+msgstr "وضعیت پرداخت"
 
-#: orders/models.py:45
+#: orders/models.py:47
 msgid "PENDING"
-msgstr ""
+msgstr "در صف"
 
-#: orders/models.py:45
+#: orders/models.py:47
 msgid "CHECKING"
-msgstr ""
+msgstr "در حال بررسی"
 
-#: orders/models.py:45
+#: orders/models.py:47
 msgid "SENDING"
-msgstr ""
+msgstr "در حال ارسال"
 
-#: orders/models.py:45
+#: orders/models.py:48
 msgid "DONE"
-msgstr ""
+msgstr "انجام شد"
 
-#: orders/models.py:46 orders/models.py:77
+#: orders/models.py:49 orders/models.py:93
 msgid "Status"
 msgstr "وضعیت مدیریت"
 
-#: orders/models.py:47
+#: orders/models.py:50
 msgid "Transaction Code"
 msgstr "کد تراکنش"
 
-#: orders/models.py:51 orders/models.py:72
+#: orders/models.py:54 orders/models.py:88
 #: venv/lib/python3.10/site-packages/django/forms/formsets.py:483
 #: venv/lib/python3.10/site-packages/django/forms/formsets.py:490
 msgid "Order"
 msgstr "سفارش"
 
-#: orders/models.py:73 product/models.py:77
+#: orders/models.py:89 product/models.py:77
 msgid "Product"
 msgstr "محصول"
 
-#: orders/models.py:74 product/models.py:52
-#: product/templates/product/details.html:23
+#: orders/models.py:90 product/models.py:52
+#: product/templates/product/details.html:25
 msgid "Price"
 msgstr "قیمت"
 
-#: orders/models.py:75
+#: orders/models.py:91
 msgid "Quantity"
 msgstr "تعداد"
 
-#: orders/models.py:76
+#: orders/models.py:92
 msgid "OK"
 msgstr "بدون مشکل"
 
-#: orders/models.py:76
+#: orders/models.py:92
 msgid "NO"
 msgstr "مشکلی وجود دارد"
 
-#: orders/models.py:76
+#: orders/models.py:92
 msgid "SUPPLYING"
 msgstr "در حال تامین"
 
-#: orders/models.py:80
+#: orders/models.py:96
 msgid "order item"
 msgstr "محصول سفارش"
 
-#: orders/models.py:81
+#: orders/models.py:97
 msgid "order items"
 msgstr "محصولات سفارش"
+
+#: orders/templates/orders/cart.html:7 orders/templates/orders/cart.html:15
+#: templates/inc/navbar.html:35
+msgid "Cart"
+msgstr "سبد خرید"
+
+#: orders/templates/orders/cart.html:20
+#: orders/templates/orders/order_details.html:27
+#: product/templates/product/bucket.html:14
+#: product/templates/product/details.html:23
+msgid "Name"
+msgstr "نام"
+
+#: orders/templates/orders/cart.html:21
+#: orders/templates/orders/order_details.html:28
+
+msgid "Quntity"
+msgstr "تعداد"
+
+#: orders/templates/orders/cart.html:22
+#: orders/templates/orders/order_details.html:29
+msgid "Unit Price"
+msgstr "قیمت"
+
+#: orders/templates/orders/cart.html:23
+msgid "Total Price"
+msgstr "قیمت کل"
+
+#: orders/templates/orders/cart.html:25
+msgid "Remove"
+msgstr "حذف کردن"
+
+#: orders/templates/orders/cart.html:66
+#: orders/templates/orders/order_details.html:19
+msgid "Checkout"
+msgstr "بررسی و پرداخت"
+
+#: orders/templates/orders/cart.html:69
+msgid "Proceed Shopping"
+msgstr "ادامه خرید"
+
+#: orders/templates/orders/cart.html:86
+msgid "ID"
+msgstr "شماره"
+
+#: orders/templates/orders/cart.html:89
+msgid "Update Order With Cart"
+msgstr "به روز رسانی سبد خرید با محصولات کارت"
+
+#: orders/templates/orders/cart.html:90
+msgid "Date"
+msgstr "تاریخ"
+
+#: orders/templates/orders/order_details.html:7
+msgid "Order Details"
+msgstr "جزئیات محصول"
+
+#: orders/templates/orders/order_details.html:17
+msgid "Receipt"
+msgstr "رسید"
+
+#: orders/templates/orders/order_details.html:69
+msgid "Shipping Info"
+msgstr "اطلاعات ارسال"
+
+#: orders/templates/orders/order_details.html:85
+msgid "Coupon Info"
+msgstr "اطلاعات کد تخفیف"
+
+#: orders/templates/orders/order_details.html:107
+msgid "Shipping Address"
+msgstr "نشانی ارسال"
+
+#: orders/views.py:122
+msgid "Coupon applied successfully"
+msgstr "وارد شدید"
+
+#: orders/views.py:124
+msgid "Coupon is not valid"
+msgstr "کد یکبار مصرف"
+
+#: orders/views.py:126
+msgid "Coupon not found"
+msgstr "کد یکبار مصرف"
+
+#: orders/views.py:131
+msgid "Order Information saved successfully"
+msgstr "اطلاعات شما با موفقیت به روز شد"
+
+#: orders/views.py:133
+msgid "Please correct the error below."
+msgstr ""
+
+#: orders/views.py:141
+msgid "Order deleted successfully"
+msgstr "وارد شدید"
 
 #: product/apps.py:8
 msgid "Products"
 msgstr "محصولات"
 
-#: product/forms.py:9
+#: product/forms.py:11
 msgid "Search"
 msgstr "جستجو"
+
+#: product/forms.py:21 product/models.py:78
+msgid "Title"
+msgstr "عنوان"
+
+#: product/forms.py:22
+msgid "Comment"
+msgstr "نظر"
 
 #: product/models.py:12
 msgid "Upper Category"
@@ -435,7 +628,7 @@ msgstr "مشخصات"
 msgid "Category"
 msgstr "دسته بندی"
 
-#: product/models.py:45 product/templates/product/details.html:42
+#: product/models.py:45 product/templates/product/details.html:63
 msgid "Properties"
 msgstr "مشخصات"
 
@@ -467,10 +660,6 @@ msgstr "محصول"
 msgid "products"
 msgstr "محصولات"
 
-#: product/models.py:78
-msgid "Title"
-msgstr "عنوان"
-
 #: product/models.py:82
 msgid "comment"
 msgstr "نظر"
@@ -483,11 +672,6 @@ msgstr "نظرات"
 msgid "Bucket"
 msgstr "صندوق"
 
-#: product/templates/product/bucket.html:14
-#: product/templates/product/details.html:21
-msgid "Name"
-msgstr "نام"
-
 #: product/templates/product/bucket.html:15
 msgid "Size"
 msgstr "اندازه"
@@ -495,11 +679,6 @@ msgstr "اندازه"
 #: product/templates/product/bucket.html:16
 msgid "Download"
 msgstr "دانلود"
-
-#: product/templates/product/bucket.html:17
-#: venv/lib/python3.10/site-packages/django/forms/formsets.py:496
-msgid "Delete"
-msgstr "حذف"
 
 #: product/templates/product/bucket.html:26
 msgid "download"
@@ -513,25 +692,38 @@ msgstr "حذف"
 msgid "Upload"
 msgstr "آپلود"
 
-#: product/templates/product/details.html:7
+#: product/templates/product/details.html:9
 msgid "Product Details"
 msgstr "جزئیات محصول"
+
+#: product/templates/product/details.html:47
+msgid "Only "
+msgstr ""
+
+#: product/templates/product/details.html:47
+msgid " items in the stock is remaining"
+msgstr ""
+
+#: product/templates/product/details.html:52
+#: product/templates/product/index.html:83
+msgid "Sold Out"
+msgstr "تمام شده"
+
+#: product/templates/product/details.html:86
+msgid "Comments"
+msgstr "نظرات"
+
+#: product/templates/product/details.html:114
+msgid "Send"
+msgstr ""
 
 #: product/templates/product/index.html:8 templates/inc/navbar.html:12
 msgid "Home"
 msgstr "خانه"
 
-#: product/templates/product/index.html:83
-msgid "Sold Out"
-msgstr "تمام شده"
-
 #: product/templates/product/index.html:85
 msgid "Available"
 msgstr "موجود"
-
-#: product/templates/product/index.html:89
-msgid "Details"
-msgstr "جزئیات"
 
 #: product/templates/product/landing.html:5
 msgid "Landing Page"
@@ -542,10 +734,6 @@ msgid "Welcome to your website"
 msgstr "به سایت خود خوش آمدید"
 
 #: product/templates/product/landing.html:27
-
-#| msgid ""
-#| "The best laptops with the best prices. We hope to provide better services "
-#| "for you dear customers."
 msgid ""
 "The best laptops with the best prices. We hope to provide better services "
 "for you\tdear customers."
@@ -561,19 +749,28 @@ msgstr "امیدواریم لذت ببرید!"
 msgid "Get Started"
 msgstr "شروع کنید"
 
-#: product/views.py:55
+#: product/views.py:64
+
+msgid "Comment added successfully"
+msgstr "با موفقیت وارد شدید"
+
+#: product/views.py:66
+msgid "Something went wrong. Check the possible errors"
+msgstr "یک چیزی اشتباه شده. لطفا اشتباهات را برطرف کنید و دوباره تلاش کنید."
+
+#: product/views.py:86
 msgid "Upload will be started soon"
 msgstr "آپلود بزودی شروع خواهد شد"
 
-#: product/views.py:57
+#: product/views.py:88
 msgid "Something went wrong. Please try again"
 msgstr "یک چیزی اشتباه شده. لطفا اشتباهات را برطرف کنید و دوباره تلاش کنید."
 
-#: product/views.py:65
+#: product/views.py:96
 msgid "your object will be deleted soon"
 msgstr "فایل شما بزودی حذف خواهد شد"
 
-#: product/views.py:74
+#: product/views.py:105
 msgid "Download will be started soon"
 msgstr "دانلود بزودی شروع خواهد شد"
 
@@ -588,10 +785,6 @@ msgstr "انگلیسی"
 #: templates/inc/navbar.html:32
 msgid "FA"
 msgstr "فارسی"
-
-#: templates/inc/navbar.html:35
-msgid "Cart"
-msgstr "سبد خرید"
 
 # #########################
 #: venv/lib/python3.10/site-packages/click/_termui_impl.py:496
@@ -2104,6 +2297,15 @@ msgstr ""
 #, python-format
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr ""
+
+#: venv/lib/python3.10/site-packages/timezone_field/rest_framework.py:12
+
+#| msgid "This field is required."
+msgid "A valid timezone is required."
+msgstr "این فیلد اجباری است."
+
+
+
 
 # Extra Words
 msgid "Laptop"
