@@ -45,7 +45,7 @@
                     {% for order in unpaid_orders %}
                         <div class="row my-2">
                             <div class="col-md-9">
-                                <p class="my-2">{{ order }}</p>
+                                <p class="my-2">Order: {{ order.id }} - {{ order.created|date }} - {% trans order.status %}</p>
                             </div>
                             <div class="col-md-3 text-end">
                                 <a href="{% url 'orders:order_delete' order.id %}"
@@ -72,7 +72,7 @@
                     {% for order in paid_orders %}
                         <div class="row my-2">
                             <div class="col-md-10">
-                                <p class="my-2">{{ order }}</p>
+                                <p class="my-2">Order: {{ order.id }} - {{ order.created|date }} - {% trans order.status %}</p>
                             </div>
                             <div class="col-md-2 text-end">
 
