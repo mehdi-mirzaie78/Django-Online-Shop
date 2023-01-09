@@ -94,7 +94,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     customer = serializers.StringRelatedField(read_only=True)
     items = serializers.SerializerMethodField()
-    # coupon = serializers.SerializerMethodField()
     code = serializers.CharField(required=False)
 
     class Meta:
