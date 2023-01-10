@@ -230,3 +230,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ]
 }
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
