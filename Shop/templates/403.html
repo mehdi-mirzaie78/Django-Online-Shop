@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% translate 'Error 403' %}{% endblock %}
+
+{% block content %}
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+	<div class="text-center">
+		<h1 class="display-1 fw-bold">403</h1>
+		<p class="fs-3"><span class="text-danger">{% translate 'Opps' %}!</span> {% translate 'Forbidden' %}</p>
+		<p class="lead">
+			{% translate 'Sorry, your access is refused due to security reasons of our server and also our sensitive data.' %}
+		</p>
+		<a href="{% url 'product:home' %}" class="btn btn-primary">{% translate 'Go Home' %}</a>
+	</div>
+</div>
+{% endblock %}
+
+
