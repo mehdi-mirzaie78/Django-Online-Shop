@@ -152,11 +152,12 @@ class UserProfileView(LoginRequiredMixin, View):
     template_name = 'accounts/profile.html'
 
     def setup(self, request, *args, **kwargs):
-        self.user = request.user
-        self.customer = request.user.customer
-        self.addresses = Address.objects.filter(customer=self.customer)
-        self.unpaid_orders = self.customer.orders.filter(is_paid=False)
-        self.paid_orders = self.customer.orders.filter(is_paid=True)
+        if request.user.is_authenticated:
+            self.user = request.user
+            self.customer = request.user.customer
+            self.addresses = Address.objects.filter(customer=self.customer)
+            self.unpaid_orders = self.customer.orders.filter(is_paid=False)
+            self.paid_orders = self.customer.orders.filter(is_paid=True)
         return super().setup(request, *args, **kwargs)
 
     def get(self, request):
