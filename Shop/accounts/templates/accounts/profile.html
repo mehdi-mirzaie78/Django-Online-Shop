@@ -9,89 +9,91 @@
 {% block content %}
 	<div class="row mx-2">
 
-	<div class="col-md-4">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="text-center mt-2">{{ customer }}</h4>
-			</div>
-			<div class="card-body text-center">
-				<img src="{{ customer.image.url }}" class="img-fluid w-50 rounded-circle">
-				<br><br>
-			</div>
-
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-outline-danger w-25 mx-auto" data-bs-toggle="modal"
-							data-bs-target="#clear-image">{% translate 'Clear' %}
-			</button>
-
-			<!-- Modal -->
-			<div class="modal fade" id="clear-image" tabindex="-1">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="clear-image-label">{% translate 'Clear Image' %}</h1>
-							<button type="button" class="btn-close btn-danger rounded-circle" data-bs-dismiss="modal"></button>
-						</div>
-						<div class="modal-body">
-							<p>{% translate 'Do you want to clear your image?' %}</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate 'Close' %}</button>
-							<a href="{% url 'accounts:user_profile_clear_image' %}" type="button"
-								 class="btn btn-danger">{% translate 'Clear' %}</a>
-						</div>
-					</div>
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="text-center mt-2">{{ customer }}</h4>
 				</div>
-			</div>
+				<div class="card-body text-center">
+					<img src="{{ customer.image.url }}" class="img-fluid w-50 rounded-circle">
+					<br><br>
+				</div>
 
-			<br>
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-outline-danger w-25 mx-auto" data-bs-toggle="modal"
+								data-bs-target="#clear-image">{% translate 'Clear' %}
+				</button>
 
-			<div class="accordion" id="accordionExample">
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="heading-profile">
-						<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-profile"
-										aria-expanded="true" aria-controls="collapse-profile">
-							{% translate 'Profile Info' %}
-						</button>
-					</h2>
-					<div id="collapse-profile" class="accordion-collapse collapse show" aria-labelledby="heading-profile"
-							 data-bs-parent="#accordionExample">
-						<div class="accordion-body">
-							<form action="" method="post" class="px-4 py-3" enctype='multipart/form-data' novalidate>
-					{% csrf_token %}
-					{{ form.as_p }}
-					<div class="text-center">
-						<!-- Button trigger modal -->
-						<button type="button" class="btn btn-primary col-5 mt-3" data-bs-toggle="modal"
-										data-bs-target="#update-profile">{% translate 'Update' %}
-						</button>
-					</div>
-					<!-- Modal -->
-					<div class="modal fade" id="update-profile" tabindex="-1">
-						<div class="modal-dialog bg-info">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="clear-image-label">{% translate 'Update Profile' %}</h1>
-									<button type="button" class="btn-close btn-danger rounded-circle" data-bs-dismiss="modal"></button>
-								</div>
-								<div class="modal-body">
-									<p>{% translate 'Do you want to update your profile?' %}</p>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-													data-bs-dismiss="modal">{% translate 'Close' %}</button>
-									<button type="submit" class="btn btn-primary">{% translate 'Save Changes' %}</button>
-								</div>
+				<!-- Modal -->
+				<div class="modal fade" id="clear-image" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="clear-image-label">{% translate 'Clear Image' %}</h1>
+								<button type="button" class="btn-close btn-danger rounded-circle" data-bs-dismiss="modal"></button>
+							</div>
+							<div class="modal-body">
+								<p>{% translate 'Do you want to clear your image?' %}</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate 'Close' %}</button>
+								<a href="{% url 'accounts:user_profile_clear_image' %}" type="button"
+									 class="btn btn-danger">{% translate 'Clear' %}</a>
 							</div>
 						</div>
 					</div>
+				</div>
+
+				<br>
+
+				<div class="accordion" id="accordionExample">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="heading-profile">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse-profile"
+											aria-expanded="true" aria-controls="collapse-profile">
+								{% translate 'Profile Info' %}
+							</button>
+						</h2>
+						<div id="collapse-profile" class="accordion-collapse collapse show" aria-labelledby="heading-profile"
+								 data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<form action="" method="post" class="px-4 py-3" enctype='multipart/form-data' novalidate>
+									{% csrf_token %}
+									{{ form.as_p }}
+									<div class="text-center">
+										<!-- Button trigger modal -->
+										<button type="button" class="btn btn-primary col-5 mt-3" data-bs-toggle="modal"
+														data-bs-target="#update-profile">{% translate 'Update' %}
+										</button>
+									</div>
+									<!-- Modal -->
+									<div class="modal fade" id="update-profile" tabindex="-1">
+										<div class="modal-dialog bg-info">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h1 class="modal-title fs-5" id="clear-image-label">{% translate 'Update Profile' %}</h1>
+													<button type="button" class="btn-close btn-danger rounded-circle"
+																	data-bs-dismiss="modal"></button>
+												</div>
+												<div class="modal-body">
+													<p>{% translate 'Do you want to update your profile?' %}</p>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+																	data-bs-dismiss="modal">{% translate 'Close' %}</button>
+													<button type="submit" class="btn btn-primary">{% translate 'Save Changes' %}</button>
+												</div>
+											</div>
+										</div>
+									</div>
 
 
-				</form>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
 
 			</div>
@@ -121,8 +123,35 @@
 										<p class="my-2">Order: {{ order.id }} - {{ order.created|date }} - {% trans order.status %}</p>
 									</div>
 									<div class="col-md-3 text-end">
-										<a href="{% url 'orders:order_delete' order.id %}"
-											 class="btn btn-outline-danger">{% translate 'Delete' %}</a>
+
+
+										<!-- Button trigger modal -->
+										<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+														data-bs-target="#delete-order">{% translate 'Delete' %}
+										</button>
+
+										<!-- Modal -->
+										<div class="modal fade" id="delete-order" tabindex="-1">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h1 class="modal-title fs-5" id="delete-order-label">{% translate 'Delete Order' %}</h1>
+														<button type="button" class="btn-close btn-danger rounded-circle"
+																		data-bs-dismiss="modal"></button>
+													</div>
+													<div class="modal-body">
+														<p class="text-start">{% translate 'Do you want to delete your order? Are you sure?' %}</p>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+																		data-bs-dismiss="modal">{% translate 'Close' %}</button>
+														<a href="{% url 'orders:order_delete' order.id %}" type="button"
+															 class="btn btn-danger">{% translate 'Delete' %}</a>
+													</div>
+												</div>
+											</div>
+										</div>
+
 
 										<a href="{% url 'orders:order_details' order.id %}"
 											 class="mx-1 btn btn-outline-secondary">{% translate 'Details' %}</a>
