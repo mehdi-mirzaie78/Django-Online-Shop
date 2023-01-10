@@ -7,120 +7,174 @@
 {% block title %}{% translate 'Profile Page' %}{% endblock %}
 
 {% block content %}
-    <div class="row mx-2">
+	<div class="row mx-2">
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header mt-2">
-                    <h4 class="text-center">{{ customer }}</h4>
-                </div>
-                <div class="card-body text-center">
-                    <img src="{{ customer.image.url }}" class="img-fluid w-50 rounded-circle">
-                    <hr>
-                </div>
-                <a class="btn btn-outline-danger w-25 mx-auto"
-                   href="{% url 'accounts:user_profile_clear_image' %}">{% translate 'Clear' %}</a>
-                <form action="" method="post" class="px-4 py-3" enctype='multipart/form-data' novalidate>
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary col-5 mt-3">{% translate 'Update' %}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-
-            <div class="card mb-4">
-                <div class="card-header mt-2">
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header mt-2">
+					<h4 class="text-center">{{ customer }}</h4>
+				</div>
+				<div class="card-body text-center">
+					<img src="{{ customer.image.url }}" class="img-fluid w-50 rounded-circle">
+					<hr>
+				</div>
+				{#				<a class="btn btn-outline-danger w-25 mx-auto"#}
+				{#					 href="{% url 'accounts:user_profile_clear_image' %}">{% translate 'Clear' %}</a>#}
 
 
-                    <h4 class="text-center">
-                        <img src="/static/img/laptop.png" width="45px" height="40px"
-                             alt="icon"> {% translate 'Unpaid Orders' %}
-                    </h4>
-                </div>
-                <div class="card-body">
-                    {% for order in unpaid_orders %}
-                        <div class="row my-2">
-                            <div class="col-md-9">
-                                <p class="my-2">Order: {{ order.id }} - {{ order.created|date }} - {% trans order.status %}</p>
-                            </div>
-                            <div class="col-md-3 text-end">
-                                <a href="{% url 'orders:order_delete' order.id %}"
-                                   class="btn btn-outline-danger">{% translate 'Delete' %}</a>
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-outline-danger w-25 mx-auto" data-bs-toggle="modal"
+								data-bs-target="#clear-image">{% translate 'Clear' %}
+				</button>
 
-                                <a href="{% url 'orders:order_details' order.id %}"
-                                   class="mx-1 btn btn-outline-secondary">{% translate 'Details' %}</a>
-                            </div>
-                        </div>
-
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-header mt-2">
-                    <h4 class="text-center">
-                        <img src="/static/img/laptop.png" width="45px" height="40px"
-                             alt="icon"> {% translate 'Paid Orders' %}
-                    </h4>
-                </div>
-                <div class="card-body">
-
-                    {% for order in paid_orders %}
-                        <div class="row my-2">
-                            <div class="col-md-10">
-                                <p class="my-2">Order: {{ order.id }} - {{ order.created|date }} - {% trans order.status %}</p>
-                            </div>
-                            <div class="col-md-2 text-end">
-
-                                <a href="{% url 'orders:order_details' order.id %}"
-                                   class="mx-1 btn btn-outline-secondary">{% translate 'Details' %}</a>
-                            </div>
-                        </div>
-
-                    {% endfor %}
+				<!-- Modal -->
+				<div class="modal fade" id="clear-image" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="clear-image-label">{% translate 'Clear Image' %}</h1>
+								<button type="button" class="btn-close btn-danger rounded-circle" data-bs-dismiss="modal"></button>
+							</div>
+							<div class="modal-body">
+								<p>{% translate 'Do you want to clear your image?' %}</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate 'Close' %}</button>
+								<a href="{% url 'accounts:user_profile_clear_image' %}" type="button"
+									 class="btn btn-primary">{% translate 'Save Changes' %}</a>
+							</div>
+						</div>
+					</div>
+				</div>
 
 
-                </div>
-            </div>
+				<form action="" method="post" class="px-4 py-3" enctype='multipart/form-data' novalidate>
+					{% csrf_token %}
+					{{ form.as_p }}
+					<div class="text-center">
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-primary col-5 mt-3" data-bs-toggle="modal"
+										data-bs-target="#update-profile">{% translate 'Update' %}
+						</button>
+					</div>
+					<!-- Modal -->
+					<div class="modal fade" id="update-profile" tabindex="-1">
+						<div class="modal-dialog bg-info">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="clear-image-label">{% translate 'Update Profile' %}</h1>
+									<button type="button" class="btn-close btn-danger rounded-circle" data-bs-dismiss="modal"></button>
+								</div>
+								<div class="modal-body">
+									<p>{% translate 'Do you want to update your profile?' %}</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">{% translate 'Close' %}</button>
+									<button type="submit" class="btn btn-primary">{% translate 'Save Changes' %}</button>
+								</div>
+							</div>
+						</div>
+					</div>
 
-            <div class="card mb-4">
-                <div class="card-header mt-2">
-                    <h4 class="text-center">
-                        <img src="/static/img/laptop.png" width="45px" height="40px"
-                             alt="icon"> {% translate 'Addresses' %}
-                    </h4>
-                </div>
-                <div class="card-body">
-                    {% if addresses %}
-                        {% for address in addresses %}
-                            <div class="row mb-2">
-                                <p class="col-6">{{ address }}</p>
-                                <div class="col-6 text-end">
-                                    <a href="{% url 'customers:address_delete' address.id %}"
-                                       class="py-1 mx-1 btn btn-outline-danger">{% translate 'Delete' %}</a>
+
+				</form>
+			</div>
+		</div>
+
+		<div class="col-md-8">
+
+			<div class="card mb-4">
+				<div class="card-header mt-2">
 
 
-                                    <a href="{% url 'customers:address_update' address.id %}"
-                                       class="py-1 mx-1 btn btn-outline-info">{% translate 'Update' %}</a>
-                                </div>
-                            </div>
+					<h4 class="text-center">
+						<img src="/static/img/laptop.png" width="45px" height="40px"
+								 alt="icon"> {% translate 'Unpaid Orders' %}
+					</h4>
+				</div>
+				<div class="card-body">
+					{% for order in unpaid_orders %}
+						<div class="row my-2">
+							<div class="col-md-9">
+								<p class="my-2">Order: {{ order.id }} - {{ order.created|date }} - {% trans order.status %}</p>
+							</div>
+							<div class="col-md-3 text-end">
+								<a href="{% url 'orders:order_delete' order.id %}"
+									 class="btn btn-outline-danger">{% translate 'Delete' %}</a>
 
-                        {% endfor %}
-                    {% endif %}
+								<a href="{% url 'orders:order_details' order.id %}"
+									 class="mx-1 btn btn-outline-secondary">{% translate 'Details' %}</a>
+							</div>
+						</div>
 
-                    <div class="text-center">
-                        <a href="{% url 'customers:address_create' %}"
-                           class="btn btn-primary col-2">{% translate 'Add' %}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+					{% endfor %}
+				</div>
+			</div>
 
-    </div>
+			<div class="card mb-4">
+				<div class="card-header mt-2">
+					<h4 class="text-center">
+						<img src="/static/img/laptop.png" width="45px" height="40px"
+								 alt="icon"> {% translate 'Paid Orders' %}
+					</h4>
+				</div>
+				<div class="card-body">
+
+					{% for order in paid_orders %}
+						<div class="row my-2">
+							<div class="col-md-10">
+								<p class="my-2">Order: {{ order.id }} - {{ order.created|date }} - {% trans order.status %}</p>
+							</div>
+							<div class="col-md-2 text-end">
+
+								<a href="{% url 'orders:order_details' order.id %}"
+									 class="mx-1 btn btn-outline-secondary">{% translate 'Details' %}</a>
+							</div>
+						</div>
+
+					{% endfor %}
+
+
+				</div>
+			</div>
+
+			<div class="card mb-4">
+				<div class="card-header mt-2">
+					<h4 class="text-center">
+						<img src="/static/img/laptop.png" width="45px" height="40px"
+								 alt="icon"> {% translate 'Addresses' %}
+					</h4>
+				</div>
+				<div class="card-body">
+					{% if addresses %}
+						{% for address in addresses %}
+							<div class="row mb-2">
+								<p class="col-6">{{ address }}</p>
+								<div class="col-6 text-end">
+									<a href="{% url 'customers:address_delete' address.id %}"
+										 class="py-1 mx-1 btn btn-outline-danger">{% translate 'Delete' %}</a>
+
+
+									<a href="{% url 'customers:address_update' address.id %}"
+										 class="py-1 mx-1 btn btn-outline-info">{% translate 'Update' %}</a>
+
+
+								</div>
+							</div>
+
+						{% endfor %}
+					{% endif %}
+
+					<div class="text-center">
+						<a href="{% url 'customers:address_create' %}"
+							 class="btn btn-primary col-2">{% translate 'Add' %}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
 {% endblock %}
 
 # TODO: use toasts for update and delete to get permission to update or delete
