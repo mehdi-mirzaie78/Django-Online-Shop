@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.contrib import messages
 from .cart import Cart
-from product.models import Product
 from .forms import AddToCartForm, ChooseAddressApplyCouponForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Order, OrderItem, Coupon
@@ -13,8 +12,10 @@ from product.models import Product
 
 class CartView(View):
     def get(self, request):
-        customer = request.user.customer
-        unpaid_orders = customer.orders.filter(is_paid=False)
+        if request.user.is_authenticated:
+            customer = request.user.customer
+            unpaid_orders = customer.orders.filter(is_paid=False)
+        unpaid_orders = None
         cart = Cart(request)
         return render(request, 'orders/cart.html', {'cart': cart, 'unpaid_orders': unpaid_orders})
 
