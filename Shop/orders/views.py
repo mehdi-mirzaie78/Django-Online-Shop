@@ -15,7 +15,8 @@ class CartView(View):
         if request.user.is_authenticated:
             customer = request.user.customer
             unpaid_orders = customer.orders.filter(is_paid=False)
-        unpaid_orders = None
+        else:
+            unpaid_orders = None
         cart = Cart(request)
         return render(request, 'orders/cart.html', {'cart': cart, 'unpaid_orders': unpaid_orders})
 
