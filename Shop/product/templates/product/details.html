@@ -45,11 +45,10 @@
 
 						{% if product.is_available %}
 							<div class="col-md-6">
-								<form action="{% url 'orders:cart_add' product.id %}" method="post"
-											class="input-group mb-4">
+								<form action="{% url 'orders:cart_add' product.id %}" method="post" class="input-group mb-4">
 									{% csrf_token %}
 									{{ form }}
-									<button type="submit" class="btn btn-primary"><i
+									<button type="submit" class="text-light bg-primary border-0 px-3 rounded"><i
 													class="fa-solid fa-cart-plus"></i> {% translate 'Add' %}</button>
 								</form>
 							</div>
@@ -125,30 +124,35 @@
 								</div>
 								<div class="card-body py-2 px-4">
 									<div class="m-2">
-										{% for comment in comments %}
-											<div class="card">
-												<div class="card-header text-info">
-													<div class="row">
-														<h6 class="col-6">{{ comment.customer }}</h6>
-														<small class="col-6 text-end">{{ comment.created }}</small>
+										{% if comments %}
+											{% for comment in comments %}
+												<div class="card">
+													<div class="card-header text-info">
+														<div class="row">
+															<h6 class="col-6">{{ comment.customer }}</h6>
+															<small class="col-6 text-end">{{ comment.created }}</small>
+														</div>
+													</div>
+													<div class="card-body">
+														<h6 class="d-flex">{{ comment.title }}</h6>
+														<small>{{ comment.body }}</small>
 													</div>
 												</div>
-												<div class="card-body">
-													<h6 class="d-flex">{{ comment.title }}</h6>
-													<small>{{ comment.body }}</small>
-												</div>
-											</div>
-										{% endfor %}
+											{% endfor %}
+										{% else %}
+											<h5 class="text-center text-primary mt-4">{% translate 'No comments yet' %}</h5>
+										{% endif %}
 									</div>
 									<hr>
-									<form action="" method="post" class="px-1 mb-2" novalidate>
-										{% csrf_token %}
-										{{ form_comment|crispy }}
-										<div class="text-center">
-											<button type="submit" class="btn btn-primary w-25">{% translate 'Send' %}</button>
-										</div>
-									</form>
-
+									{% if request.user.is_authenticated %}
+										<form action="" method="post" class="px-1 mb-2" novalidate>
+											{% csrf_token %}
+											{{ form_comment|crispy }}
+											<div class="text-center">
+												<button type="submit" class="btn btn-primary w-25">{% translate 'Send' %}</button>
+											</div>
+										</form>
+									{% endif %}
 
 								</div>
 							</div>
