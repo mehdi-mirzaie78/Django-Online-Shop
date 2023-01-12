@@ -36,7 +36,13 @@ class CartAddView(View):
         product = get_object_or_404(Product, id=product_id)
         form = AddToCartForm(request.POST)
         if form.is_valid():
-            cart.add(product, form.cleaned_data['quantity'])
+            cd = form.cleaned_data
+            if cd['quantity'] > product.stock:
+                messages.error(request, _('You can not add more than {} to your cart').format(product.stock), 'danger')
+                return redirect('product:product_details', slug=product.slug)
+            else:
+                messages.success(request, _('Product added to cart successfully'), 'success')
+                cart.add(product, form.cleaned_data['quantity'])
         return redirect('orders:cart')
 
 
