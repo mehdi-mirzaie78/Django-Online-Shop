@@ -93,9 +93,9 @@
                     {{ form.coupon.errors }}
                     <br>
                     <div class="text-center">
-                        <button type="submit" class="w-25 btn btn-outline-info">Save</button>
+                        <button type="submit" class="w-25 btn btn-outline-info">{% translate 'Save' %}</button>
                         <br><br>
-                        <a href="{% url 'orders:payment' order.id %}" class="btn btn-success col-2 my-2 mb-4">Pay</a>
+                        <a href="{% url 'orders:payment' order.id %}" class="btn btn-success col-2 my-2 mb-4">{% translate 'Pay' %}</a>
 
                     </div>
                 </form>
@@ -108,13 +108,14 @@
             <table class="table table-info w-75 mx-auto">
                 <thead>
                 <tr>
-                    <th colspan="4" class="text-center"><h3>{% translate 'Shipping Address' %}</h3></th>
+                    <th colspan="5" class="text-center"><h3>{% translate 'Shipping Address' %}</h3></th>
                 </tr>
                 <tr class="text-center">
                     <th scope="col">{% translate 'City' %}</th>
                     <th scope="col">{% translate 'Address' %}</th>
                     <th scope="col">{% translate 'Postal Code' %}</th>
                     <th scope="col">{% translate 'Phone Number' %}</th>
+                    <th scope="col">{% translate 'Transaction Code' %}</th>
 
                 </tr>
                 </thead>
@@ -126,7 +127,9 @@
                     <td>{{ order.body }}</td>
                     <td>{{ order.postal_code }}</td>
                     <td>{{ order.phone_number }}</td>
+										<td>{{ order.transaction_code }}</td>
                 </tr>
+
                 </tbody>
             </table>
 
