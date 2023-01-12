@@ -15,16 +15,18 @@
 
 					<div class="btn-group">
 						<a href="{{ category.get_absolute_url }}" class="btn btn-primary">{% trans category.name %}</a>
-						<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-										data-bs-toggle="dropdown"
-										aria-expanded="false">
-							<span class="visually-hidden">Toggle Dropdown</span>
-						</button>
-						<ul class="dropdown-menu">
-							{% for sub in category.scategory.all %}
-								<li><a class="dropdown-item" href="{{ sub.get_absolute_url }}"> {% trans sub.name %}</a></li>
-							{% endfor %}
-						</ul>
+						{% if category.scategory.all %}
+							<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+											data-bs-toggle="dropdown" aria-expanded="false">
+								<span class="visually-hidden">Toggle Dropdown</span>
+							</button>
+
+							<ul class="dropdown-menu">
+								{% for sub in category.scategory.all %}
+									<li><a class="dropdown-item" href="{{ sub.get_absolute_url }}">{% trans sub.name %}</a></li>
+								{% endfor %}
+							</ul>
+						{% endif %}
 					</div>
 
 
@@ -52,7 +54,6 @@
 									 alt="{{ product.name }}"></a>
 
 
-
 						<div class="row mx-2">
 							<div class="col-12">
 								<p class="fw-bold" style="font-size:26px">{{ product.name }}</p>
@@ -74,8 +75,6 @@
 							{% endif %}
 
 							<br><br>
-
-
 
 
 							<p class="col-12">
