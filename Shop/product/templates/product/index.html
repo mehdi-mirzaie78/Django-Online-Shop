@@ -1,43 +1,97 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% load static %}
 
-{% block title %}Home{% endblock %}
+
+{% block title %}{% translate 'Home' %}{% endblock %}
 
 {% block content %}
-	<h2 class="text-center">Welcome to your own website</h2>
-	<div class="container-fluid text-center">
+	<div class="container-fluid">
 		<div class="row mt-3 mx-3">
+			<div class="col-6 justify-content-start">
+				{% for category in categories %}
+
+					<div class="btn-group">
+						<a href="{{ category.get_absolute_url }}" class="btn btn-primary">{% trans category.name %}</a>
+						{% if category.scategory.all %}
+							<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+											data-bs-toggle="dropdown" aria-expanded="false">
+								<span class="visually-hidden">Toggle Dropdown</span>
+							</button>
+
+							<ul class="dropdown-menu">
+								{% for sub in category.scategory.all %}
+									<li><a class="dropdown-item" href="{{ sub.get_absolute_url }}">{% trans sub.name %}</a></li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+
+
+				{% endfor %}
+
+			</div>
+
+
+			<div class="col-6">
+				{# Search #}
+				<form action="" method="get" class="input-group mb-4">
+					{{ form }}
+					<button type="submit" class="btn btn-primary px-3"><i class="fa fa-search"></i></button>
+				</form>
+			</div>
+
+
 			{% for product in products %}
-				<div class="col-md-3 mb-2">
-					<div class="card py-3 h-100 text-center">
-						<img src="{{ product.image.url }}" alt="{{ product.name }}" class="mx-auto my-auto col-10">
-						<br>
-						<div class="row">
-							<div class="col-6">
-								<h3>{{ product.price }}$</h3>
-							</div>
-							<div class="col-6">
-								<a href="" class="btn btn-primary{% if not product.is_available %} disabled {% endif %}"><i
-												class="fa-solid fa-cart-plus"></i> Add</a>
+				<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+					<div class="card pt-0 pb-4 h-100 text-center">
+						<a href="{% url 'product:product_details' product.slug %}">
+							<img src="{{ product.image.url }}" class="card-img-top mx-autox px-3"
+									 width="300px" height="400px"
+									 style="object-fit: scale-down"
+									 alt="{{ product.name }}"></a>
+
+
+						<div class="row mx-2">
+							<div class="col-12">
+								<p class="fw-bold" style="font-size:26px">{{ product.name }}</p>
 							</div>
 
-							<br><br><br>
+							<div class="col-{% if not product.discount %}12{% else %}6{% endif %}">
+								<h3>${{ product.price }}</h3>
+							</div>
 
-							<p class="col-12" style="font-size:28px">
-								{{ product.name }}
-							</p>
+							{% if product.discount %}
+								<div class="col-6">
+									{#								<a href="" class="btn btn-primary{% if not product.is_available %} disabled {% endif %}"><i#}
+									{#												class="fa-solid fa-cart-plus"></i> Add</a>#}
+									<h3 class="text-danger">
+										<del>${{ product.price_no_discount }}</del>
+									</h3>
+								</div>
+
+							{% endif %}
+
+							<br><br>
+
+
 							<p class="col-12">
 								{% if not product.is_available %}
-									<span class="text-danger">Sold out</span>
+									<span class="text-danger">{% translate 'Sold Out' %}</span>
 								{% else %}
-									<span class="text-success">Available</span>
+									<span class="text-success">{% translate 'Available' %}</span>
 								{% endif %}
 							</p>
+							<a href="{% url 'product:product_details' product.slug %}"
+								 class="col-10 mx-auto btn btn-outline-primary">{% translate 'Details' %}</a>
 						</div>
 					</div>
 				</div>
 			{% endfor %}
 		</div>
 	</div>
+
+
 {% endblock %}

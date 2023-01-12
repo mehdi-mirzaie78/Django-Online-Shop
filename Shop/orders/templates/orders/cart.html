@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block title %}{% translate 'Cart' %}{% endblock %}
+
+
+{% block content %}
+
+    <table class="table table-info">
+        <thead>
+        <tr>
+            <th colspan="8" class="text-center"><h3>{% translate 'Cart' %}</h3></th>
+        </tr>
+        <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col">{% translate 'Image' %}</th>
+            <th scope="col">{% translate 'Name' %}</th>
+            <th scope="col">{% translate 'Quntity' %}</th>
+            <th scope="col">{% translate 'Unit Price' %}</th>
+            <th scope="col">{% translate 'Total Price' %}</th>
+            <th scope="col">{% translate 'Discount' %}</th>
+            <th scope="col">{% translate 'Remove' %}</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+
+        {% for item in cart %}
+
+            <tr class="text-center">
+                <th scope="row" class="align-middle">{{ forloop.counter }}</th>
+                <td><a href="{% url 'product:product_details' item.product.slug %}"><img src="{{ item.image.url }}"
+                                                                                         alt="{{ item.product }}"
+                                                                                         width="150" height="150"
+                                                                                         style="object-fit: scale-down"></a>
+                </td>
+
+                <td class="align-middle">{{ item.product }}</td>
+                <td class="align-middle">{{ item.quantity }}</td>
+                <td class="align-middle">$ {{ item.price }}</td>
+                <td class="align-middle">$ {{ item.total_price }}</td>
+                <td class="align-middle">$ {{ item.discount_price }}</td>
+                <td class="align-middle"><a href="{% url 'orders:cart_remove' item.product.id %}"><img
+                        src="{% static 'img/delete.png' %}" alt="delete" width="30px" height="30px"></a></td>
+
+            </tr>
+
+
+        {% endfor %}
+
+        <tr class="fw-bold text-center">
+            <td></td>
+            <td>{% translate 'Total Price' %}</td>
+            <td colspan="3"></td>
+            <td>{{ cart.get_total_price }}</td>
+            <td colspan="2"></td>
+        </tr>
+
+        <tr>
+            <td colspan="8" class="text-center">
+                <a href="{% url 'orders:order_create' %}"
+                   class="btn btn-primary {% if cart|length == 0 %} disabled {% endif %}">{% translate 'Checkout' %}</a>
+
+                <a href="{% url 'product:home' %}"
+                   class="btn btn-success">{% translate 'Proceed Shopping' %}</a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+
+
+    {% if unpaid_orders %}
+        <table class="table table-warning">
+            <thead>
+            <tr>
+                <th colspan="5"><h3 class="text-center">{% translate 'Unpaid Orders' %}</h3></th>
+            </tr>
+            <tr class="text-center">
+                <th scope="col">{% translate 'ID' %}</th>
+                <th scope="col">{% translate 'Delete' %}</th>
+                <th scope="col">{% translate 'Details' %}</th>
+                <th scope="col">{% translate 'Update Order With Cart' %}</th>
+                <th scope="col">{% translate 'Date' %}</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for order in unpaid_orders %}
+
+                <tr class="text-center">
+                    <td class="align-middle">{{ order.id }}</td>
+                    <td class="align-middle">
+                        <a href="{% url 'orders:order_delete' order.id %}"
+                           class="btn btn-outline-danger">{% translate 'Delete' %}</a></td>
+                    <td class="align-middle">
+                        <a href="{% url 'orders:order_details' order.id %}"
+                           class="btn btn-outline-secondary">{% translate 'Details' %}</a></td>
+                    <td class="align-middle">
+                        <a href="{% url 'orders:order_update' order.id %}" class="btn btn-outline-primary">
+                            {% translate 'Update' %}</a>
+                    </td>
+                    <td class="align-middle">{{ order.updated }}</td>
+
+                </tr>
+
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    {% endif %}
+
+
+{% endblock %}

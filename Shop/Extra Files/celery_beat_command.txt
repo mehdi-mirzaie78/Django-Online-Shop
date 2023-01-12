@@ -1,0 +1,14 @@
+# For celery beat we need two workers
+# one for celery and the other for celery_beat and scheduler
+
+################################# Celery #################################
+# celery -A proj worker -l INFO -P gevent
+
+# in this project you can simply run this:
+Run: $ celery -A Shop worker -l INFO -P gevent
+
+
+################################# Celery Beat #############################
+# celery -A proj beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+Run: $ celery -A Shop beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler

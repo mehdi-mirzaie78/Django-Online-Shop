@@ -128,4 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 Shop/.idea/
-Shop/venv/
+/Shop/venv/

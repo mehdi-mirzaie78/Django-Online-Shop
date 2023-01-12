@@ -1,25 +1,13 @@
-from django.contrib.auth.models import BaseUserManager
+from django.db import models
 
 
-class UserManager(BaseUserManager):
+class BaseManager(models.Manager):
 
-    def create_user(self, phone_number, email, full_name, password):
-        if not phone_number:
-            raise ValueError('user must have a phone number')
+    def get_active_list(self):
+        return super().get_queryset().filter(is_deleted=False, is_active=True)
 
-        if not email:
-            raise ValueError('user must have an email')
+    def get_deleted_list(self):
+        return super().get_queryset().filter(is_deleted=True)
 
-        if not full_name:
-            raise ValueError('user must have a full name')
-
-        user = self.model(phone_number=phone_number, email=self.normalize_email(email), full_name=full_name)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, phone_number, email, full_name, password):
-        user = self.create_user(phone_number, email, full_name, password)
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+    def get_deactivate_list(self):
+        return self.get_queryset().filter(is_active=False)

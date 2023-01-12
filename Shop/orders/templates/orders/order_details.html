@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block title %} {% translate 'Order Details' %} {% endblock %}
+
+{% block content %}
+    <div class="container col-12 card py-4 px-1" style="background-color:rgba(123,247,255,0.6)">
+
+
+        <table class="table table-info w-75 mx-auto">
+            <thead>
+            <tr>
+                {% if order.is_paid %}
+                    <th colspan="4"><h3 class="text-center">{% translate 'Receipt' %}</h3></th>
+                {% else %}
+                    <th colspan="4"><h3 class="text-center">{% translate 'Checkout' %}</h3></th>
+                {% endif %}
+            </tr>
+
+
+            <tr class="text-center">
+
+                <th scope="col">{% translate 'Image' %}</th>
+                <th scope="col">{% translate 'Name' %}</th>
+                <th scope="col">{% translate 'Quntity' %}</th>
+                <th scope="col">{% translate 'Unit Price' %}</th>
+
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for item in order.items.all %}
+
+                <tr class="text-center">
+
+                    <td><img src="{{ item.product.image.url }}" alt="{{ item.product }}" width="100" height="100"
+                             style="object-fit: scale-down"></td>
+
+                    <td class="align-middle">{{ item.product }}</td>
+                    <td class="align-middle">{{ item.quantity }}</td>
+                    <td class="align-middle">$ {{ item.price }}</td>
+
+
+                </tr>
+
+
+            {% endfor %}
+
+            <td colspan="1" class="text-center fw-bold py-4">{% translate 'Total Price' %}</td>
+            <td colspan="1" class="text-center fw-bold py-4">{{ order.get_total_price }}</td>
+            {% if order.coupon %}
+                <td colspan="1" class="text-center fw-bold py-4">{% translate 'Discount' %}</td>
+                <td colspan="1" class="text-center fw-bold py-4 text-danger">{{ order.discount }}%</td>
+            {% else %}
+                <td colspan="2"></td>
+            {% endif %}
+
+
+            </tbody>
+        </table>
+
+
+
+        {% if not order.is_paid %}
+
+            <div>
+                <form action="" method="post" class="w-75 card bg-white px-4 py-2 mx-auto my-2" novalidate>
+                    <h3 class="text-center my-3">{% translate 'Shipping Info' %}</h3>
+                    {% csrf_token %}
+                    {{ form.address.label }}* &nbsp; <small>{{ form.address.help_text }}</small>
+                    <br>
+                    <div class="input-group">
+                        {{ form.address }}
+                        <a href="{% url 'customers:address_create' %}" class="btn btn-outline-primary px-2">Add New
+                            Address</a>
+                    </div>
+                    {{ form.address.errors }}
+                    <br>
+                    {{ form.phone_number.label }}* &nbsp; <small>{{ form.phone_number.help_text }}</small>
+                    <br>
+                    {{ form.phone_number }}
+                    {{ form.phone_number.errors }}
+                    <br>
+                    <h3 class="text-center my-1">{% translate 'Coupon Info' %}</h3>
+                    {{ form.coupon.label }} &nbsp; <small>{{ form.coupon.help_text }}</small>
+                    <br>
+                    {{ form.coupon }}
+                    {{ form.coupon.errors }}
+                    <br>
+                    <div class="text-center">
+                        <button type="submit" class="w-25 btn btn-outline-info">{% translate 'Save' %}</button>
+                        <br><br>
+                        <a href="{% url 'orders:payment' order.id %}" class="btn btn-success col-2 my-2 mb-4">{% translate 'Pay' %}</a>
+
+                    </div>
+                </form>
+
+            </div>
+
+        {% else %}
+
+
+            <table class="table table-info w-75 mx-auto">
+                <thead>
+                <tr>
+                    <th colspan="5" class="text-center"><h3>{% translate 'Shipping Address' %}</h3></th>
+                </tr>
+                <tr class="text-center">
+                    <th scope="col">{% translate 'City' %}</th>
+                    <th scope="col">{% translate 'Address' %}</th>
+                    <th scope="col">{% translate 'Postal Code' %}</th>
+                    <th scope="col">{% translate 'Phone Number' %}</th>
+                    <th scope="col">{% translate 'Transaction Code' %}</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr class="text-center">
+                    <td>{{ order.city }}</td>
+                    <td>{{ order.body }}</td>
+                    <td>{{ order.postal_code }}</td>
+                    <td>{{ order.phone_number }}</td>
+										<td>{{ order.transaction_code }}</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        {% endif %}
+    </div>
+{% endblock %}

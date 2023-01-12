@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% load crispy_forms_filters %}
+
+{% block title %} {% translate 'Update Address' %} {% endblock %}
+
+{% block content %}
+<div class="container-fluid card card-body bg-light w-50">
+    <h3 class="text-center">{% translate 'Update Address' %}</h3>
+    <form method="post" class="w-100 mx-auto">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="{% translate 'Update' %}" class="btn btn-success">
+    </form>
+</div>
+{% endblock %}

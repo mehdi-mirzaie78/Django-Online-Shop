@@ -1,35 +1,22 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .forms import UserCreationForm, UserChangeForm
-from .models import User, OtpCode
-from django.contrib.auth.models import Group
+from django.utils import timezone
 
 
-@admin.register(OtpCode)
-class OtpCodeAdmin(admin.ModelAdmin):
-    list_display = ('phone_number', 'code', 'created')
+class BaseAdmin(admin.ModelAdmin):
+    def logical_deleter(self, request, queryset):
+        queryset.update(deleted_at=timezone.now())
+        queryset.update(is_deleted=True)
+        queryset.update(is_active=False)
 
+    def logical_restore(self, request, queryset):
+        queryset.update(restored_at=timezone.now())
+        queryset.update(is_deleted=False)
+        queryset.update(is_active=True)
 
-class UserAdmin(BaseUserAdmin):
-    form = UserChangeForm
-    add_form = UserCreationForm
+    def deactivate(self, request, queryset):
+        queryset.update(is_active=False)
 
-    list_display = ('email', 'phone_number', 'is_admin')
-    list_filter = ('is_admin',)
+    def activate(self, request, queryset):
+        queryset.update(is_active=True)
 
-    fieldsets = (
-        ('Main', {'fields': ('email', 'phone_number', 'full_name', 'password')}),
-        ('Permissions', {'fields': ('is_active', 'is_admin', 'last_login')}),
-    )
-
-    add_fieldsets = (
-        (None, {'fields': ('phone_number', 'email', 'full_name', 'password1', 'password2')}),
-    )
-
-    search_fields = ('email', 'full_name')
-    ordering = ('full_name',)
-    filter_horizontal = ()
-
-
-admin.site.unregister(Group)
-admin.site.register(User, UserAdmin)
+    actions = ['logical_deleter', 'logical_restore', 'deactivate', 'activate']

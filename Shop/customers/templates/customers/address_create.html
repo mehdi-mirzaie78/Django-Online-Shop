@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% load crispy_forms_filters %}
+
+{% block title %} {% translate 'Create Address' %} {% endblock %}
+
+{% block content %}
+    <div class="container-fluid card card-body bg-light w-50">
+        <h3 class="text-center">{% translate 'Create Address' %}</h3>
+        <form method="post" class="w-100 mx-auto">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="text-center">
+                <input type="submit" value="{% translate 'Save' %}" class="btn btn-success w-25">
+            </div>
+        </form>
+    </div>
+{% endblock %}
