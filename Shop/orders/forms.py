@@ -5,7 +5,7 @@ from core.utils import phone_regex_validator
 
 class AddToCartForm(forms.Form):
     quantity = forms.IntegerField(min_value=1, max_value=3, label='', initial=1,
-                                  widget=forms.NumberInput(attrs={'class': 'form-control'}))
+                                  widget=forms.NumberInput(attrs={'class': 'form-control rounded'}))
 
 
 class ChooseAddressApplyCouponForm(forms.Form):
