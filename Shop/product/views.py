@@ -25,7 +25,9 @@ class HomeView(View):
             products = products.filter(name__contains=request.GET['search'])
 
         categories = Category.objects.get_active_list().filter(is_sub=False)
-        if category_slug:
+        if category_slug == 'all':
+            pass
+        elif category_slug:
             category = Category.objects.get_active_list().get(slug=category_slug)
             products = products.filter(category=category)
         return render(request, 'product/index.html',
