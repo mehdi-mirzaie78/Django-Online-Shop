@@ -15,7 +15,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 cryptography==39.0.0
 defusedxml==0.7.1
-Django==4.1.4
+Django==4.1.9
 django-admin-interface==0.24.2
 django-celery-beat==2.4.0
 django-colorfield==0.8.0
