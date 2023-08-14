@@ -1,0 +1,75 @@
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:latest
+    networks:
+      - main
+    ports:
+      - "5672:5672"
+    restart: on-failure
+  
+  db:
+    container_name: postgres
+    image: postgres:15.4
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=mark
+      - POSTGRES_PASSWORD=down
+    networks:
+      - main
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    volumes:
+      - postgres_data:/var/lib/postgresql/postgres_data
+
+  celery_worker:
+    container_name: celery_worker
+    command: "celery -A Shop worker -l INFO"
+    depends_on:
+      - app
+      - rabbitmq
+      - db
+    build: .
+    environment:
+      - C_FORCE_ROOT=true
+    networks:
+      - main
+    restart: on-failure
+
+  app:
+    build: .
+    command: sh -c "python manage.py migrate && gunicorn Shop.wsgi --bind 0.0.0.0:8000"
+    container_name: app
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - rabbitmq
+    expose:
+      - 8000
+    networks:
+      - main
+    restart: on-failure
+
+  nginx:
+    container_name: nginx
+    command: nginx -g 'daemon off;'
+    depends_on:
+      - app
+    image: nginx:latest
+    networks:
+      - main
+    ports:
+      - "80:80"
+    restart: on-failure
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./staticfiles:/static
+
+networks:
+  main:
+
+volumes:
+  postgres_data:
+    external: true

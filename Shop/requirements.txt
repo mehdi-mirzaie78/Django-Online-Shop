@@ -29,6 +29,7 @@ djangorestframework==3.14.0
 djangorestframework-simplejwt==4.8.0
 djoser==2.1.0
 drf-yasg==1.21.4
+gunicorn==21.2.0
 idna==3.4
 inflection==0.5.1
 itypes==1.2.0
@@ -42,6 +43,7 @@ oauthlib==3.2.2
 packaging==22.0
 Pillow==9.3.0
 prompt-toolkit==3.0.36
+psycopg2-binary==2.9.7
 pycparser==2.21
 PyJWT==2.6.0
 python-crontab==2.7.1
@@ -62,3 +64,4 @@ uritemplate==4.1.1
 urllib3==1.26.13
 vine==5.0.0
 wcwidth==0.2.5
+whitenoise==6.5.0

@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-gd%@+ig@7=3(2wdysh#z0cs*yfqqyc=p(&jy!lsqktdh(ubv+e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["161.35.20.79"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 THIRD_PARTY_APPS = [
@@ -93,19 +93,31 @@ WSGI_APPLICATION = 'Shop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+# With docker
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mydb',
         'USER': 'mark',
         'PASSWORD': 'down',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432'
     }
 }
 
-#sqlite
+# without docker
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'mydb',
+#         'USER': 'mark',
+#         'PASSWORD': 'down',
+#         'HOST': 'localhost',
+#         'PORT': '5432'
+#     }
+# }
+
+# sqlite
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
