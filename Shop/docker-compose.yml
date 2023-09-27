@@ -21,7 +21,7 @@ services:
       - "5432:5432"
     restart: on-failure
     volumes:
-      - postgres_data:/var/lib/postgresql/postgres_data
+      - postgres_data:/var/lib/postgresql/data
 
   celery_worker:
     container_name: celery_worker
